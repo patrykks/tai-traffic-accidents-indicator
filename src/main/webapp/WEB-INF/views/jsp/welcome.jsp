@@ -5,8 +5,11 @@
 <html lang="en">
 <head>
 <title>Traffic Congestion Indicator</title>
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
-<script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+<spring:url value="/resources/core/js/leaflet.js"
+                var="leafletJs" />
+<spring:url value="/resources/core/css/leaflet.css" var="leafletCss" />
+    <script src="${leafletJs}"></script>
+    <link href="${leafletCss}" rel="stylesheet" />
 <c:url var="home" value="/" scope="request" />
 
 <spring:url value="/resources/core/css/hello.css" var="coreCss" />
