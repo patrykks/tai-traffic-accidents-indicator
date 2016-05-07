@@ -11,8 +11,6 @@ import java.util.Set;
 public class TAIRequest {
     private static final String DEMO_KEY ="";
     private static final String URL_CORE = "";
-    //private static final String DEMO_KEY = "%20Al32s_5BniM3B6eU4rVaVzTb1CeZpPwt7OZ_40mJSHTSksNCQifMtyp2XQkUphbw";
-    //private static final String URL_CORE = "http://dev.virtualearth.net/REST/v1/Traffic/Incidents/";
 
     private String key;
 
