@@ -1,13 +1,21 @@
 package pl.edu.agh.tai.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.geo.GeoModule;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import org.springframework.data.mongodb.core.geo.GeoJsonModule;
+import pl.edu.agh.tai.web.bing.map.utils.GeoModuleExt;
+import pl.edu.agh.tai.web.bing.map.utils.MicrosoftDateFromat;
+import pl.edu.agh.tai.web.bing.map.utils.MongoUpdater;
 
 /**
  * Created by root on 4/05/16.
@@ -24,6 +32,23 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     @Bean
     public Mongo mongo() throws Exception {
         return new MongoClient("localhost");
+    }
+
+    @Bean
+    public MongoUpdater mongoUpdater() {
+        return new MongoUpdater();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(new MicrosoftDateFromat());
+        mapper.registerModule(new GeoJsonModule());
+        mapper.registerModule(new GeoModule());
+        mapper.registerModule(new GeoModuleExt());
+        mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+        mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+        return mapper;
     }
 
 }

@@ -59,10 +59,8 @@
 		dataType: "json",
 		url: "http://localhost:8080/tai/map/accidents",
 		success: function(data){
-            $.each(data.resourceSets, function(k,v) {
-                $.each(v.resources, function(k1,v1) {
-                    addMarkertoMap(v1.point.coordinates, v1.description)
-                })
+            $.each(data, function(k,v) {
+                addMarkertoMap(v.point.coordinates, v.description)
             });
 		}
 	});

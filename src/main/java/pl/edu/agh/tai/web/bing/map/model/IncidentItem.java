@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.mapping.Document;
 import pl.edu.agh.tai.web.bing.map.enums.Severity;
+import pl.edu.agh.tai.web.bing.map.enums.Type;
 
 import java.util.Date;
 
@@ -33,7 +34,7 @@ public class IncidentItem {
     private Integer source;
 
     @JsonProperty("type")
-    private Integer type;
+    private Type type;
 
     @JsonProperty("roadClosed")
     private Boolean roadClosed;
@@ -58,7 +59,7 @@ public class IncidentItem {
 
     public IncidentItem() {}
 
-    public IncidentItem(Date lastModified, Date end, Date start, GeoJsonPoint pointTo, GeoJsonPoint point, Boolean roadClosed, Integer type, Integer source, String description, Boolean verified, Severity severity, Long incidentId) {
+    public IncidentItem(Date lastModified, Date end, Date start, GeoJsonPoint pointTo, GeoJsonPoint point, Boolean roadClosed, Type type, Integer source, String description, Boolean verified, Severity severity, Long incidentId) {
         this.lastModified = lastModified;
         this.end = end;
         this.start = start;
@@ -121,11 +122,11 @@ public class IncidentItem {
         this.roadClosed = roadClosed;
     }
 
-    public Integer getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

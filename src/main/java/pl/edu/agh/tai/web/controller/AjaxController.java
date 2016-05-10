@@ -1,6 +1,7 @@
 package pl.edu.agh.tai.web.controller;
 
 import java.io.*;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,9 +22,12 @@ import pl.edu.agh.tai.web.bing.map.model.IncidentItem;
 import pl.edu.agh.tai.web.bing.map.utils.GeoModuleExt;
 import pl.edu.agh.tai.web.bing.map.utils.JSONIterator;
 import pl.edu.agh.tai.web.bing.map.utils.MicrosoftDateFromat;
+import pl.edu.agh.tai.web.dao.IncidentDAO;
 
 @RestController
 public class AjaxController {
+	//https://drissamri.be/blog/2015/08/18/build-a-location-api-with-spring-data-mongodb-and-geojson/
+	// https://kongming.io/build-a-web-application-with-mongodb-and-java/
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -31,82 +35,25 @@ public class AjaxController {
 	@Autowired
 	private MongoOperations mongoOperation;
 
+	@Autowired
+	private IncidentDAO dao;
+
+	@Autowired
+	private ObjectMapper objectMapper;
+
 	@RequestMapping(value = "/map/accidents")
 	public String getTrafficIncidents() {
-		//TAIResponse response = null;
-		//try {
-		//	OkHttpClient httpClient = new OkHttpClient();
-		//	Request request = new Request.Builder().url(new TAIRequest().setBounds(49, 14, 55, 24).addSeverity(Severity.SERIOUS).addSeverity(Severity.MINOR).build()).build();
-	    //	response = new TAIResponse(httpClient.newCall(request).execute().body().string());
-		//} catch (IOException e) {
-
-		//}
-		//if (response != null)
-		//	return  response.getWholeResponse().toString();
-		//else
-
-
-
-        // DBCollection collection = mongoOperation.createCollection("test_collection");
-		//String json = JSON.serialize( jsonObject );
-		//DBObject bson = ( DBObject ) JSON.parse( json );
-		//collection.insert(bson);
-
-		Resource resource =
-				applicationContext.getResource("resources/example.json");
-		InputStream is = null;
+		List<IncidentItem> incidents = dao.getAllIncidents();
+		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		try {
-			 is = resource.getInputStream();
-		} catch (IOException e) {
-			throw new RuntimeException("File not found expetion");
-		}
-
-		JSONParser parser = new JSONParser();
-		Object obj = null;
-		try {
-			obj = parser.parse(new FileReader(resource.getFile()));
+			objectMapper.writeValue(out, incidents);
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
 		}
-
-
-
-		JSONObject jsonObject = (JSONObject) obj;
-
-        org.json.JSONObject myObject = new org.json.JSONObject(jsonObject.toString());
-
-        testJsons(myObject);
-
-		return jsonObject.toString();
+		final byte[] data = out.toByteArray();
+		return new String(data);
 	}
 
-    private void testJsons(org.json.JSONObject jsonObject) {
-        org.json.JSONArray array = jsonObject.getJSONArray("resourceSets");
-        org.json.JSONObject jsonObject1 = array.getJSONObject(0);
-        org.json.JSONArray rsrcs = jsonObject1.getJSONArray("resources");
-        JSONIterator jsonIterator = new JSONIterator(rsrcs);
-        while (jsonIterator.hasNext()) {
-            org.json.JSONObject incident = jsonIterator.next();
-            ObjectMapper mapper = new ObjectMapper();
-			mapper.setDateFormat(new MicrosoftDateFromat());
-			mapper.registerModule(new GeoJsonModule());
-			mapper.registerModule(new GeoModule());
-			mapper.registerModule(new GeoModuleExt());
-			mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
-			mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
-
-			IncidentItem incidentItem = null;
-            try {
-                incidentItem = mapper.readValue(incident.toString(), IncidentItem.class);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (incidentItem != null)
-                mongoOperation.save(incidentItem);
-        }
-    }
 
 
 
