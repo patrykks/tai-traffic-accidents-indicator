@@ -51,6 +51,8 @@ public class IncidentDAOImpl implements IncidentDAO {
         final BasicDBObject filter = new BasicDBObject("$near", point.getCoordinates());
         filter.put("$maxDistance", radious);
 
+
+
         final BasicDBObject query = new BasicDBObject("loc", filter);
 
         List<IncidentItem> incidentItems = new ArrayList<IncidentItem>();

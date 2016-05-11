@@ -34,7 +34,7 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     @Bean
     public Mongo mongo() throws Exception {
 
-        MongoClientURI mongoURI = new MongoClientURI("yourMongoUri");
+        MongoClientURI mongoURI = new MongoClientURI("mongodb://patrykks:uzumymw@ds031223.mlab.com:31223/accidents");
 
         return new MongoClient(mongoURI);
     }
