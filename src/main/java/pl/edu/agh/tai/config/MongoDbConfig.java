@@ -3,10 +3,10 @@ package pl.edu.agh.tai.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
+import com.mongodb.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.geo.GeoModule;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
@@ -16,6 +16,8 @@ import org.springframework.data.mongodb.core.geo.GeoJsonModule;
 import pl.edu.agh.tai.web.bing.map.utils.GeoModuleExt;
 import pl.edu.agh.tai.web.bing.map.utils.MicrosoftDateFromat;
 import pl.edu.agh.tai.web.bing.map.utils.MongoUpdater;
+
+import java.util.Arrays;
 
 /**
  * Created by root on 4/05/16.
@@ -31,7 +33,10 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     @Override
     @Bean
     public Mongo mongo() throws Exception {
-        return new MongoClient("localhost");
+
+        MongoClientURI mongoURI = new MongoClientURI("yourMongoUri");
+
+        return new MongoClient(mongoURI);
     }
 
     @Bean

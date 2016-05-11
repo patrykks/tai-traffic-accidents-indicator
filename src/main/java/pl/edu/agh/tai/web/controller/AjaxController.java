@@ -26,9 +26,6 @@ import pl.edu.agh.tai.web.dao.IncidentDAO;
 
 @RestController
 public class AjaxController {
-	//https://drissamri.be/blog/2015/08/18/build-a-location-api-with-spring-data-mongodb-and-geojson/
-	// https://kongming.io/build-a-web-application-with-mongodb-and-java/
-
 	@Autowired
 	private ApplicationContext applicationContext;
 
