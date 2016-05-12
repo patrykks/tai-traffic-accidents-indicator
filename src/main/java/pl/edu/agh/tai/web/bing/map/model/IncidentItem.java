@@ -1,18 +1,20 @@
 package pl.edu.agh.tai.web.bing.map.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.mapping.Document;
 import pl.edu.agh.tai.web.bing.map.enums.Severity;
+import pl.edu.agh.tai.web.bing.map.enums.Type;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
-/**
- * Created by root on 4/05/16.
- */
+
 @Document(collection = "incidents")
 @JsonIgnoreProperties({"__type"})
 public class IncidentItem {
@@ -33,7 +35,7 @@ public class IncidentItem {
     private Integer source;
 
     @JsonProperty("type")
-    private Integer type;
+    private Type type;
 
     @JsonProperty("roadClosed")
     private Boolean roadClosed;
@@ -41,35 +43,29 @@ public class IncidentItem {
     @JsonProperty("point")
     private GeoJsonPoint point;
 
-    @JsonProperty("toPoint")
+    @JsonProperty("pointTo")
     private GeoJsonPoint pointTo;
 
-
-    @JsonProperty("start")
     private Date start;
 
-
-    @JsonProperty("end")
     private Date end;
 
-
-    @JsonProperty("lastModified")
     private Date lastModified;
 
     public IncidentItem() {}
 
-    public IncidentItem(Date lastModified, Date end, Date start, GeoJsonPoint pointTo, GeoJsonPoint point, Boolean roadClosed, Integer type, Integer source, String description, Boolean verified, Severity severity, Long incidentId) {
+    public IncidentItem(Date lastModified, Date end, Date start, GeoJsonPoint pointTo, GeoJsonPoint point, Boolean roadClosed, String type, Integer source, String description, Boolean verified, String severity, Long incidentId) {
         this.lastModified = lastModified;
         this.end = end;
         this.start = start;
         this.pointTo = pointTo;
         this.point = point;
         this.roadClosed = roadClosed;
-        this.type = type;
+        this.type = Type.valueOf(type);
         this.source = source;
         this.description = description;
         this.verified = verified;
-        this.severity = severity;
+        this.severity = Severity.valueOf(severity);
         this.incidentId = incidentId;
     }
 
@@ -81,6 +77,11 @@ public class IncidentItem {
         this.lastModified = lastModified;
     }
 
+    @JsonProperty("lastModified")
+    public void setLastModified(Map<String, Object> map) {
+        setLastModified(parseDate(map));
+    }
+
     public Date getEnd() {
         return end;
     }
@@ -89,12 +90,22 @@ public class IncidentItem {
         this.end = end;
     }
 
+    @JsonProperty("end")
+    public void setEnd(Map<String, Object> map) {
+        setEnd(parseDate(map));
+    }
+
     public Date getStart() {
         return start;
     }
 
     public void setStart(Date start) {
         this.start = start;
+    }
+
+    @JsonProperty("start")
+    public void setStart(Map<String, Object> map) {
+        setStart(parseDate(map));
     }
 
     public GeoJsonPoint getPointTo() {
@@ -121,12 +132,12 @@ public class IncidentItem {
         this.roadClosed = roadClosed;
     }
 
-    public Integer getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setType(String type) {
+        this.type = Type.valueOf(type);
     }
 
     public Integer getSource() {
@@ -157,8 +168,8 @@ public class IncidentItem {
         return severity;
     }
 
-    public void setSeverity(Severity severity) {
-        this.severity = severity;
+    public void setSeverity(String severity) {
+        this.severity = Severity.valueOf(severity);
     }
 
     public Long getIncidentId() {
@@ -167,6 +178,18 @@ public class IncidentItem {
 
     public void setIncidentId(Long incidentId) {
         this.incidentId = incidentId;
+    }
+
+    private Date parseDate(Map<String, Object> map) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+        Date date = null;
+        try {
+            date = format.parse((String) map.get("$date"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
     @Override

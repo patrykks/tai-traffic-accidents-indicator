@@ -1,8 +1,8 @@
 package pl.edu.agh.tai.web.bing.map.enums;
 
-/**
- * Created by mike on 4/22/16.
- */
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Type {
     ACCIDENT(1),
     CONGESTION(2),
@@ -22,8 +22,17 @@ public enum Type {
         this.code = code;
     }
 
-    @Override
-    public String toString() {
-        return Integer.toString(code);
+    @JsonValue
+    public int value() {
+        return code;
+    }
+
+    public static Type fromValue(int typeCode) {
+        for (Type c : Type.values()) {
+            if (c.value() == typeCode) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException("Invalid Type type code: " + typeCode);
     }
 }

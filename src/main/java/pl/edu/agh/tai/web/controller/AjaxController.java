@@ -94,8 +94,6 @@ public class AjaxController {
 			mapper.registerModule(new GeoJsonModule());
 			mapper.registerModule(new GeoModule());
 			mapper.registerModule(new GeoModuleExt());
-			mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
-			mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
 
 			IncidentItem incidentItem = null;
             try {
