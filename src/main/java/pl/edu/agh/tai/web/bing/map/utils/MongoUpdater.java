@@ -5,6 +5,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoOperations;
 import pl.edu.agh.tai.web.bing.map.core.TAIRequest;
 import pl.edu.agh.tai.web.bing.map.core.TAIResponse;
@@ -24,6 +25,7 @@ public class MongoUpdater {
     private MongoOperations mongoOperations;
 
     @Autowired
+    @Qualifier("defaultObjectMapper")
     private ObjectMapper objectMapper;
 
 

@@ -5,6 +5,7 @@ import pl.edu.agh.tai.web.bing.map.enums.Severity;
 import pl.edu.agh.tai.web.bing.map.enums.Type;
 import pl.edu.agh.tai.web.bing.map.model.IncidentItem;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
 public interface IncidentDAO {
     public List<IncidentItem> getAllIncidents();
 
-    public List<IncidentItem> getAllIncidentsFromArea(GeoJsonPoint point, double radious);
+    public List<IncidentItem> getAllIncidentsFromArea(GeoJsonPoint point, double radious) throws IOException;
 
-    public List<IncidentItem> getIncidentsFromAreaWithType(GeoJsonPoint point, double radious, Type type, Severity severity);
+    public List<IncidentItem> getIncidentsFromAreaWithType(GeoJsonPoint point, double radious, List<Type> types, List<Severity> severities) throws IOException;
 }

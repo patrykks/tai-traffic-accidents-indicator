@@ -7,12 +7,14 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
+import pl.edu.agh.tai.web.bing.map.TAIMongoClient;
 import pl.edu.agh.tai.web.bing.map.core.TAIRequest;
 import pl.edu.agh.tai.web.bing.map.core.TAIResponse;
 import pl.edu.agh.tai.web.bing.map.enums.Severity;
@@ -33,66 +35,30 @@ import java.util.List;
 public class IncidentDAOImpl implements IncidentDAO {
 
     @Autowired
-    private MongoOperations mongoOperation;
+    TAIMongoClient mongoClient;
 
     @Autowired
     MongoUpdater mongoUpdater;
 
     @Autowired
+    @Qualifier("defaultObjectMapper")
     private ObjectMapper objectMapper;
 
     @Override
     public List<IncidentItem> getAllIncidents() {
-        return mongoOperation.findAll(IncidentItem.class);
+        return mongoClient.findAll(IncidentItem.class);
     }
 
     @Override
-    public List<IncidentItem> getAllIncidentsFromArea(GeoJsonPoint point, double radious) {
-        final BasicDBObject filter = new BasicDBObject("$near", point.getCoordinates());
-        filter.put("$maxDistance", radious);
-
-
-
-        final BasicDBObject query = new BasicDBObject("loc", filter);
-
-        List<IncidentItem> incidentItems = new ArrayList<IncidentItem>();
-        for (final DBObject incident : mongoOperation.getCollection("incidents").find(query).toArray()) {
-            IncidentItem incidentItem = null;
-            try {
-                incidentItem = objectMapper.readValue(incident.toString(), IncidentItem.class);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (incidentItem != null)
-                incidentItems.add(incidentItem);
-        }
-
-        return incidentItems;
+    public List<IncidentItem> getAllIncidentsFromArea(GeoJsonPoint point, double radious) throws IOException {
+        return mongoClient.getAccidentsInRadius(point, radious);
     }
-
 
     @Override
-    public List<IncidentItem> getIncidentsFromAreaWithType(GeoJsonPoint point, double radious, Type type, Severity severity) {
-        final BasicDBObject filter = new BasicDBObject("$near", point.getCoordinates());
-        filter.put("$maxDistance", radious);
-        filter.put("$type", type);
-        filter.put("$severity", severity);
-        final BasicDBObject query = new BasicDBObject("loc", filter);
-
-        List<IncidentItem> incidentItems = new ArrayList<IncidentItem>();
-        for (final DBObject incident : mongoOperation.getCollection("incidents").find(query).toArray()) {
-            IncidentItem incidentItem = null;
-            try {
-                incidentItem = objectMapper.readValue(incident.toString(), IncidentItem.class);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (incidentItem != null)
-                incidentItems.add(incidentItem);
-        }
-
-        return incidentItems;
+    public List<IncidentItem> getIncidentsFromAreaWithType(GeoJsonPoint point, double radious, List<Type> types, List<Severity> severities) throws IOException {
+        return mongoClient.getAccidentsInRadiusWithSeverityAndType(point, radious, severities, types);
     }
+
 
     @Scheduled(fixedRate = 300000)
     public void updateDatabaseWithDataFromExternalService() {

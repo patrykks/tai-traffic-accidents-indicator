@@ -16,7 +16,9 @@ import org.springframework.data.mongodb.core.geo.GeoJsonModule;
 import pl.edu.agh.tai.web.bing.map.utils.GeoModuleExt;
 import pl.edu.agh.tai.web.bing.map.utils.MicrosoftDateFromat;
 import pl.edu.agh.tai.web.bing.map.utils.MongoUpdater;
+import pl.edu.agh.tai.web.bing.map.utils.TAIMongoSettings;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -45,12 +47,28 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     }
 
     @Bean
-    public ObjectMapper objectMapper() {
+    public TAIMongoSettings mongoSettings() throws IOException {
+        TAIMongoSettings mongoSettings= new TAIMongoSettings();
+        return mongoSettings;
+    }
+
+
+    @Bean(name = "defaultObjectMapper")
+    public ObjectMapper defaultObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(new MicrosoftDateFromat());
         mapper.registerModule(new GeoJsonModule());
         mapper.registerModule(new GeoModule());
         mapper.registerModule(new GeoModuleExt());
+        mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+        mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+        return mapper;
+    }
+
+    @Bean(name = "geoJsonObjectMapper")
+    public ObjectMapper geoJsonObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new GeoJsonModule());
         mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
         mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
         return mapper;
