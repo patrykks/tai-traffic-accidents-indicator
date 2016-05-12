@@ -8,12 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import pl.edu.agh.tai.web.bing.map.enums.Severity;
 import pl.edu.agh.tai.web.bing.map.enums.Type;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
-
 
 @Document(collection = "incidents")
 @JsonIgnoreProperties({"__type"})
@@ -43,29 +38,33 @@ public class IncidentItem {
     @JsonProperty("point")
     private GeoJsonPoint point;
 
-    @JsonProperty("pointTo")
-    private GeoJsonPoint pointTo;
+    @JsonProperty("toPoint")
+    private GeoJsonPoint toPoint;
 
+    @JsonProperty("start")
     private Date start;
 
+    @JsonProperty("end")
     private Date end;
 
+    @JsonProperty("lastModified")
     private Date lastModified;
 
-    public IncidentItem() {}
+    public IncidentItem() {
+    }
 
-    public IncidentItem(Date lastModified, Date end, Date start, GeoJsonPoint pointTo, GeoJsonPoint point, Boolean roadClosed, String type, Integer source, String description, Boolean verified, String severity, Long incidentId) {
+    public IncidentItem(Date lastModified, Date end, Date start, GeoJsonPoint toPoint, GeoJsonPoint point, Boolean roadClosed, Type type, Integer source, String description, Boolean verified, Severity severity, Long incidentId) {
         this.lastModified = lastModified;
         this.end = end;
         this.start = start;
-        this.pointTo = pointTo;
+        this.toPoint = toPoint;
         this.point = point;
         this.roadClosed = roadClosed;
-        this.type = Type.valueOf(type);
+        this.type = type;
         this.source = source;
         this.description = description;
         this.verified = verified;
-        this.severity = Severity.valueOf(severity);
+        this.severity = severity;
         this.incidentId = incidentId;
     }
 
@@ -77,22 +76,12 @@ public class IncidentItem {
         this.lastModified = lastModified;
     }
 
-    @JsonProperty("lastModified")
-    public void setLastModified(Map<String, Object> map) {
-        setLastModified(parseDate(map));
-    }
-
     public Date getEnd() {
         return end;
     }
 
     public void setEnd(Date end) {
         this.end = end;
-    }
-
-    @JsonProperty("end")
-    public void setEnd(Map<String, Object> map) {
-        setEnd(parseDate(map));
     }
 
     public Date getStart() {
@@ -103,17 +92,12 @@ public class IncidentItem {
         this.start = start;
     }
 
-    @JsonProperty("start")
-    public void setStart(Map<String, Object> map) {
-        setStart(parseDate(map));
+    public GeoJsonPoint getToPoint() {
+        return toPoint;
     }
 
-    public GeoJsonPoint getPointTo() {
-        return pointTo;
-    }
-
-    public void setPointTo(GeoJsonPoint pointTo) {
-        this.pointTo = pointTo;
+    public void setToPoint(GeoJsonPoint toPoint) {
+        this.toPoint = toPoint;
     }
 
     public GeoJsonPoint getPoint() {
@@ -136,8 +120,8 @@ public class IncidentItem {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = Type.valueOf(type);
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public Integer getSource() {
@@ -168,8 +152,8 @@ public class IncidentItem {
         return severity;
     }
 
-    public void setSeverity(String severity) {
-        this.severity = Severity.valueOf(severity);
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
     }
 
     public Long getIncidentId() {
@@ -178,18 +162,6 @@ public class IncidentItem {
 
     public void setIncidentId(Long incidentId) {
         this.incidentId = incidentId;
-    }
-
-    private Date parseDate(Map<String, Object> map) {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-
-        Date date = null;
-        try {
-            date = format.parse((String) map.get("$date"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
     }
 
     @Override
@@ -203,10 +175,11 @@ public class IncidentItem {
                 ", type=" + type +
                 ", roadClosed=" + roadClosed +
                 ", point=" + point +
-                ", pointTo=" + pointTo +
+                ", pointTo=" + toPoint +
                 ", start=" + start +
                 ", end=" + end +
                 ", lastModified=" + lastModified +
                 '}';
     }
+
 }

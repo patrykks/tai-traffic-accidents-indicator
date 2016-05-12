@@ -9,9 +9,6 @@ import org.springframework.data.geo.GeoResults;
 
 import java.util.List;
 
-/**
- * Created by root on 5/05/16.
- */
 public class GeoModuleExt extends SimpleModule {
 
     public GeoModuleExt() {
@@ -34,4 +31,5 @@ public class GeoModuleExt extends SimpleModule {
         @JsonProperty("results")
         abstract List<GeoResult> getContent();
     }
+
 }

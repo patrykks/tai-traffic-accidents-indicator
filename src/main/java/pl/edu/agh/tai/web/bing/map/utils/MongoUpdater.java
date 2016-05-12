@@ -5,7 +5,6 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoOperations;
 import pl.edu.agh.tai.web.bing.map.core.TAIRequest;
 import pl.edu.agh.tai.web.bing.map.core.TAIResponse;
@@ -17,19 +16,16 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by root on 7/05/16.
- */
 public class MongoUpdater {
     @Autowired
     private MongoOperations mongoOperations;
 
     @Autowired
-    @Qualifier("defaultObjectMapper")
     private ObjectMapper objectMapper;
 
 
-    public MongoUpdater() {}
+    public MongoUpdater() {
+    }
 
     public void update() {
         //deleteOutDateIncidents();
@@ -43,7 +39,7 @@ public class MongoUpdater {
         }
         if (response != null) {
             Iterator<JSONObject> jsonIterator = response.iterator();
-            while(jsonIterator.hasNext()) {
+            while (jsonIterator.hasNext()) {
                 IncidentItem incidentItem = null;
                 try {
                     incidentItem = objectMapper.readValue(jsonIterator.next().toString(), IncidentItem.class);
@@ -55,15 +51,12 @@ public class MongoUpdater {
                 }
             }
         }
-
-
     }
 
     private void deleteOutDateIncidents() {
         List<IncidentItem> incidents = mongoOperations.findAll(IncidentItem.class);
-        for (IncidentItem incidentItem : incidents) {
-            if (incidentItem.getEnd().after(new Date()));
-                mongoOperations.remove(incidentItem);
-        }
+        incidents.stream().filter(incidentItem -> incidentItem.getEnd().after(new Date()))
+                .forEach(incidentItem -> mongoOperations.remove(incidentItem));
     }
+
 }

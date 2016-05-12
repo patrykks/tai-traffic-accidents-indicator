@@ -5,16 +5,13 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
-/**
- * Created by mike on 4/22/16.
- */
-public class JSONIterator implements Iterator<JSONObject>{
+public class JSONIterator implements Iterator<JSONObject> {
 
     private JSONArray array;
     private int length;
     private int pointer;
 
-    public JSONIterator (JSONArray array) {
+    public JSONIterator(JSONArray array) {
         this.array = array;
         this.length = array.length();
         this.pointer = 0;
@@ -33,4 +30,5 @@ public class JSONIterator implements Iterator<JSONObject>{
         array.remove(pointer);
         length--;
     }
+
 }

@@ -1,14 +1,11 @@
 package pl.edu.agh.tai.web.bing.map;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
-import org.springframework.data.mongodb.core.geo.GeoJsonModule;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.tai.web.bing.map.enums.Severity;
@@ -17,9 +14,8 @@ import pl.edu.agh.tai.web.bing.map.model.IncidentItem;
 import pl.edu.agh.tai.web.bing.map.utils.TAIMongoSettings;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collector;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -31,11 +27,7 @@ public class TAIMongoClient {
     @Autowired
     private MongoOperations operations;
 
-    @Autowired
-    @Qualifier("geoJsonObjectMapper")
-    private ObjectMapper objectMapper;
-
-    public TAIMongoClient()  {
+    public TAIMongoClient() {
     }
 
     public List<IncidentItem> findAll(Class itemClass) {
@@ -52,12 +44,12 @@ public class TAIMongoClient {
 
         List invertedCoordinates = point.getCoordinates().subList(0, point.getCoordinates().size());
 
-        DBObject geometry = new BasicDBObject("type","Point").append("coordinates", invertedCoordinates);
-        DBObject nearSphere  = new BasicDBObject("$geometry", geometry).append("$maxDistance", radius);
+        DBObject geometry = new BasicDBObject("type", "Point").append("coordinates", invertedCoordinates);
+        DBObject nearSphere = new BasicDBObject("$geometry", geometry).append("$maxDistance", radius);
         BasicDBObject query = new BasicDBObject("point", new BasicDBObject("$nearSphere", nearSphere));
-        if(sevs != null && !sevs.isEmpty())
+        if (sevs != null && !sevs.isEmpty())
             query.append("severity", new BasicDBObject("$in", sevs.stream().map(Severity::toString).collect(Collectors.toList())));
-        if(types != null && !types.isEmpty())
+        if (types != null && !types.isEmpty())
             query.append("severity", new BasicDBObject("$in", types.stream().map(Type::toString).collect(Collectors.toList())));
         DBCursor result = incidents.find(query);
 
@@ -66,14 +58,11 @@ public class TAIMongoClient {
 
     private List<IncidentItem> cursorToList(DBCursor result) throws IOException {
         List<IncidentItem> incidentItems = new ArrayList<>();
-        for (DBObject document: result) {
-            document.removeField("_id");
-            document.removeField("_class");
-            IncidentItem item = objectMapper.readValue(document.toString(), IncidentItem.class);
+        for (DBObject object : result) {
+            IncidentItem item = operations.getConverter().read(IncidentItem.class, object);
             incidentItems.add(item);
         }
-        return  incidentItems;
+        return incidentItems;
     }
-
 
 }

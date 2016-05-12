@@ -27,6 +27,7 @@ public enum Type {
         return code;
     }
 
+    @JsonCreator
     public static Type fromValue(int typeCode) {
         for (Type c : Type.values()) {
             if (c.value() == typeCode) {
@@ -35,4 +36,5 @@ public enum Type {
         }
         throw new IllegalArgumentException("Invalid Type type code: " + typeCode);
     }
+
 }

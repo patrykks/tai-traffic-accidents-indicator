@@ -7,13 +7,12 @@ function init() {
     }).addTo(map);
 
 
-
     $.ajax({
         type: "GET",
         dataType: "json",
         url: "http://localhost:8080/tai/map/accidents",
-        success: function(data){
-            $.each(data, function(k,v) {
+        success: function (data) {
+            $.each(data, function (k, v) {
                 addMarkertoMap(v.point.coordinates, v.description)
             });
         }
