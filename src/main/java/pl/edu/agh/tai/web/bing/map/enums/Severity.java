@@ -16,15 +16,11 @@ public enum Severity {
         this.code = code;
     }
 
-    @Override
-    public String toString() {
-        return Integer.toString(code);
-    }
-
     @JsonValue
     public int value() {
         return code;
     }
+
     @JsonCreator
     public static Severity fromValue(int typeCode) {
         for (Severity c: Severity.values()) {
