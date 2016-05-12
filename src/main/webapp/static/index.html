@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Traffic-Incident-Indicator</title>
+
+    <link rel="stylesheet" href="./css/leaflet.css"/>
+    <link rel="stylesheet" href="./css/bootstrap.min.css"/>
+
+    <script src="./scripts/bootstrap.min.js"></script>
+    <script src="./scripts/leaflet.js"></script>
+    <script src="./scripts/jquery.1.10.2.min.js"></script>
+    <script src="./scripts/mapInit.js"></script>
+
+</head>
+<body onLoad="init()">
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Traffic Congestion Indicator</a>
+        </div>
+    </div>
+</nav>
+
+<div class ="container">
+    <div id="main">
+        <div class="content" id="content">
+
+            <h1>Traffic Congestion Indicator</h1>
+            <h2>Information about traffic incidents on map</h2>
+
+            <div id="map" style="height: 800px; position: relative; padding: 0px; margin: 0 auto 0 auto;"></div>
+
+        </div> <!-- content -->
+    </div>
+</div>
+
+<div class="container">
+    <footer>
+        <p>
+            &copy; <a href="http://www.mkyong.com">Mkyong.com</a> 2015
+        </p>
+    </footer>
+</div>
+
+</body>
+</html>

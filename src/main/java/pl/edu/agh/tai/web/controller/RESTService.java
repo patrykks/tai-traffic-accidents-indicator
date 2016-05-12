@@ -2,6 +2,7 @@ package pl.edu.agh.tai.web.controller;
 
 import java.io.*;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,8 +17,11 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.geo.GeoJsonModule;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import pl.edu.agh.tai.web.bing.map.model.IncidentItem;
 import pl.edu.agh.tai.web.bing.map.utils.GeoModuleExt;
 import pl.edu.agh.tai.web.bing.map.utils.JSONIterator;
@@ -25,7 +29,7 @@ import pl.edu.agh.tai.web.bing.map.utils.MicrosoftDateFromat;
 import pl.edu.agh.tai.web.dao.IncidentDAO;
 
 @RestController
-public class AjaxController {
+public class RESTService {
 	@Autowired
 	private ApplicationContext applicationContext;
 
@@ -51,7 +55,9 @@ public class AjaxController {
 		return new String(data);
 	}
 
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView method() {
+		return new ModelAndView("redirect:" + "/static/index.html");
 
-
-
+	}
 }
