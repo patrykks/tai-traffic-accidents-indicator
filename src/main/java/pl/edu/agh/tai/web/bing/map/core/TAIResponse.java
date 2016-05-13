@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import pl.edu.agh.tai.web.bing.map.utils.JSONIterator;
 
-
 import java.util.Iterator;
 
 public class TAIResponse {
@@ -15,7 +14,6 @@ public class TAIResponse {
 
     public TAIResponse(String response) {
         json = new JSONObject(response);
-        //System.out.println(json.toString(4));
 
         JSONObject resourceSets = json.getJSONArray("resourceSets").getJSONObject(0);
         totalResources = resourceSets.getInt("estimatedTotal");
@@ -33,4 +31,5 @@ public class TAIResponse {
     public Iterator<JSONObject> iterator() {
         return new JSONIterator(resources);
     }
+
 }

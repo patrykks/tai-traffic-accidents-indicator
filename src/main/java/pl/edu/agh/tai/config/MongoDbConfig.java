@@ -1,17 +1,13 @@
 package pl.edu.agh.tai.config;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.mongodb.*;
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.geo.GeoModule;
-import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.core.geo.GeoJsonModule;
 import pl.edu.agh.tai.web.bing.map.utils.GeoModuleExt;
 import pl.edu.agh.tai.web.bing.map.utils.MicrosoftDateFromat;
@@ -19,11 +15,7 @@ import pl.edu.agh.tai.web.bing.map.utils.MongoUpdater;
 import pl.edu.agh.tai.web.bing.map.utils.TAIMongoSettings;
 
 import java.io.IOException;
-import java.util.Arrays;
 
-/**
- * Created by root on 4/05/16.
- */
 @Configuration
 public class MongoDbConfig extends AbstractMongoConfiguration {
 
@@ -35,7 +27,9 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     @Override
     @Bean
     public Mongo mongo() throws Exception {
+
         MongoClientURI mongoURI = new MongoClientURI("mongodb://patrykks:uzumymw@ds031223.mlab.com:31223/accidents");
+
         return new MongoClient(mongoURI);
     }
 
@@ -46,32 +40,18 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
 
     @Bean
     public TAIMongoSettings mongoSettings() throws IOException {
-        TAIMongoSettings mongoSettings= new TAIMongoSettings();
+        TAIMongoSettings mongoSettings = new TAIMongoSettings();
         return mongoSettings;
     }
 
-
-    @Bean(name = "defaultObjectMapper")
-    public ObjectMapper defaultObjectMapper() {
+    @Bean
+    public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(new MicrosoftDateFromat());
         mapper.registerModule(new GeoJsonModule());
         mapper.registerModule(new GeoModule());
         mapper.registerModule(new GeoModuleExt());
-        mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
-        mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
         return mapper;
     }
-
-    @Bean(name = "geoJsonObjectMapper")
-    public ObjectMapper geoJsonObjectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new GeoJsonModule());
-            mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
-            mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
-        return mapper;
-    }
-
-
 
 }

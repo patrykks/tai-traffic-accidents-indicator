@@ -29,7 +29,6 @@ public enum Severity {
             }
         }
         throw new IllegalArgumentException("Invalid Severity type code: " + typeCode);
-
     }
 
 }

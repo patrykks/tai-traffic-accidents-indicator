@@ -5,9 +5,6 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
-/**
- * Created by mike on 4/22/16.
- */
 public class JSONIterator implements Iterator<JSONObject> {
 
     private JSONArray array;
@@ -33,4 +30,5 @@ public class JSONIterator implements Iterator<JSONObject> {
         array.remove(pointer);
         length--;
     }
+
 }

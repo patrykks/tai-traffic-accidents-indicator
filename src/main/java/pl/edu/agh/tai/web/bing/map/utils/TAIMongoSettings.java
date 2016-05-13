@@ -21,4 +21,5 @@ public class TAIMongoSettings extends Properties {
 
         load(settingsStream);
     }
+
 }

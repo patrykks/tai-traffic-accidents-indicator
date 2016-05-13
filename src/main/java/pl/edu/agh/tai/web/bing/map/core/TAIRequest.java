@@ -7,7 +7,6 @@ import pl.edu.agh.tai.web.bing.map.enums.Type;
 import java.util.HashSet;
 import java.util.Set;
 
-
 public class TAIRequest {
 
     private static final String DEMO_KEY = "%20Al32s_5BniM3B6eU4rVaVzTb1CeZpPwt7OZ_40mJSHTSksNCQifMtyp2XQkUphbw";
@@ -72,7 +71,7 @@ public class TAIRequest {
         if (!severitySet.isEmpty()) {
             builder.append("severity=");
             for (Severity sev : severitySet) {
-                builder.append(sev).append(",");
+                builder.append(sev.value()).append(",");
             }
             builder.setCharAt(builder.length() - 1, '&');
         }
@@ -80,7 +79,7 @@ public class TAIRequest {
         if (!typeSet.isEmpty()) {
             builder.append("type=");
             for (Type type : typeSet) {
-                builder.append(type).append(",");
+                builder.append(type.value()).append(",");
             }
             builder.setCharAt(builder.length() - 1, '?');
         }
@@ -90,4 +89,5 @@ public class TAIRequest {
         System.out.println(builder);
         return builder.toString();
     }
+
 }
