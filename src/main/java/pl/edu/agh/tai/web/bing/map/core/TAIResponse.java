@@ -17,9 +17,9 @@ public class TAIResponse {
         json = new JSONObject(response);
         //System.out.println(json.toString(4));
 
-        JSONObject resourceSets  = json.getJSONArray("resourceSets").getJSONObject(0);
+        JSONObject resourceSets = json.getJSONArray("resourceSets").getJSONObject(0);
         totalResources = resourceSets.getInt("estimatedTotal");
-        resources  = resourceSets.getJSONArray("resources");
+        resources = resourceSets.getJSONArray("resources");
     }
 
     public JSONObject getWholeResponse() {

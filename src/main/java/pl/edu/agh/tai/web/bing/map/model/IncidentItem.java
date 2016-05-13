@@ -52,7 +52,8 @@ public class IncidentItem {
 
     private Date lastModified;
 
-    public IncidentItem() {}
+    public IncidentItem() {
+    }
 
     public IncidentItem(Date lastModified, Date end, Date start, GeoJsonPoint pointTo, GeoJsonPoint point, Boolean roadClosed, String type, Integer source, String description, Boolean verified, String severity, Long incidentId) {
         this.lastModified = lastModified;

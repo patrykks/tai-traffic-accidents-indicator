@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Traffic-Incident-Indicator</title>
 
-    <link rel="stylesheet" href="./css/leaflet.css"/>
-    <link rel="stylesheet" href="./css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="css/leaflet.css" th:href="@{/css/leaflet.css}" />
 
-    <script src="./scripts/bootstrap.min.js"></script>
-    <script src="./scripts/leaflet.js"></script>
-    <script src="./scripts/jquery.1.10.2.min.js"></script>
-    <script src="./scripts/mapInit.js"></script>
+    <script th:src="@{/scripts/bootstrap.min.js}"></script>
+    <script th:src="@{/scripts/leaflet.js}"></script>
+    <script th:src="@{/scripts/jquery.1.10.2.min.js}"></script>
+    <script th:src="@{/scripts/mapInit.js}"></script>
+
 
 </head>
 <body onLoad="init()">
@@ -22,6 +23,9 @@
         </div>
     </div>
 </nav>
+
+<p><a href="../index.html" th:href="@{/index.html}">Back to home page</a></p>
+<div th:replace="index::logout"></div>
 
 <div class ="container">
     <div id="main">

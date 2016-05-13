@@ -12,7 +12,7 @@ public enum Severity {
 
     private int code;
 
-    Severity(int code){
+    Severity(int code) {
         this.code = code;
     }
 
@@ -23,8 +23,8 @@ public enum Severity {
 
     @JsonCreator
     public static Severity fromValue(int typeCode) {
-        for (Severity c: Severity.values()) {
-            if (c.value()==typeCode) {
+        for (Severity c : Severity.values()) {
+            if (c.value() == typeCode) {
                 return c;
             }
         }

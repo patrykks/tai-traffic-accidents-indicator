@@ -35,9 +35,7 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     @Override
     @Bean
     public Mongo mongo() throws Exception {
-
         MongoClientURI mongoURI = new MongoClientURI("mongodb://patrykks:uzumymw@ds031223.mlab.com:31223/accidents");
-
         return new MongoClient(mongoURI);
     }
 
@@ -69,9 +67,11 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     public ObjectMapper geoJsonObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new GeoJsonModule());
-        mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
-        mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+            mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+            mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
         return mapper;
     }
+
+
 
 }

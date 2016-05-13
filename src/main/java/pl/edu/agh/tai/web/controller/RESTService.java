@@ -96,15 +96,15 @@ public class RESTService {
 		return new String(data);
 	}
 
-
+/*
 
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView method() {
-		return new ModelAndView("redirect:" + "/static/index.html");
+		return new ModelAndView("redirect:" + "/static/home.html");
 
 	}
 
-
+*/
 
 }
