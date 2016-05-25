@@ -3,10 +3,23 @@
     <head>
         <title>Error page</title>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
+        <link rel="stylesheet" href="css/loginstyle.css" th:href="@{/css/loginstyle.css}"/>
     </head>
+
     <body>
-        <h1>FORBIDDEN</h1>
-        <a href="index.html" th:href="@{/index.html}">Back to Home Page</a>
+    <div class="wrapper">
+        <div class="container">
+            <h1>FORBIDDEN - Error 403</h1>
+            <form action="../index.html">
+                <input type="submit" value="Back to home page">
+            </form>
+        </div>
+
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
     </body>
 </html>

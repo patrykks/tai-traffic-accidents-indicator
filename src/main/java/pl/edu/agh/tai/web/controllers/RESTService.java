@@ -1,13 +1,11 @@
-package pl.edu.agh.tai.web.controller;
+package pl.edu.agh.tai.web.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 import pl.edu.agh.tai.web.bing.map.enums.Severity;
 import pl.edu.agh.tai.web.bing.map.enums.Type;
 import pl.edu.agh.tai.web.bing.map.model.IncidentItem;
@@ -97,14 +95,5 @@ public class RESTService {
         return "";
     }
 
-
-    /*
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView method() {
-        return new ModelAndView("redirect:" + "/static/index.html");
-
-    }
-
-    */
 
 }

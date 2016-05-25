@@ -17,7 +17,7 @@
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <root level="error">
+    <root name="pl.edu.agh.tai" level="error">
         <appender-ref ref="STDOUT"/>
     </root>
 

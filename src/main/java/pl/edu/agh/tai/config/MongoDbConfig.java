@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.geo.GeoModule;
@@ -19,17 +20,18 @@ import java.io.IOException;
 @Configuration
 public class MongoDbConfig extends AbstractMongoConfiguration {
 
+    @Autowired
+    private TAIMongoSettings mongoSettings;
+
     @Override
     public String getDatabaseName() {
-        return "accidents";
+        return mongoSettings.getProperty("accidentDB");
     }
 
     @Override
     @Bean
     public Mongo mongo() throws Exception {
-
-        MongoClientURI mongoURI = new MongoClientURI("mongodb://patrykks:uzumymw@ds031223.mlab.com:31223/accidents");
-
+        MongoClientURI mongoURI = new MongoClientURI(createMongoURI());
         return new MongoClient(mongoURI);
     }
 
@@ -38,11 +40,6 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
         return new MongoUpdater();
     }
 
-    @Bean
-    public TAIMongoSettings mongoSettings() throws IOException {
-        TAIMongoSettings mongoSettings = new TAIMongoSettings();
-        return mongoSettings;
-    }
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -54,4 +51,20 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
         return mapper;
     }
 
+    public String createMongoURI() {
+        String user = mongoSettings.getProperty("user");
+        String password = mongoSettings.getProperty("password");
+        String baseUrl = mongoSettings.getProperty("baseUrl");
+        String port = mongoSettings.getProperty("port");
+        String accidentDB = mongoSettings.getProperty("accidentDB");
+
+        String completeUrl = new StringBuilder("mongodb://")
+                .append(user).append(":")
+                .append(password).append("@")
+                .append(baseUrl).append(":")
+                .append(port).append("/")
+                .append(accidentDB)
+                .toString();
+        return completeUrl;
+    }
 }

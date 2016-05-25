@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.servlet3;
+package pl.edu.agh.tai.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import org.springframework.web.filter.CharacterEncodingFilter;

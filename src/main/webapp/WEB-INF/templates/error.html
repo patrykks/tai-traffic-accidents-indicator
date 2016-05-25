@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Error page</title>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
-    </head>
-    <body>
+<head>
+    <title>Error page</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="css/loginstyle.css" th:href="@{/css/loginstyle.css}"/>
+</head>
+<body>
+<div class="wrapper">
+    <div class="container">
+        <h1>Error page</h1>
+        <p th:if="${loginError}" class="error">Wrong user or password</p>
         <h1 th:text="${errorCode}">404</h1>
         <p th:utext="${errorMessage}">Error java.lang.NullPointerException</p>
-        <a href="index.html" th:href="@{/index.html}">Back to Home Page</a>
-    </body>
+        <form action="./index.html">
+            <input type="submit" value="Back to home page">
+        </form>
+    </div>
+
+    <ul class="bg-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+</body>
 </html>

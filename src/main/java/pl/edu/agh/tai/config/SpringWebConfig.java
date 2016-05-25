@@ -21,32 +21,24 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 @EnableWebMvc
 @Configuration
+@ComponentScan({ "pl.edu.agh.tai" })
 @EnableAsync
 @EnableScheduling
-@ComponentScan({ "pl.edu.agh.tai" })
 public class SpringWebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
 	public static final String CHARACTER_ENCODING = "UTF-8";
 
-
 	private ApplicationContext applicationContext;
-
-
 
 	public SpringWebConfig() {
 		super();
 	}
 
-
+	@Override
 	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}
 
-
-
-	/**
-	 *  Message externalization/internationalization
-	 */
 	@Bean
 	public ResourceBundleMessageSource messageSource() {
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
@@ -54,12 +46,7 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter implements Applicat
 		return resourceBundleMessageSource;
 	}
 
-    /* **************************************************************** */
-    /*  THYMELEAF-SPECIFIC ARTIFACTS                                    */
-    /*  TemplateResolver <- TemplateEngine <- ViewResolver              */
-    /* **************************************************************** */
 
-	@Bean
 	public SpringResourceTemplateResolver templateResolver(){
 		SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
 		templateResolver.setApplicationContext(this.applicationContext);
@@ -68,11 +55,11 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter implements Applicat
 		templateResolver.setTemplateMode(TemplateMode.HTML);
 		// Template cache is true by default. Set to false if you want
 		// templates to be automatically updated when modified.
-		templateResolver.setCacheable(true);
+		//templateResolver.setCacheable(true);
 		return templateResolver;
 	}
 
-	@Bean
+
 	public SpringTemplateEngine templateEngine(){
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setEnableSpringELCompiler(true); // Compiled SpringEL should speed up executions
@@ -88,14 +75,6 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter implements Applicat
 		return viewResolver;
 	}
 
-    /* ******************************************************************* */
-    /*  Defines callback methods to customize the Java-based configuration */
-    /*  for Spring MVC enabled via {@code @EnableWebMvc}                   */
-    /* ******************************************************************* */
-
-	/**
-	 *  Dispatcher configuration for serving static resources
-	 */
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
 		super.addResourceHandlers(registry);

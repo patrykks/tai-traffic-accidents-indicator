@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
-        <title>Thymeleafexamples - Spring security</title>
+        <title>TAI- Traffic Accidents Indicator</title>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
+        <link rel="stylesheet" href="css/loginstyle.css" th:href="@{/css/loginstyle.css}"/>
     </head>
     <body>
         <div th:fragment="logout" class="logout"
@@ -13,18 +13,25 @@
             <!--/* When using CSRF this needs to be a POST */-->
             <form th:action="@{/logout}" method="post" style="display:inline"><input type="submit" value="Logout"/></form>
         </div>
-        <h1>Thymeleafexamples - Spring security</h1>
-        <p>This is a demo of Thymeleaf and Spring-security integration.</p>
-        <h2>Private pages</h2>
-        <p>This is a public page, but you can navigate to protected pages to trigger authentication.</p>
-        <ul>
-            <li>Go to <a href="admin/index.html" th:href="@{/admin/index.html}">administration zone</a> (only admins)</li>
-            <li>Go to <a href="user/index.html" th:href="@{/user/index.html}">user zone</a> (only users)</li>
-            <li>Go to <a href="user/index.html" th:href="@{/shared/index.html}">shared zone</a> (both users and admins)</li>
-        </ul>
-        <h2>Exception handling</h2>
-        <ul>
-            <li>You can <a href="error.html" th:href="@{/simulateError.html}">simulate an exception</a> to see custom ErrorPage.</li>
-        </ul>
+        <div class="wrapper">
+            <div class="container">
+                <h1>Zones page</h1>
+                <form action="admin/index.html">
+                    <input type="submit" value="Admin zone">
+                </form>
+                <form action="user/index.html">
+                    <input type="submit" value="User zone">
+                </form>
+                <form action="shared/index.html">
+                    <input type="submit" value="Shared zone">
+                </form>
+            </div>
+
+            <ul class="bg-bubbles">
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
     </body>
 </html>

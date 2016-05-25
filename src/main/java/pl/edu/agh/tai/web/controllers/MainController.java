@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.web;
+package pl.edu.agh.tai.web.controllers;
 
 import java.util.Locale;
 
@@ -9,9 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.unbescape.html.HtmlEscape;
 
-/**
- * Application home page and login.
- */
 @Controller
 public class MainController {
 
@@ -50,11 +47,11 @@ public class MainController {
         return "login";
     }
 
-    /** Login form with error. */
+
     @RequestMapping("/login-error.html")
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
-        return "login";
+        return "error";
     }
 
     /** Simulation of an exception. */
@@ -68,13 +65,14 @@ public class MainController {
     public String error(HttpServletRequest request, Model model) {
         model.addAttribute("errorCode", "Error " + request.getAttribute("javax.servlet.error.status_code"));
         Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-        StringBuilder errorMessage = new StringBuilder();
+            StringBuilder errorMessage = new StringBuilder();
         errorMessage.append("<ul>");
         while (throwable != null) {
             errorMessage.append("<li>").append(HtmlEscape.escapeHtml5(throwable.getMessage())).append("</li>");
             throwable = throwable.getCause();
         }
         errorMessage.append("</ul>");
+        System.out.println(errorMessage.toString());
         model.addAttribute("errorMessage", errorMessage.toString());
         return "error";
     }
@@ -84,6 +82,5 @@ public class MainController {
     public String forbidden() {
         return "403";
     }
-
 
 }
