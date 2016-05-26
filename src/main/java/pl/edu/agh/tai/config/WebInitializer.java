@@ -8,7 +8,7 @@ import javax.servlet.Filter;
 import pl.edu.agh.tai.config.SpringSecurityConfig;
 import pl.edu.agh.tai.config.SpringWebConfig;
 
-public class MyWebInitializer extends
+public class WebInitializer extends
 		AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override

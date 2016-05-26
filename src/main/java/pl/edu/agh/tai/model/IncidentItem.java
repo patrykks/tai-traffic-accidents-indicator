@@ -1,12 +1,12 @@
-package pl.edu.agh.tai.web.bing.map.model;
+package pl.edu.agh.tai.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.mapping.Document;
-import pl.edu.agh.tai.web.bing.map.enums.Severity;
-import pl.edu.agh.tai.web.bing.map.enums.Type;
+import pl.edu.agh.tai.model.enums.Severity;
+import pl.edu.agh.tai.model.enums.Type;
 
 import java.util.Date;
 

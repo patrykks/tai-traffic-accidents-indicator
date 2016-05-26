@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.web.bing.map.utils;
+package pl.edu.agh.tai.utils;
 
 import java.text.DateFormat;
 import java.text.FieldPosition;

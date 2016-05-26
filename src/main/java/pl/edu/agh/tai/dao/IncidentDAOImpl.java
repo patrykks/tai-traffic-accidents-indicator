@@ -1,14 +1,14 @@
-package pl.edu.agh.tai.web.dao;
+package pl.edu.agh.tai.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
-import pl.edu.agh.tai.web.bing.map.TAIMongoClient;
-import pl.edu.agh.tai.web.bing.map.enums.Severity;
-import pl.edu.agh.tai.web.bing.map.enums.Type;
-import pl.edu.agh.tai.web.bing.map.model.IncidentItem;
-import pl.edu.agh.tai.web.bing.map.utils.MongoUpdater;
+import pl.edu.agh.tai.bing.traffic.TAIMongoClient;
+import pl.edu.agh.tai.model.enums.Severity;
+import pl.edu.agh.tai.model.enums.Type;
+import pl.edu.agh.tai.model.IncidentItem;
+import pl.edu.agh.tai.utils.MongoDBUpdater;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,7 +20,7 @@ public class IncidentDAOImpl implements IncidentDAO {
     private TAIMongoClient mongoClient;
 
     @Autowired
-    private MongoUpdater mongoUpdater;
+    private MongoDBUpdater mongoDBUpdater;
 
     @Override
     public List<IncidentItem> getAllIncidents() {
@@ -40,7 +40,7 @@ public class IncidentDAOImpl implements IncidentDAO {
     @Scheduled(fixedRate = 300000)
     public void updateDatabaseWithDataFromExternalService() {
         System.out.println("Update database");
-        //mongoUpdater.update();
+        //mongoDBUpdater.update();
         System.out.println("End update database");
     }
 

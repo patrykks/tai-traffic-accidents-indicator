@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.web.bing.map.utils;
+package pl.edu.agh.tai.utils;
 
 import org.springframework.stereotype.Component;
 
@@ -8,14 +8,14 @@ import java.io.InputStream;
 import java.util.Properties;
 
 @Component
-public class TAIMongoSettings extends Properties {
+public class TAIMongoDBProperties extends Properties {
     public static final String DEFAULT_SETTINGS_FILE = "mongo.properties";
 
-    public TAIMongoSettings() throws IOException {
+    public TAIMongoDBProperties() throws IOException {
         this(DEFAULT_SETTINGS_FILE);
     }
 
-    public TAIMongoSettings(String settingsFile) throws IOException {
+    public TAIMongoDBProperties(String settingsFile) throws IOException {
         InputStream settingsStream = getClass().getClassLoader().getResourceAsStream(settingsFile);
 
         if (settingsStream == null) {

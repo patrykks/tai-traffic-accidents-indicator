@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.web.bing.map.utils;
+package pl.edu.agh.tai.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.OkHttpClient;
@@ -6,17 +6,17 @@ import com.squareup.okhttp.Request;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
-import pl.edu.agh.tai.web.bing.map.core.TAIRequest;
-import pl.edu.agh.tai.web.bing.map.core.TAIResponse;
-import pl.edu.agh.tai.web.bing.map.enums.Severity;
-import pl.edu.agh.tai.web.bing.map.model.IncidentItem;
+import pl.edu.agh.tai.bing.traffic.TAIRequest;
+import pl.edu.agh.tai.bing.traffic.TAIResponse;
+import pl.edu.agh.tai.model.enums.Severity;
+import pl.edu.agh.tai.model.IncidentItem;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class MongoUpdater {
+public class MongoDBUpdater {
     @Autowired
     private MongoOperations mongoOperations;
 
@@ -24,7 +24,7 @@ public class MongoUpdater {
     private ObjectMapper objectMapper;
 
 
-    public MongoUpdater() {
+    public MongoDBUpdater() {
     }
 
     public void update() {
