@@ -1,6 +1,9 @@
 package pl.edu.agh.tai.web.bing.map.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import org.json.JSONObject;
@@ -17,9 +20,11 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MongoUpdater {
+
+    @Autowired
+    private TAIMongoSettings mongoSettings;
     @Autowired
     private MongoOperations mongoOperations;
-
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -35,22 +40,20 @@ public class MongoUpdater {
             Request request = new Request.Builder().url(new TAIRequest().setBounds(49, 14, 55, 24).addSeverity(Severity.SERIOUS).addSeverity(Severity.MINOR).build()).build();
             response = new TAIResponse(httpClient.newCall(request).execute().body().string());
         } catch (IOException e) {
-            System.out.println("Exception druign getting response to update database");
+            System.out.println("Exception during getting response to update database");
         }
         if (response != null) {
             Iterator<JSONObject> jsonIterator = response.iterator();
             while (jsonIterator.hasNext()) {
-                IncidentItem incidentItem = null;
-                try {
-                    incidentItem = objectMapper.readValue(jsonIterator.next().toString(), IncidentItem.class);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (incidentItem != null) {
-                    mongoOperations.save(incidentItem);
-                }
+                DBObject incidentItem = (DBObject) JSON.parse(jsonIterator.next().toString());
+                customize(incidentItem);
+                mongoOperations.save(incidentItem);
             }
         }
+        mongoOperations.getCollection(mongoSettings.getProperty("incidentsCollection")).createIndex(new BasicDBObject("point", "2dsphere"));
+    }
+
+    private void customize(DBObject incidentItem){
     }
 
     private void deleteOutDateIncidents() {
