@@ -10,18 +10,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.geo.GeoModule;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.geo.GeoJsonModule;
-import pl.edu.agh.tai.web.bing.map.utils.GeoModuleExt;
-import pl.edu.agh.tai.web.bing.map.utils.MicrosoftDateFromat;
-import pl.edu.agh.tai.web.bing.map.utils.MongoUpdater;
-import pl.edu.agh.tai.web.bing.map.utils.TAIMongoSettings;
-
-import java.io.IOException;
+import pl.edu.agh.tai.utils.GeoModuleExt;
+import pl.edu.agh.tai.utils.MicrosoftDateFromat;
+import pl.edu.agh.tai.utils.MongoDBUpdater;
+import pl.edu.agh.tai.utils.TAIMongoDBProperties;
 
 @Configuration
 public class MongoDbConfig extends AbstractMongoConfiguration {
 
     @Autowired
-    private TAIMongoSettings mongoSettings;
+    private TAIMongoDBProperties mongoSettings;
 
     @Override
     public String getDatabaseName() {
@@ -36,8 +34,8 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     }
 
     @Bean
-    public MongoUpdater mongoUpdater() {
-        return new MongoUpdater();
+    public MongoDBUpdater mongoUpdater() {
+        return new MongoDBUpdater();
     }
 
 

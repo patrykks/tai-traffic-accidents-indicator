@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.web.bing.map;
+package pl.edu.agh.tai.bing.traffic;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.tai.web.bing.map.enums.Severity;
-import pl.edu.agh.tai.web.bing.map.enums.Type;
-import pl.edu.agh.tai.web.bing.map.model.IncidentItem;
-import pl.edu.agh.tai.web.bing.map.utils.TAIMongoSettings;
+import pl.edu.agh.tai.model.enums.Severity;
+import pl.edu.agh.tai.model.enums.Type;
+import pl.edu.agh.tai.model.IncidentItem;
+import pl.edu.agh.tai.utils.TAIMongoDBProperties;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class TAIMongoClient {
 
     @Autowired
-    private TAIMongoSettings mongoSettings;
+    private TAIMongoDBProperties mongoSettings;
 
     @Autowired
     private MongoOperations operations;

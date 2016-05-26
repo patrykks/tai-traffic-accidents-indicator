@@ -1,8 +1,8 @@
-package pl.edu.agh.tai.web.bing.map.core;
+package pl.edu.agh.tai.bing.traffic;
 
 
-import pl.edu.agh.tai.web.bing.map.enums.Severity;
-import pl.edu.agh.tai.web.bing.map.enums.Type;
+import pl.edu.agh.tai.model.enums.Severity;
+import pl.edu.agh.tai.model.enums.Type;
 
 import java.util.HashSet;
 import java.util.Set;

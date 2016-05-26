@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.web.controllers;
+package pl.edu.agh.tai.controllers;
 
 import java.util.Locale;
 
@@ -35,12 +35,6 @@ public class MainController {
         return "admin/index";
     }
 
-    /** Shared zone index. */
-    @RequestMapping("/shared/index.html")
-    public String sharedIndex() {
-        return "shared/index";
-    }
-
     /** Login form. */
     @RequestMapping("/login.html")
     public String login() {
@@ -52,12 +46,6 @@ public class MainController {
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
         return "error";
-    }
-
-    /** Simulation of an exception. */
-    @RequestMapping("/simulateError.html")
-    public void simulateError() {
-        throw new RuntimeException("This is a simulated error message");
     }
 
     /** Error page. */

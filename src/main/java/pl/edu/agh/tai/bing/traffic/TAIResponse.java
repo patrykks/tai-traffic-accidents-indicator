@@ -1,8 +1,8 @@
-package pl.edu.agh.tai.web.bing.map.core;
+package pl.edu.agh.tai.bing.traffic;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import pl.edu.agh.tai.web.bing.map.utils.JSONIterator;
+import pl.edu.agh.tai.utils.JSONIterator;
 
 import java.util.Iterator;
 

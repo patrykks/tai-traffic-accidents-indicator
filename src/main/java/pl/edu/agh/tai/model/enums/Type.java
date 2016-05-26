@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.web.bing.map.enums;
+package pl.edu.agh.tai.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

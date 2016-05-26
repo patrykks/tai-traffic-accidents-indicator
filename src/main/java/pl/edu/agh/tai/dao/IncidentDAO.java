@@ -1,9 +1,9 @@
-package pl.edu.agh.tai.web.dao;
+package pl.edu.agh.tai.dao;
 
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
-import pl.edu.agh.tai.web.bing.map.enums.Severity;
-import pl.edu.agh.tai.web.bing.map.enums.Type;
-import pl.edu.agh.tai.web.bing.map.model.IncidentItem;
+import pl.edu.agh.tai.model.enums.Severity;
+import pl.edu.agh.tai.model.enums.Type;
+import pl.edu.agh.tai.model.IncidentItem;
 
 import java.io.IOException;
 import java.util.List;

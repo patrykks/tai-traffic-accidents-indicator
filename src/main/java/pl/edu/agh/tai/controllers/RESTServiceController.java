@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.web.controllers;
+package pl.edu.agh.tai.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.edu.agh.tai.web.bing.map.enums.Severity;
-import pl.edu.agh.tai.web.bing.map.enums.Type;
-import pl.edu.agh.tai.web.bing.map.model.IncidentItem;
-import pl.edu.agh.tai.web.dao.IncidentDAO;
+import pl.edu.agh.tai.model.enums.Severity;
+import pl.edu.agh.tai.model.enums.Type;
+import pl.edu.agh.tai.model.IncidentItem;
+import pl.edu.agh.tai.dao.IncidentDAO;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class RESTService {
+public class RESTServiceController {
+
     @Autowired
     private IncidentDAO dao;
 
