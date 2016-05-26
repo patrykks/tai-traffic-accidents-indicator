@@ -20,7 +20,6 @@ public class TAIMongoClient {
 
     @Autowired
     private TAIMongoDBProperties mongoDBProperties;
-
     @Autowired
     private MongoOperations mongoOperations;
 

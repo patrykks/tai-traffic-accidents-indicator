@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 
 @RestController
 public class RESTServiceController {
-
     @Autowired
     private IncidentDAO dao;
 
@@ -36,20 +35,20 @@ public class RESTServiceController {
         if (attempt++ > 0)
             return dao.getAllIncidentsFromArea(new GeoJsonPoint(50.607392, 15.83), 10);
         return "";
-        }
+    }
 
-    @RequestMapping(value = "/map/accidents/geo")
+    @RequestMapping(value = "/map/accidents/test/geo")
     public String getTrafficIncidentsFromArea() {
         return dao.getAllIncidentsFromArea(new GeoJsonPoint(50.607392, 15.83), 10);
     }
 
-    @RequestMapping(value = "/map/accidents/geowithtype")
+    @RequestMapping(value = "/map/accidents/test/geowithtype")
     public String getTrafficIncidentsFromAreaWithType() {
         //getAccidentsInRadiusWithSeverityAndType(new GeoJsonPoint(50.607392, 15.83),10, Arrays.asList(Severity.valueOf("SERIOUS")), Arrays.asList())
         return dao.getIncidentsFromAreaWithType(new GeoJsonPoint(50.607392, 15.83), 10, Arrays.asList(), Arrays.asList());
     }
 
-    @RequestMapping(value = "/map/accidents/geowithparams")
+    @RequestMapping(value = "/map/accidents/test/geowithparams")
     public String getTrafficIncidentsFromAreaWithParams(
             @RequestParam(value = "lat") Double lat,
             @RequestParam(value = "lon") Double lon,
