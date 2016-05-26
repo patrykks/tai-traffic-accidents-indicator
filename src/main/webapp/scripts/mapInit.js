@@ -12,19 +12,26 @@ function init() {
         dataType: "json",
         url: "http://localhost:8080/tai/map/accidents",
         success: function (data) {
+            var clusterGroup = new L.markerClusterGroup({disableClusteringAtZoom: 12});
+            clusterGroup._getExpandedVisibleBounds = function() {return map.getBounds();};
             $.each(data, function (k, v) {
-                addMarkertoMap(v.point.coordinates, v.description)
+                clusterGroup.addLayer(L.marker(v.point.coordinates)
+                    .bindPopup(L.popup().setContent(v.description)));
             });
+            map.addLayer(clusterGroup);
+
+            /*var pruneCluster = new PruneClusterForLeaflet();
+            $.each(data, function (k, v) {
+                var marker = new PruneCluster.Marker(v.point.coordinates[0], v.point.coordinates[1]);
+                marker.data.icon = createIcon;
+                marker.data.popup = v.description;
+                pruneCluster.RegisterMarker(marker);
+            });
+            map.addLayer(pruneCluster);*/
         }
     });
 
-
-    function addMarkertoMap(coordinates, description) {
-        var marker = L.marker(coordinates).addTo(map);
-        var popup = L.popup()
-            .setLatLng(coordinates)
-            .setContent(description)
-            .openOn(map);
-        marker.bindPopup(popup).openPopup();
+    function createIcon(data, category) {
+        return new L.Icon.Default();
     }
 }
