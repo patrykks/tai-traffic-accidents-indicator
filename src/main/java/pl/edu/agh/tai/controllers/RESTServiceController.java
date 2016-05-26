@@ -27,40 +27,26 @@ public class RESTServiceController {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private static int attempt = 0;
+
     @RequestMapping(value = "/map/accidents")
     public String getTrafficIncidents() {
-        List<IncidentItem> incidents = dao.getAllIncidents();
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            objectMapper.writeValue(out, incidents);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (attempt > 1)
+            return dao.getAllIncidents();
+        if (attempt++ > 0)
+            return dao.getAllIncidentsFromArea(new GeoJsonPoint(50.607392, 15.83), 10);
+        return "";
         }
-        final byte[] data = out.toByteArray();
-        return new String(data);
-    }
 
     @RequestMapping(value = "/map/accidents/geo")
     public String getTrafficIncidentsFromArea() {
-        List<IncidentItem> incidents = new ArrayList<IncidentItem>();
-        try {
-            incidents.addAll(dao.getAllIncidentsFromArea(new GeoJsonPoint(50.607392, 15.83), 10));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return incidentListToString(incidents);
+        return dao.getAllIncidentsFromArea(new GeoJsonPoint(50.607392, 15.83), 10);
     }
 
     @RequestMapping(value = "/map/accidents/geowithtype")
     public String getTrafficIncidentsFromAreaWithType() {
-        List<IncidentItem> incidents = new ArrayList<>();
-        try {
-            //getAccidentsInRadiusWithSeverityAndType(new GeoJsonPoint(50.607392, 15.83),10, Arrays.asList(Severity.valueOf("SERIOUS")), Arrays.asList())
-            incidents.addAll(dao.getIncidentsFromAreaWithType(new GeoJsonPoint(50.607392, 15.83), 10, Arrays.asList(), Arrays.asList()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return incidentListToString(incidents);
+        //getAccidentsInRadiusWithSeverityAndType(new GeoJsonPoint(50.607392, 15.83),10, Arrays.asList(Severity.valueOf("SERIOUS")), Arrays.asList())
+        return dao.getIncidentsFromAreaWithType(new GeoJsonPoint(50.607392, 15.83), 10, Arrays.asList(), Arrays.asList());
     }
 
     @RequestMapping(value = "/map/accidents/geowithparams")
@@ -71,30 +57,12 @@ public class RESTServiceController {
             @RequestParam(value = "severity", required = false) List<Integer>  sevs,
             @RequestParam(value = "type", required = false) List<Integer> types
     ) {
-        List<IncidentItem> incidents = new ArrayList<>();
-        try {
-            List<Severity> sevList = new ArrayList<>();
-            if (sevs != null && !sevs.isEmpty())
-                sevList = sevs.stream().map(Severity::fromValue).collect(Collectors.toList());
-            List<Type> typeList = new ArrayList<>();
-            if (types != null && !types.isEmpty())
-                typeList = types.stream().map(Type::fromValue).collect(Collectors.toList());
-            incidents.addAll(dao.getIncidentsFromAreaWithType(new GeoJsonPoint(lat, lon), radius, typeList, sevList));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return incidentListToString(incidents);
+        List<Severity> sevList = new ArrayList<>();
+        if (sevs != null && !sevs.isEmpty())
+            sevList = sevs.stream().map(Severity::fromValue).collect(Collectors.toList());
+        List<Type> typeList = new ArrayList<>();
+        if (types != null && !types.isEmpty())
+            typeList = types.stream().map(Type::fromValue).collect(Collectors.toList());
+        return dao.getIncidentsFromAreaWithType(new GeoJsonPoint(lat, lon), radius, typeList, sevList);
     }
-
-    private String incidentListToString(List<IncidentItem> incidents) {
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            objectMapper.writeValue(out, incidents);
-            return new String(out.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-
 }

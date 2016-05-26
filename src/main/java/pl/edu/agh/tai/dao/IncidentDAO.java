@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.util.List;
 
 public interface IncidentDAO {
-    public List<IncidentItem> getAllIncidents();
+    String getAllIncidents();
 
-    public List<IncidentItem> getAllIncidentsFromArea(GeoJsonPoint point, double radious) throws IOException;
+    String getAllIncidentsFromArea(GeoJsonPoint point, double radious);
 
-    public List<IncidentItem> getIncidentsFromAreaWithType(GeoJsonPoint point, double radious, List<Type> types, List<Severity> severities) throws IOException;
+    String  getIncidentsFromAreaWithType(GeoJsonPoint point, double radious, List<Type> types, List<Severity> severities);
 
 }
