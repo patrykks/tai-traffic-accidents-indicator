@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.tai.model.IncidentItem;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
 import pl.edu.agh.tai.utils.TAIMongoDBProperties;
@@ -20,10 +21,15 @@ public class TAIMongoClient {
 
     @Autowired
     private TAIMongoDBProperties mongoDBProperties;
+
     @Autowired
     private MongoOperations mongoOperations;
 
     public TAIMongoClient() {
+    }
+
+    public List<IncidentItem> findAllPOJO() {
+        return mongoOperations.findAll(IncidentItem.class);
     }
 
     public String findAll() {
@@ -61,6 +67,10 @@ public class TAIMongoClient {
 
         DBCursor result = incidents.find(query, projection);
         return cursorToString(result);
+    }
+
+    public void saveOrUpdate(IncidentItem incidentItem) {
+        mongoOperations.save(incidentItem);
     }
 
     private String cursorToString(DBCursor result) {

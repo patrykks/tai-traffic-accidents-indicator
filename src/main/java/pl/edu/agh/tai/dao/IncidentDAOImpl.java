@@ -23,9 +23,7 @@ public class IncidentDAOImpl implements IncidentDAO {
     private MongoDBUpdater mongoDBUpdater;
 
     @Override
-    public String getAllIncidents() {
-        return mongoClient.findAll();
-    }
+    public String getAllIncidents() { return mongoClient.findAll(); }
 
     @Override
     public String getAllIncidentsFromArea(GeoJsonPoint point, double radious) {
@@ -36,6 +34,17 @@ public class IncidentDAOImpl implements IncidentDAO {
     public String getIncidentsFromAreaWithType(GeoJsonPoint point, double radius, List<Type> types, List<Severity> severities) {
         return mongoClient.getAccidentsInRadiusWithSeverityAndType(point, radius, severities, types);
     }
+
+    @Override
+    public List<IncidentItem> getAllIncidentsPOJO() {
+        return mongoClient.findAllPOJO();
+    }
+
+    @Override
+    public void saveOrUpdate(IncidentItem incidentItem) {
+        mongoClient.saveOrUpdate(incidentItem);
+    }
+
 
     @Scheduled(fixedRate = 300000)
     public void updateDatabaseWithDataFromExternalService() {

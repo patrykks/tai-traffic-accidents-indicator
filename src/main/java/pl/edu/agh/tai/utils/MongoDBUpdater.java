@@ -7,10 +7,13 @@ import com.mongodb.util.JSON;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import pl.edu.agh.tai.bing.traffic.TAIRequest;
 import pl.edu.agh.tai.bing.traffic.TAIResponse;
+import pl.edu.agh.tai.controllers.ErrorController;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.IncidentItem;
 
@@ -20,6 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MongoDBUpdater {
+
+    private static Logger logger = LoggerFactory.getLogger(MongoDBUpdater.class);
 
     @Autowired
     private TAIMongoDBProperties mongoDBProperties;
@@ -35,7 +40,8 @@ public class MongoDBUpdater {
     }
 
     public void update() {
-        //deleteOutDateIncidents();
+        deleteOutDateIncidents();
+
         TAIResponse response = null;
         try {
             OkHttpClient httpClient = new OkHttpClient();
@@ -51,8 +57,23 @@ public class MongoDBUpdater {
                 customize(incidentItem);
                 mongoOperations.save(incidentItem);
             }
+            /*
+            Iterator<JSONObject> jsonIterator = response.iterator();
+            while(jsonIterator.hasNext()) {
+                IncidentItem incidentItem = null;
+                try {
+                    incidentItem = objectMapper.readValue(jsonIterator.next().toString(), IncidentItem.class);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (incidentItem != null) {
+                    mongoOperations.save(incidentItem);
+                }
+            }
+            */
         }
         mongoOperations.getCollection(mongoDBProperties.getProperty("incidentsCollection")).createIndex(new BasicDBObject("point", "2dsphere"));
+
     }
 
     private void customize(DBObject incidentItem){
@@ -60,8 +81,9 @@ public class MongoDBUpdater {
 
     private void deleteOutDateIncidents() {
         List<IncidentItem> incidents = mongoOperations.findAll(IncidentItem.class);
-        incidents.stream().filter(incidentItem -> incidentItem.getEnd().after(new Date()))
+        incidents.stream().filter(incidentItem -> new Date().after(incidentItem.getEnd()))
                 .forEach(incidentItem -> mongoOperations.remove(incidentItem));
+        incidents.stream().map(incidentItem -> new String(incidentItem.getEnd().toString() + " " + new Date().toString())).forEach(logger::debug);
     }
 
 }

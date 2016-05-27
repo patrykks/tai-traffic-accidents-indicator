@@ -29,6 +29,15 @@ public class IncidentItem {
     @JsonProperty("source")
     private Integer source;
 
+    @JsonProperty("congestion")
+    private String congestion;
+
+    @JsonProperty("detour")
+    private String detour;
+
+    @JsonProperty("lane")
+    private String lane;
+
     @JsonProperty("type")
     private Type type;
 
@@ -53,7 +62,7 @@ public class IncidentItem {
     public IncidentItem() {
     }
 
-    public IncidentItem(Date lastModified, Date end, Date start, GeoJsonPoint toPoint, GeoJsonPoint point, Boolean roadClosed, Type type, Integer source, String description, Boolean verified, Severity severity, Long incidentId) {
+    public IncidentItem(Date lastModified, Date end, Date start, GeoJsonPoint toPoint, GeoJsonPoint point, Boolean roadClosed, Type type, Integer source, String congestion, String lane, String detour, String description, Boolean verified, Severity severity, Long incidentId) {
         this.lastModified = lastModified;
         this.end = end;
         this.start = start;
@@ -62,58 +71,69 @@ public class IncidentItem {
         this.roadClosed = roadClosed;
         this.type = type;
         this.source = source;
+        this.congestion = congestion;
+        this.lane = lane;
+        this.detour = detour;
         this.description = description;
         this.verified = verified;
         this.severity = severity;
         this.incidentId = incidentId;
     }
 
-    public Date getLastModified() {
-        return lastModified;
+    public Long getIncidentId() {
+        return incidentId;
     }
 
-    public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
+    public void setIncidentId(Long incidentId) {
+        this.incidentId = incidentId;
     }
 
-    public Date getEnd() {
-        return end;
+    public Severity getSeverity() {
+        return severity;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
     }
 
-    public Date getStart() {
-        return start;
+    public Boolean getVerified() {
+        return verified;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
     }
 
-    public GeoJsonPoint getToPoint() {
-        return toPoint;
+    public String getDescription() {
+        return description;
     }
 
-    public void setToPoint(GeoJsonPoint toPoint) {
-        this.toPoint = toPoint;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public GeoJsonPoint getPoint() {
-        return point;
+    public String getCongestion() {
+        return congestion;
     }
 
-    public void setPoint(GeoJsonPoint point) {
-        this.point = point;
+    public void setCongestion(String congestion) {
+        this.congestion = congestion;
     }
 
-    public Boolean getRoadClosed() {
-        return roadClosed;
+    public String getDetour() {
+        return detour;
     }
 
-    public void setRoadClosed(Boolean roadClosed) {
-        this.roadClosed = roadClosed;
+    public void setDetour(String detour) {
+        this.detour = detour;
+    }
+
+    public String getLane() {
+        return lane;
+    }
+
+    public void setLane(String lane) {
+        this.lane = lane;
     }
 
     public Type getType() {
@@ -132,36 +152,52 @@ public class IncidentItem {
         this.source = source;
     }
 
-    public String getDescription() {
-        return description;
+    public Boolean getRoadClosed() {
+        return roadClosed;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setRoadClosed(Boolean roadClosed) {
+        this.roadClosed = roadClosed;
     }
 
-    public Boolean getVerified() {
-        return verified;
+    public GeoJsonPoint getPoint() {
+        return point;
     }
 
-    public void setVerified(Boolean verified) {
-        this.verified = verified;
+    public void setPoint(GeoJsonPoint point) {
+        this.point = point;
     }
 
-    public Severity getSeverity() {
-        return severity;
+    public GeoJsonPoint getToPoint() {
+        return toPoint;
     }
 
-    public void setSeverity(Severity severity) {
-        this.severity = severity;
+    public void setToPoint(GeoJsonPoint toPoint) {
+        this.toPoint = toPoint;
     }
 
-    public Long getIncidentId() {
-        return incidentId;
+    public Date getStart() {
+        return start;
     }
 
-    public void setIncidentId(Long incidentId) {
-        this.incidentId = incidentId;
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
     }
 
     @Override
@@ -172,14 +208,16 @@ public class IncidentItem {
                 ", verified=" + verified +
                 ", description='" + description + '\'' +
                 ", source=" + source +
+                ", congestion='" + congestion + '\'' +
+                ", detour='" + detour + '\'' +
+                ", lane='" + lane + '\'' +
                 ", type=" + type +
                 ", roadClosed=" + roadClosed +
                 ", point=" + point +
-                ", pointTo=" + toPoint +
+                ", toPoint=" + toPoint +
                 ", start=" + start +
                 ", end=" + end +
                 ", lastModified=" + lastModified +
                 '}';
     }
-
 }
