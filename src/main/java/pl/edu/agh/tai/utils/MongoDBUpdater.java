@@ -11,9 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
-import pl.edu.agh.tai.bing.traffic.TAIRequest;
-import pl.edu.agh.tai.bing.traffic.TAIResponse;
-import pl.edu.agh.tai.controllers.ErrorController;
+import pl.edu.agh.tai.model.bing.traffic.TAIRequest;
+import pl.edu.agh.tai.model.bing.traffic.TAIResponse;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.IncidentItem;
 

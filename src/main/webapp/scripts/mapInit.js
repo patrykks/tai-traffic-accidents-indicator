@@ -6,11 +6,16 @@ function init() {
         attribution: "&copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> and contributors, under an <a href='http://www.openstreetmap.org/copyright' title='ODbL'>open license</a>. Tiles Courtesy of <a href='http://www.mapquest.com/'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>"
     }).addTo(map);
 
+    var token = $('#_csrf').attr('content');
+    var header = $('#_csrf_header').attr('content');
+
+    /*
+
     $.ajax({
         url: 'http://localhost:8080/tai/map/accidents',
         type: 'POST',
         contentType: "application/json",
-        data: JSON.stringify({"incidentId":10,
+        data: JSON.stringify({
             "severity":2,
             "verified":true,
             "description": 
@@ -26,12 +31,16 @@ function init() {
             "start":"/Date(1464263340000)/",
             "end":"/Date(1464451200000)/",
             "lastModified":"/Date(1464335296977)/"}),
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token);
+        },
         success: function() { alert('POST completed'); },
         error: function(xhr, status, error) {
             alert("An AJAX error occured: " + status + "\nError: " + error);
         }
     });
-    
+
+*/
     $.ajax({
         type: "GET",
         dataType: "json",

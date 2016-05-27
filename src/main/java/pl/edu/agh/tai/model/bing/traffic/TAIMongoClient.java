@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.bing.traffic;
+package pl.edu.agh.tai.model.bing.traffic;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -26,10 +26,6 @@ public class TAIMongoClient {
     private MongoOperations mongoOperations;
 
     public TAIMongoClient() {
-    }
-
-    public List<IncidentItem> findAllPOJO() {
-        return mongoOperations.findAll(IncidentItem.class);
     }
 
     public String findAll() {

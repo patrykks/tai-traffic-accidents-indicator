@@ -33,7 +33,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .accessDeniedPage("/403.html");
         //In the future it wille be changed http://stackoverflow.com/questions/25159772/jquery-post-giving-403-forbidden-error-in-spring-mvc
-        http.csrf().disable();
+        //http.csrf().disable();
     }
 
     @Override

@@ -14,8 +14,6 @@ public interface IncidentDAO {
 
     String  getIncidentsFromAreaWithType(GeoJsonPoint point, double radious, List<Type> types, List<Severity> severities);
 
-    List<IncidentItem> getAllIncidentsPOJO();
-
     void saveOrUpdate(IncidentItem incidentItem);
 }
 

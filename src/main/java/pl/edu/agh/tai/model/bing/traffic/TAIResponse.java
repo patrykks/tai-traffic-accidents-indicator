@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.bing.traffic;
+package pl.edu.agh.tai.model.bing.traffic;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

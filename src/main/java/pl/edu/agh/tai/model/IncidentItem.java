@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 @Document(collection = "incidents")
@@ -15,7 +16,7 @@ import java.util.Date;
 public class IncidentItem {
     @Id
     @JsonProperty("incidentId")
-    private Long incidentId;
+    private BigInteger incidentId;
 
     @JsonProperty("severity")
     private Severity severity;
@@ -62,7 +63,7 @@ public class IncidentItem {
     public IncidentItem() {
     }
 
-    public IncidentItem(Date lastModified, Date end, Date start, GeoJsonPoint toPoint, GeoJsonPoint point, Boolean roadClosed, Type type, Integer source, String congestion, String lane, String detour, String description, Boolean verified, Severity severity, Long incidentId) {
+    public IncidentItem(Date lastModified, Date end, Date start, GeoJsonPoint toPoint, GeoJsonPoint point, Boolean roadClosed, Type type, Integer source, String congestion, String lane, String detour, String description, Boolean verified, Severity severity, BigInteger incidentId) {
         this.lastModified = lastModified;
         this.end = end;
         this.start = start;
@@ -80,11 +81,11 @@ public class IncidentItem {
         this.incidentId = incidentId;
     }
 
-    public Long getIncidentId() {
+    public BigInteger getIncidentId() {
         return incidentId;
     }
 
-    public void setIncidentId(Long incidentId) {
+    public void setIncidentId(BigInteger incidentId) {
         this.incidentId = incidentId;
     }
 

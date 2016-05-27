@@ -4,13 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
-import pl.edu.agh.tai.bing.traffic.TAIMongoClient;
+import pl.edu.agh.tai.model.bing.traffic.TAIMongoClient;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
 import pl.edu.agh.tai.model.IncidentItem;
 import pl.edu.agh.tai.utils.MongoDBUpdater;
 
-import java.io.IOException;
 import java.util.List;
 
 @Repository
@@ -33,11 +32,6 @@ public class IncidentDAOImpl implements IncidentDAO {
     @Override
     public String getIncidentsFromAreaWithType(GeoJsonPoint point, double radius, List<Type> types, List<Severity> severities) {
         return mongoClient.getAccidentsInRadiusWithSeverityAndType(point, radius, severities, types);
-    }
-
-    @Override
-    public List<IncidentItem> getAllIncidentsPOJO() {
-        return mongoClient.findAllPOJO();
     }
 
     @Override
