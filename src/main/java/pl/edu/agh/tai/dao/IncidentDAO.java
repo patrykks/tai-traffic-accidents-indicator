@@ -12,7 +12,7 @@ public interface IncidentDAO {
 
     String getAllIncidentsFromArea(GeoJsonPoint point, double radious);
 
-    String  getIncidentsFromAreaWithType(GeoJsonPoint point, double radious, List<Type> types, List<Severity> severities);
+    String getIncidentsFromAreaWithType(GeoJsonPoint point, double radious, List<Type> types, List<Severity> severities);
 
     void saveOrUpdate(IncidentItem incidentItem);
 }

@@ -67,7 +67,7 @@ public class RESTServiceController {
             @RequestParam(value = "lat") Double lat,
             @RequestParam(value = "lon") Double lon,
             @RequestParam(value = "radius") Double radius,
-            @RequestParam(value = "severity", required = false) List<Integer>  sevs,
+            @RequestParam(value = "severity", required = false) List<Integer> sevs,
             @RequestParam(value = "type", required = false) List<Integer> types
     ) {
         List<Severity> sevList = new ArrayList<>();

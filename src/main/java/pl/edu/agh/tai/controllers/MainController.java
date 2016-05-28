@@ -17,25 +17,33 @@ public class MainController {
         return "redirect:/index.html";
     }
 
-    /** Home page. */
+    /**
+     * Home page.
+     */
     @RequestMapping("/index.html")
     public String index() {
         return "index";
     }
 
-    /** User zone index. */
+    /**
+     * User zone index.
+     */
     @RequestMapping("/user/index.html")
     public String userIndex() {
         return "user/index";
     }
 
-    /** Administration zone index. */
+    /**
+     * Administration zone index.
+     */
     @RequestMapping("/admin/index.html")
     public String adminIndex() {
         return "admin/index";
     }
 
-    /** Login form. */
+    /**
+     * Login form.
+     */
     @RequestMapping("/login.html")
     public String login() {
         return "login";
@@ -48,12 +56,14 @@ public class MainController {
         return "error";
     }
 
-    /** Error page. */
+    /**
+     * Error page.
+     */
     @RequestMapping("/error.html")
     public String error(HttpServletRequest request, Model model) {
         model.addAttribute("errorCode", "Error " + request.getAttribute("javax.servlet.error.status_code"));
         Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-            StringBuilder errorMessage = new StringBuilder();
+        StringBuilder errorMessage = new StringBuilder();
         errorMessage.append("<ul>");
         while (throwable != null) {
             errorMessage.append("<li>").append(HtmlEscape.escapeHtml5(throwable.getMessage())).append("</li>");
@@ -65,7 +75,9 @@ public class MainController {
         return "error";
     }
 
-    /** Error page. */
+    /**
+     * Error page.
+     */
     @RequestMapping("/403.html")
     public String forbidden() {
         return "403";

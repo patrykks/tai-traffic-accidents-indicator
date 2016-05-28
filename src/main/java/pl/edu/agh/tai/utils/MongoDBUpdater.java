@@ -75,7 +75,7 @@ public class MongoDBUpdater {
 
     }
 
-    private void customize(DBObject incidentItem){
+    private void customize(DBObject incidentItem) {
     }
 
     private void deleteOutDateIncidents() {
