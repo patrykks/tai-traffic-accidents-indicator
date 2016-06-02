@@ -1,6 +1,7 @@
 package pl.edu.agh.tai.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
@@ -8,6 +9,7 @@ import pl.edu.agh.tai.model.bing.traffic.TAIMongoClient;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
 import pl.edu.agh.tai.model.IncidentItem;
+import pl.edu.agh.tai.mongo.spring.security.User;
 import pl.edu.agh.tai.utils.MongoDBUpdater;
 
 import java.util.List;
@@ -17,6 +19,9 @@ public class IncidentDAOImpl implements IncidentDAO {
 
     @Autowired
     private TAIMongoClient mongoClient;
+
+    @Autowired
+    private MongoTemplate template;
 
     @Autowired
     private MongoDBUpdater mongoDBUpdater;
@@ -47,6 +52,17 @@ public class IncidentDAOImpl implements IncidentDAO {
         System.out.println("Update database");
         //mongoDBUpdater.update();
         System.out.println("End update database");
+        //createTestUser();
+    }
+
+    public void createTestUser() {
+        User user = new User("patrykks","demo","patryk","skalski");
+        user.setRole(1);
+        template.save(user);
+        User user1 = new User("wojti","demo","wojti","mojti");
+        user1.setRole(2);
+        template.save(user1);
+        System.out.println("User creating end");
     }
 
 }

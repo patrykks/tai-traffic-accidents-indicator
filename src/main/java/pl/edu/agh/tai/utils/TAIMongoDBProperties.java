@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-@Component
 public class TAIMongoDBProperties extends Properties {
     public static final String DEFAULT_SETTINGS_FILE = "mongo.properties";
 

@@ -1,15 +1,27 @@
 package pl.edu.agh.tai.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.edu.agh.tai.mongo.spring.security.CustomUserDetailsService;
+import pl.edu.agh.tai.utils.TAIMongoDBProperties;
 
 @Configuration
 @EnableWebSecurity
+@Import({CustomUserDetailsService.class, MongoDbConfig.class, TAIMongoDBProperties.class})
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    UserDetailsService userDetailsService ;
 
     public SpringSecurityConfig() {
         super();
@@ -36,13 +48,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         //http.csrf().disable();
     }
 
-    @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("jim").password("demo").roles("ADMIN").and()
-                .withUser("bob").password("demo").roles("USER").and()
-                .withUser("ted").password("demo").roles("USER", "ADMIN");
+
+    @Autowired
+    public void configAuthBuilder(AuthenticationManagerBuilder builder) throws Exception {
+        builder.userDetailsService(userDetailsService)
+        .passwordEncoder(passwordEncoder());
+    }
+
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 
