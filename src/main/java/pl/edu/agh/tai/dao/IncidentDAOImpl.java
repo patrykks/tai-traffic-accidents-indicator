@@ -10,6 +10,7 @@ import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
 import pl.edu.agh.tai.model.IncidentItem;
 import pl.edu.agh.tai.mongo.spring.security.User;
+import pl.edu.agh.tai.mongo.spring.social.SignInProvider;
 import pl.edu.agh.tai.utils.MongoDBUpdater;
 
 import java.util.List;
@@ -56,10 +57,10 @@ public class IncidentDAOImpl implements IncidentDAO {
     }
 
     public void createTestUser() {
-        User user = new User("patrykks","demo","patryk","skalski");
+        User user = new User("patrykks","patrykks","demo","patryk","skalski", SignInProvider.TAI);
         user.setRole(1);
         template.save(user);
-        User user1 = new User("wojti","demo","wojti","mojti");
+        User user1 = new User("wojti","wojti","demo","wojti","mojti", SignInProvider.TAI);
         user1.setRole(2);
         template.save(user1);
         System.out.println("User creating end");

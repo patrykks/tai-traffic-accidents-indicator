@@ -12,12 +12,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.security.SocialUserDetailsService;
+import org.springframework.social.security.SpringSocialConfigurer;
 import pl.edu.agh.tai.mongo.spring.security.CustomUserDetailsService;
+import pl.edu.agh.tai.mongo.spring.social.SimpleSocialUserDetailsService;
 import pl.edu.agh.tai.utils.TAIMongoDBProperties;
 
 @Configuration
 @EnableWebSecurity
-@Import({CustomUserDetailsService.class, MongoDbConfig.class, TAIMongoDBProperties.class})
+@Import({CustomUserDetailsService.class, MongoDbConfig.class, TAIMongoDBProperties.class,SocialConfig.class})
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -42,8 +45,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login.html")
                 .failureUrl("/login-error.html")
                 .and()
+                .logout()
+                .deleteCookies("JSESSIONID")
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login.html")
+                //Configures url based authorization
+                .and()
                 .exceptionHandling()
-                .accessDeniedPage("/403.html");
+                .accessDeniedPage("/403.html")
+                .and()
+                .apply(new SpringSocialConfigurer()
+                .postLoginUrl("/")
+                .alwaysUsePostLoginUrl(true));
         //In the future it wille be changed http://stackoverflow.com/questions/25159772/jquery-post-giving-403-forbidden-error-in-spring-mvc
         //http.csrf().disable();
     }
@@ -55,11 +68,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .passwordEncoder(passwordEncoder());
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public SocialUserDetailsService socialUserDetailsService() {
+        return new SimpleSocialUserDetailsService(userDetailsService);
+    }
 
 }

@@ -6,9 +6,21 @@
         <title>TAI Login Page</title>
         <link rel="stylesheet" href="css/loginstyle.css" th:href="@{/css/loginstyle.css}" />
         <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
+
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-social.css" />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />
+
     </head>
-`
-    <body>
+`   <body>
+    <div class="container">
+        <table style="border-collapse: separate; border-spacing: 2px">
+            <tr>
+                <td><a th:href="@{/auth/twitter}" class="ml btn btn-block btn-social btn-sm btn-twitter"><i class="fa fa-twitter"></i>Twitter</a></td>
+                <td><a th:href="@{/auth/facebook}" class="ml btn btn-block btn-social btn-sm btn-facebook"><i class="fa fa-facebook"></i>Facebook</a></td>
+            </tr>
+        </table>
     <div class="wrapper">
         <div class="container">
             <h1>Login page</h1>

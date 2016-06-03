@@ -32,7 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public User getUserDetail(String username) {
         MongoOperations mongoOperation = (MongoOperations) mongoTemplate;
         User user = mongoOperation.findOne(
-                new Query(Criteria.where("username").is(username)),
+                new Query(Criteria.where("_id").is(username)),
                 User.class);
         System.out.println(user.toString());
         return user;

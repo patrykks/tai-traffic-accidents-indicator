@@ -9,17 +9,20 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.security.SocialUserDetails;
+import pl.edu.agh.tai.mongo.spring.social.SignInProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Document(collection = "users")
-public class User implements UserDetails {
+public class User implements UserDetails,SocialUserDetails {
 
     private static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Id
+    private String id;
     private String username;
     private String password;
     private String firstName;
@@ -30,6 +33,7 @@ public class User implements UserDetails {
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
     private boolean enabled;
+    private SignInProvider signInProvider;
 
     public User() {
     }
@@ -42,12 +46,14 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public User(String username, String password, String firstName,
-                String lastName) {
+    public User(String id, String username, String password, String firstName,
+                String lastName,SignInProvider signInProvider) {
+        this.id = id;
         this.username = username;
         this.password = passwordEncoder.encode(password);
         this.firstName = firstName;
         this.lastName = lastName;
+        this.signInProvider = signInProvider;
         accountNonExpired = true;
         accountNonLocked = true;
         credentialsNonExpired = true;
@@ -126,9 +132,23 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    public SignInProvider getSignInProvider() {
+        return signInProvider;
+    }
+
+    public void setSignInProvider(SignInProvider signInProvider) {
+        this.signInProvider = signInProvider;
+    }
+
+    @Override
+    public String getUserId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "First Name:" + this.firstName + " Last Name:" + this.lastName + " Username:" + this.username;
     }
+
 
 }
