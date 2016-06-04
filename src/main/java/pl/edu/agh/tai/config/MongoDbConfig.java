@@ -7,23 +7,23 @@ import com.mongodb.MongoClientURI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.data.geo.GeoModule;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.geo.GeoJsonModule;
 import pl.edu.agh.tai.utils.GeoModuleExt;
 import pl.edu.agh.tai.utils.MicrosoftDateFromat;
 import pl.edu.agh.tai.utils.MongoDBUpdater;
-import pl.edu.agh.tai.utils.TAIMongoDBProperties;
 
 @Configuration
 public class MongoDbConfig extends AbstractMongoConfiguration {
 
     @Autowired
-    private TAIMongoDBProperties mongoSettings;
+    private Environment env;
 
     @Override
     public String getDatabaseName() {
-        return mongoSettings.getProperty("accidentDB");
+        return env.getProperty("mongodb.accidentDB");
     }
 
     @Override
@@ -50,11 +50,11 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     }
 
     public String createMongoURI() {
-        String user = mongoSettings.getProperty("user");
-        String password = mongoSettings.getProperty("password");
-        String baseUrl = mongoSettings.getProperty("baseUrl");
-        String port = mongoSettings.getProperty("port");
-        String accidentDB = mongoSettings.getProperty("accidentDB");
+        String user = env.getProperty("mongodb.user");
+        String password = env.getProperty("mongodb.password");
+        String baseUrl = env.getProperty("mongodb.baseUrl");
+        String port = env.getProperty("mongodb.port");
+        String accidentDB = env.getProperty("mongodb.accidentDB");
 
         String completeUrl = new StringBuilder("mongodb://")
                 .append(user).append(":")

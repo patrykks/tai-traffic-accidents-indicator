@@ -9,8 +9,8 @@ import pl.edu.agh.tai.model.bing.traffic.TAIMongoClient;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
 import pl.edu.agh.tai.model.IncidentItem;
-import pl.edu.agh.tai.mongo.spring.security.User;
-import pl.edu.agh.tai.mongo.spring.social.SignInProvider;
+import pl.edu.agh.tai.model.User;
+import pl.edu.agh.tai.model.enums.SignInProvider;
 import pl.edu.agh.tai.utils.MongoDBUpdater;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class IncidentDAOImpl implements IncidentDAO {
 
     @Override
     public void saveOrUpdate(IncidentItem incidentItem) {
-        mongoClient.saveOrUpdate(incidentItem);
+        mongoClient.save(incidentItem);
     }
 
 

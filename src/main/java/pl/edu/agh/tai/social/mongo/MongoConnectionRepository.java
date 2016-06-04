@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.mongo.spring.social;
+package pl.edu.agh.tai.social.mongo;
 
 import static com.google.common.collect.Lists.transform;
 import static org.springframework.data.mongodb.core.query.Criteria.where;

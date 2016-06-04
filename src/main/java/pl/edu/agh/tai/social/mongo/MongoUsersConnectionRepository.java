@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.mongo.spring.social;
+package pl.edu.agh.tai.social.mongo;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Lists.transform;

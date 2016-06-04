@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.mongo.spring.social;
+package pl.edu.agh.tai.social;
 
 
 import org.springframework.dao.DataAccessException;

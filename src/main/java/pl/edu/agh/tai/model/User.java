@@ -1,7 +1,5 @@
-package pl.edu.agh.tai.mongo.spring.security;
+package pl.edu.agh.tai.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.security.SocialUserDetails;
-import pl.edu.agh.tai.mongo.spring.social.SignInProvider;
+import pl.edu.agh.tai.model.enums.SignInProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;

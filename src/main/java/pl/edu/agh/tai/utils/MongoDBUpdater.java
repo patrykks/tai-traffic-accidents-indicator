@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoOperations;
 import pl.edu.agh.tai.model.bing.traffic.TAIRequest;
 import pl.edu.agh.tai.model.bing.traffic.TAIResponse;
@@ -26,7 +27,8 @@ public class MongoDBUpdater {
     private static Logger logger = LoggerFactory.getLogger(MongoDBUpdater.class);
 
     @Autowired
-    private TAIMongoDBProperties mongoDBProperties;
+    private Environment env;
+
 
     @Autowired
     private MongoOperations mongoOperations;
@@ -71,7 +73,7 @@ public class MongoDBUpdater {
             }
             */
         }
-        mongoOperations.getCollection(mongoDBProperties.getProperty("incidentsCollection")).createIndex(new BasicDBObject("point", "2dsphere"));
+        mongoOperations.getCollection(env.getProperty("mongodb.incidentsCollection")).createIndex(new BasicDBObject("point", "2dsphere"));
 
     }
 

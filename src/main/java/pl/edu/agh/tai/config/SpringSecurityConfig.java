@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpMethod;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,13 +14,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.social.security.SpringSocialConfigurer;
-import pl.edu.agh.tai.mongo.spring.security.CustomUserDetailsService;
-import pl.edu.agh.tai.mongo.spring.social.SimpleSocialUserDetailsService;
-import pl.edu.agh.tai.utils.TAIMongoDBProperties;
+import pl.edu.agh.tai.secuirty.mongo.CustomUserDetailsService;
+import pl.edu.agh.tai.social.SimpleSocialUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
-@Import({CustomUserDetailsService.class, MongoDbConfig.class, TAIMongoDBProperties.class,SocialConfig.class})
+@PropertySource("classpath:application.properties")
+@Import({CustomUserDetailsService.class, MongoDbConfig.class,SocialConfig.class})
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -57,8 +57,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .apply(new SpringSocialConfigurer()
                 .postLoginUrl("/")
                 .alwaysUsePostLoginUrl(true));
-        //In the future it wille be changed http://stackoverflow.com/questions/25159772/jquery-post-giving-403-forbidden-error-in-spring-mvc
-        //http.csrf().disable();
     }
 
 

@@ -5,13 +5,13 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.tai.model.IncidentItem;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
-import pl.edu.agh.tai.utils.TAIMongoDBProperties;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class TAIMongoClient {
 
     @Autowired
-    private TAIMongoDBProperties mongoDBProperties;
+    private Environment env;
 
     @Autowired
     private MongoOperations mongoOperations;
@@ -29,7 +29,7 @@ public class TAIMongoClient {
     }
 
     public String findAll() {
-        DBCollection incidents = mongoOperations.getCollection(mongoDBProperties.getProperty("incidentsCollection"));
+        DBCollection incidents = mongoOperations.getCollection(env.getProperty("mongodb.incidentsCollection"));
 
         DBObject query = new BasicDBObject();
 
@@ -46,7 +46,7 @@ public class TAIMongoClient {
     }
 
     public String getAccidentsInRadiusWithSeverityAndType(GeoJsonPoint point, double radius, List<Severity> sevs, List<Type> types) {
-        DBCollection incidents = mongoOperations.getCollection(mongoDBProperties.getProperty("incidentsCollection"));
+        DBCollection incidents = mongoOperations.getCollection(env.getProperty("mongodb.incidentsCollection"));
 
         List invertedCoordinates = point.getCoordinates().subList(0, point.getCoordinates().size());
         DBObject geometry = new BasicDBObject("type", "Point").append("coordinates", invertedCoordinates);
@@ -65,8 +65,8 @@ public class TAIMongoClient {
         return cursorToString(result);
     }
 
-    public void saveOrUpdate(IncidentItem incidentItem) {
-        mongoOperations.save(incidentItem);
+    public void save(IncidentItem incidentItem) {
+        mongoOperations.save (incidentItem);
     }
 
     private String cursorToString(DBCursor result) {
