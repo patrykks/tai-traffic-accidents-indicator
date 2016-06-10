@@ -11,7 +11,7 @@ import pl.edu.agh.tai.model.enums.Type;
 import java.math.BigInteger;
 import java.util.Date;
 
-@Document(collection = "incidents")
+@Document(collection = "outIncidents")
 @JsonIgnoreProperties({"__type"})
 public class IncidentItem {
     @Id
@@ -60,25 +60,33 @@ public class IncidentItem {
     @JsonProperty("lastModified")
     private Date lastModified;
 
+    @JsonProperty("votes")
+    private Integer votes;
+
     public IncidentItem() {
+        this.votes = 0;
     }
 
-    public IncidentItem(Date lastModified, Date end, Date start, GeoJsonPoint toPoint, GeoJsonPoint point, Boolean roadClosed, Type type, Integer source, String congestion, String lane, String detour, String description, Boolean verified, Severity severity, BigInteger incidentId) {
-        this.lastModified = lastModified;
-        this.end = end;
-        this.start = start;
-        this.toPoint = toPoint;
-        this.point = point;
-        this.roadClosed = roadClosed;
+    public IncidentItem(BigInteger incidentId, String description, Type type, Severity severity,
+                        GeoJsonPoint point, GeoJsonPoint toPoint,
+                        Date start, Date end, Date lastModified,
+                        String congestion, String lane, String detour,
+                        Boolean roadClosed, Integer source, Boolean verified) {
+        this.incidentId = incidentId;
+        this.description = description;
         this.type = type;
-        this.source = source;
+        this.severity = severity;
+        this.point = point;
+        this.toPoint = toPoint;
+        this.start = start;
+        this.end = end;
+        this.lastModified = lastModified;
         this.congestion = congestion;
         this.lane = lane;
         this.detour = detour;
-        this.description = description;
+        this.roadClosed = roadClosed;
+        this.source = source;
         this.verified = verified;
-        this.severity = severity;
-        this.incidentId = incidentId;
     }
 
     public BigInteger getIncidentId() {
@@ -177,6 +185,14 @@ public class IncidentItem {
         this.toPoint = toPoint;
     }
 
+    public Integer getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Integer votes) {
+        this.votes = votes;
+    }
+
     public Date getStart() {
         return start;
     }
@@ -216,6 +232,7 @@ public class IncidentItem {
                 ", roadClosed=" + roadClosed +
                 ", point=" + point +
                 ", toPoint=" + toPoint +
+                ", votes=" + votes +
                 ", start=" + start +
                 ", end=" + end +
                 ", lastModified=" + lastModified +
