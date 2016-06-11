@@ -35,13 +35,13 @@
 
                 <tr>
                     <td><label for="password">Password:</label></td>
-                    <td><input type="text" th:field="*{password}" /></td>
+                    <td><input type="password" th:field="*{password}" /></td>
                     <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"> </td>
                 </tr>
 
                 <tr>
                     <td><label for="matchingPassword">Matching Password:</label></td>
-                    <td><input type="text" th:field="*{matchingPassword}" /></td>
+                    <td><input type="password" th:field="*{matchingPassword}" /></td>
                     <td th:if="${passwordNotMatchError}" class="error">Passwords not match</td>
                 </tr>
 

@@ -6,10 +6,10 @@ function init() {
         attribution: "&copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> and contributors, under an <a href='http://www.openstreetmap.org/copyright' title='ODbL'>open license</a>. Tiles Courtesy of <a href='http://www.mapquest.com/'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>"
     }).addTo(map);
 
-    var token = $('#_csrf').attr('content');
-    var header = $('#_csrf_header').attr('content');
 
     /*
+    var token = $('#_csrf').attr('content');
+    var header = $('#_csrf_header').attr('content');
 
     $.ajax({
         url: 'http://localhost:8080/tai/map/accidents',
@@ -40,7 +40,33 @@ function init() {
         }
     });
 
-*/
+    $.ajax({
+        url: 'http://localhost:8080/tai/vote/upvote',
+        type: 'POST',
+        contentType: "text/plain",
+        data: "5752159aa063331cd1fe1111",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function() { alert('POST completed'); },
+        error: function(xhr, status, error) {
+            alert("An AJAX error occured: " + status + "\nError: " + error);
+        }
+    });
+    */
+
+    var redIcon = new (L.Icon.Default.extend({
+        options: {
+            iconUrl: 'http://localhost:8080/tai/scripts/images/marker-icon-2x-red.png'
+        }
+    }))();
+
+    var greenIcon = new (L.Icon.Default.extend({
+        options: {
+            iconUrl: 'http://localhost:8080/tai/scripts/images/marker-icon-2x-green.png'
+        }
+    }))();
+
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -48,26 +74,16 @@ function init() {
         success: function (data) {
             var clusterGroup = new L.markerClusterGroup({disableClusteringAtZoom: 12});
             clusterGroup._getExpandedVisibleBounds = function() {return map.getBounds();};
-            $.each(data, function (k, v) {
-                clusterGroup.addLayer(L.marker(v.point.coordinates)
+            $.each(data.bing, function (k, v) {
+                clusterGroup.addLayer(L.marker(v.point.coordinates, {icon: redIcon})
+                    .bindPopup(L.popup().setContent(v.description)));
+            });
+            $.each(data.tai, function (k, v) {
+                clusterGroup.addLayer(L.marker(v.point.coordinates, {icon: greenIcon})
                     .bindPopup(L.popup().setContent(v.description)));
             });
             map.addLayer(clusterGroup);
-
-            /*var pruneCluster = new PruneClusterForLeaflet();
-            $.each(data, function (k, v) {
-                var marker = new PruneCluster.Marker(v.point.coordinates[0], v.point.coordinates[1]);
-                marker.data.icon = createIcon;
-                marker.data.popup = v.description;
-                pruneCluster.RegisterMarker(marker);
-            });
-            map.addLayer(pruneCluster);*/
         }
     });
-
-
-
-    function createIcon(data, category) {
-        return new L.Icon.Default();
-    }
+    //https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png
 }

@@ -1,5 +1,6 @@
 package pl.edu.agh.tai.dao;
 
+import com.mongodb.DBObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
@@ -13,7 +14,10 @@ import pl.edu.agh.tai.model.User;
 import pl.edu.agh.tai.model.enums.SignInProvider;
 import pl.edu.agh.tai.utils.MongoDBUpdater;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 
 @Repository
 public class IncidentDAOImpl implements IncidentDAO {
@@ -33,8 +37,13 @@ public class IncidentDAOImpl implements IncidentDAO {
     }
 
     @Override
-    public String getAllIncidentsFromArea(GeoJsonPoint point, double radious) {
-        return mongoClient.getAccidentsInRadius(point, radious);
+    public TreeMap<Long, DBObject> getAllBingIncidentsAsMap() {
+        return mongoClient.getAllBingIncidentsAsMap();
+    }
+
+    @Override
+    public String getAllIncidentsFromArea(GeoJsonPoint point, double radius) {
+        return mongoClient.getAccidentsInRadius(point, radius);
     }
 
     @Override
@@ -47,12 +56,27 @@ public class IncidentDAOImpl implements IncidentDAO {
         mongoClient.save(incidentItem);
     }
 
+    @Override
+    public void remove(String id) {
+        mongoClient.remove(id);
+    }
 
-    @Scheduled(fixedRate = 300000)
+    @Override
+    public void vote(String id, int points) {
+        mongoClient.vote(id, points);
+    }
+
+    @Override
+    public void createIndexes() {
+        mongoClient.createIndexes();
+    }
+
+
+    @Scheduled(fixedRate = 30000000)
     public void updateDatabaseWithDataFromExternalService() {
-        System.out.println("Update database");
-        //mongoDBUpdater.update();
-        System.out.println("End update database");
+        System.out.println(new Timestamp(new Date().getTime())  + ": Update database");
+        mongoDBUpdater.update();
+        System.out.println(new Timestamp(new Date().getTime()) + ": End update database");
         //createTestUser();
     }
 

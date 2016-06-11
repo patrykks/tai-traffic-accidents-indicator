@@ -11,7 +11,6 @@ import pl.edu.agh.tai.model.enums.Type;
 import pl.edu.agh.tai.model.IncidentItem;
 import pl.edu.agh.tai.dao.IncidentDAO;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,40 +19,15 @@ import java.util.stream.Collectors;
 
 @RestController
 public class RESTServiceController {
+
     @Autowired
     private IncidentDAO dao;
-
     @Autowired
     private ObjectMapper objectMapper;
 
-    private static int attempt = 0;
-
     @RequestMapping(value = "/map/accidents", method = RequestMethod.GET)
     public String getTrafficIncidents() {
-        if (attempt > 1)
-            return dao.getAllIncidents();
-        if (attempt++ > 0)
-            return dao.getAllIncidentsFromArea(new GeoJsonPoint(50.607392, 15.83), 10);
-        return "";
-    }
-
-    @RequestMapping(value = "/map/accidents", method = RequestMethod.POST)
-    public ResponseEntity<IncidentItem> update(@RequestBody String jsonIncidentItem) {
-        IncidentItem incidentItem = null;
-        try {
-            incidentItem = objectMapper.readValue(jsonIncidentItem, IncidentItem.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (incidentItem != null) {
-            dao.saveOrUpdate(incidentItem);
-        }
-        return new ResponseEntity<IncidentItem>(incidentItem, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/map/accidents/geo", method = RequestMethod.GET)
-    public String getTrafficIncidentsFromArea() {
-        return dao.getAllIncidentsFromArea(new GeoJsonPoint(50.607392, 15.83), 10);
+        return dao.getAllIncidents();
     }
 
     @RequestMapping(value = "/map/accidents/geowithtype", method = RequestMethod.GET)
@@ -77,5 +51,37 @@ public class RESTServiceController {
         if (types != null && !types.isEmpty())
             typeList = types.stream().map(Type::fromValue).collect(Collectors.toList());
         return dao.getIncidentsFromAreaWithType(new GeoJsonPoint(lat, lon), radius, typeList, sevList);
+    }
+
+    @RequestMapping(value = "/map/accidents/add", method = RequestMethod.POST)
+    public ResponseEntity<IncidentItem> update(@RequestBody String jsonIncidentItem) {
+        IncidentItem incidentItem = null;
+        try {
+            incidentItem = objectMapper.readValue(jsonIncidentItem, IncidentItem.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (incidentItem != null) {
+            dao.saveOrUpdate(incidentItem);
+        }
+        return new ResponseEntity<>(incidentItem, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/map/accidents/remove", method = RequestMethod.POST)
+    public ResponseEntity remove(@RequestBody String id) {
+        dao.remove(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/vote/upvote", method = RequestMethod.POST)
+    public ResponseEntity upvote(@RequestBody String id) {
+        dao.vote(id, 1);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/vote/downvote", method = RequestMethod.POST)
+    public ResponseEntity downvote(@RequestBody String id) {
+        dao.vote(id, -1);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
