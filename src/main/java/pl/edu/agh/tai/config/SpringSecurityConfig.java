@@ -20,7 +20,7 @@ import pl.edu.agh.tai.social.SimpleSocialUserDetailsService;
 @Configuration
 @EnableWebSecurity
 @PropertySource("classpath:application.properties")
-@Import({CustomUserDetailsService.class, MongoDbConfig.class,SocialConfig.class})
+@Import({CustomUserDetailsService.class})
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -37,6 +37,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/map/accidents/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/register").permitAll()
                 .and()
                 .logout()
                 .logoutSuccessUrl("/index.html")
@@ -49,7 +50,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login.html")
-                //Configures url based authorization
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/403.html")

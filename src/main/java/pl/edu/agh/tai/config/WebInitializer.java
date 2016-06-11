@@ -16,7 +16,7 @@ public class WebInitializer extends
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{SpringWebConfig.class};
+        return new Class[]{};
     }
 
     @Override
@@ -26,7 +26,7 @@ public class WebInitializer extends
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{SpringSecurityConfig.class};
+        return new Class[]{SpringSecurityConfig.class, SpringSocialConfig.class, SpringWebConfig.class, MongoDbConfig.class};
     }
 
     @Override

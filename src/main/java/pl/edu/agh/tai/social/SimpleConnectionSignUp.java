@@ -19,9 +19,11 @@ public final class SimpleConnectionSignUp implements ConnectionSignUp {
 
         SignInProvider signInProvider = SignInProvider.valueOf(connection.createData().getProviderId().toUpperCase());
 
+
         User user = new User(
                 connection.createData().getProviderUserId(),
                 profile.getUsername(),
+                profile.getEmail(),
                 "SocialPassword",
                 profile.getFirstName(),
                 profile.getLastName()

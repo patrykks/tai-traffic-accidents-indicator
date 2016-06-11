@@ -34,6 +34,10 @@ public class User implements UserDetails,SocialUserDetails {
     private SignInProvider signInProvider;
 
     public User() {
+        accountNonExpired = true;
+        accountNonLocked = true;
+        credentialsNonExpired = true;
+        enabled = true;
     }
 
     public int getRole() {
@@ -44,10 +48,11 @@ public class User implements UserDetails,SocialUserDetails {
         this.role = role;
     }
 
-    public User(String id, String username, String password, String firstName,
+    public User(String id, String username,String email, String password, String firstName,
                 String lastName,SignInProvider signInProvider) {
         this.id = id;
         this.username = username;
+        this.email = email;
         this.password = passwordEncoder.encode(password);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -56,6 +61,14 @@ public class User implements UserDetails,SocialUserDetails {
         accountNonLocked = true;
         credentialsNonExpired = true;
         enabled = true;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -103,7 +116,7 @@ public class User implements UserDetails,SocialUserDetails {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = passwordEncoder.encode(password);;
     }
 
     public String getFirstName() {

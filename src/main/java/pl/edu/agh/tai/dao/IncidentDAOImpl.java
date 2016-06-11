@@ -57,10 +57,10 @@ public class IncidentDAOImpl implements IncidentDAO {
     }
 
     public void createTestUser() {
-        User user = new User("patrykks","patrykks","demo","patryk","skalski", SignInProvider.TAI);
+        User user = new User("patrykks","patrykks","patryks@gmaikl.com", "demo","patryk","skalski", SignInProvider.TAI);
         user.setRole(1);
         template.save(user);
-        User user1 = new User("wojti","wojti","demo","wojti","mojti", SignInProvider.TAI);
+        User user1 = new User("wojti","wojti","wojteks@gmaikl.com","demo","wojti","mojti", SignInProvider.TAI);
         user1.setRole(2);
         template.save(user1);
         System.out.println("User creating end");

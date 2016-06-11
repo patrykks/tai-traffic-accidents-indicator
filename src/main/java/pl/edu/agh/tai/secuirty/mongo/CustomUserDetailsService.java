@@ -18,11 +18,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
         User user = getUserDetail(username);
+        if (user == null)
+            throw  new UsernameNotFoundException("Username not found " + username);
         System.out.println(username);
         return user;
     }
-
-
 
     public User getUserDetail(String username) {
         MongoOperations mongoOperation = (MongoOperations) mongoTemplate;

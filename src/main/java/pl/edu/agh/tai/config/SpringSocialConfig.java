@@ -19,7 +19,7 @@ import pl.edu.agh.tai.social.mongo.MongoUsersConnectionRepository;
 import pl.edu.agh.tai.social.SimpleConnectionSignUp;
 
 @EnableSocial
-public class SocialConfig implements SocialConfigurer{
+public class SpringSocialConfig implements SocialConfigurer{
     @Autowired
     MongoOperations mongo;
 

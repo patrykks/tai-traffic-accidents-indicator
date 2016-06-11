@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.tai.model.IncidentItem;
+import pl.edu.agh.tai.model.User;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
 
