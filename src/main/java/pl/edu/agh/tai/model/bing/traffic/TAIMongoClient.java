@@ -57,7 +57,7 @@ public class TAIMongoClient {
     }
 
     public TreeMap<Long, DBObject> getAllBingIncidentsAsMap() {
-        DBCollection incidents = mongoOperations.getCollection(env.getProperty("bingIncidentsCollection"));
+        DBCollection incidents = mongoOperations.getCollection(env.getProperty("mongodb.bingIncidentsCollection"));
         DBCursor result = incidents.find();
 
         TreeMap<Long, DBObject> map = new TreeMap<>();
@@ -69,7 +69,7 @@ public class TAIMongoClient {
     }
 
     public void vote(String id, int points) {
-        DBCollection incidents = mongoOperations.getCollection(env.getProperty("ourIncidentsCollection"));
+        DBCollection incidents = mongoOperations.getCollection(env.getProperty("mongodb.ourIncidentsCollection"));
         DBCursor result = incidents.find(new BasicDBObject("_id", new ObjectId(id)));
         if(result.hasNext()) {
             DBObject incident = result.next();
@@ -80,7 +80,7 @@ public class TAIMongoClient {
     }
 
     public void remove(String id) {
-        DBCollection incidents = mongoOperations.getCollection(env.getProperty("ourIncidentsCollection"));
+        DBCollection incidents = mongoOperations.getCollection(env.getProperty("mongodb.ourIncidentsCollection"));
         incidents.remove(new BasicDBObject("_id", new ObjectId(id)));
     }
 
@@ -89,16 +89,16 @@ public class TAIMongoClient {
     }
 
     public void createIndexes() {
-        DBCollection bingIncidentsCollection = mongoOperations.getCollection(env.getProperty("bingIncidentsCollection"));
+        DBCollection bingIncidentsCollection = mongoOperations.getCollection(env.getProperty("mongodb.bingIncidentsCollection"));
         bingIncidentsCollection.createIndex(new BasicDBObject("point", "2dsphere"));
-        DBCollection ourIncidentsCollection = mongoOperations.getCollection(env.getProperty("ourIncidentsCollection"));
+        DBCollection ourIncidentsCollection = mongoOperations.getCollection(env.getProperty("mongodb.ourIncidentsCollection"));
         ourIncidentsCollection.createIndex(new BasicDBObject("point", "2dsphere"));
     }
 
     private String fetchFromBothCollections(DBObject query, DBObject projection) {
-        DBCollection bingIncidents = mongoOperations.getCollection(env.getProperty("bingIncidentsCollection"));
+        DBCollection bingIncidents = mongoOperations.getCollection(env.getProperty("mongodb.bingIncidentsCollection"));
         String bingResult = cursorToString(bingIncidents.find(query, projection));
-        DBCollection taiIncidents = mongoOperations.getCollection(env.getProperty("ourIncidentsCollection"));
+        DBCollection taiIncidents = mongoOperations.getCollection(env.getProperty("mongodb.ourIncidentsCollection"));
         String taiResult = cursorToString(taiIncidents.find(query, projection));
 
         return "{ " + "\"bing\" : " + bingResult + " , " + "\"tai\" : " + taiResult + " }";

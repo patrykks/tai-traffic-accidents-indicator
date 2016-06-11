@@ -57,7 +57,7 @@ public class IncidentManager {
     }
 
     public void removeIncidents(List<Long> ids) {
-        DBCollection bingIncidentsCollection = mongoOperations.getCollection(env.getProperty("bingIncidentsCollection"));
+        DBCollection bingIncidentsCollection = mongoOperations.getCollection(env.getProperty("mongodb.bingIncidentsCollection"));
         bingIncidentsCollection.remove(new BasicDBObject("_id", new BasicDBObject("$in", ids)));
 
         List<IncidentItem> incidents = mongoOperations.findAll(IncidentItem.class);
@@ -67,7 +67,7 @@ public class IncidentManager {
     }
 
     public void updateIncidents(Collection<DBObject> incidents) {
-        DBCollection bingIncidentsCollection = mongoOperations.getCollection(env.getProperty("bingIncidentsCollection"));
+        DBCollection bingIncidentsCollection = mongoOperations.getCollection(env.getProperty("mongodb.bingIncidentsCollection"));
         incidents.forEach(bingIncidentsCollection::save);
     }
 }
