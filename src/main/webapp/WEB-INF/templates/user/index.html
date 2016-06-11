@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Traffic-Incident-Indicator</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="css/leaflet.css" th:href="@{/css/leaflet.css}" />
+    <link rel="stylesheet" href="css/leaflet.markercluster.css" th:href="@{/css/leaflet.markercluster.css}" />
+    <link rel="stylesheet" href="css/leaflet.prunecluster.css" th:href="@{/css/leaflet.prunecluster.css}" />
+
+    <script th:src="@{/scripts/bootstrap.min.js}"></script>
+    <script th:src="@{/scripts/leaflet.js}"></script>
+    <script th:src="@{/scripts/leaflet.markercluster.js}"></script>
+    <script th:src="@{/scripts/leaflet.prunecluster.js}"></script>
+    <script th:src="@{/scripts/jquery.1.10.2.min.js}"></script>
+    <script th:src="@{/scripts/mapInit.js}"></script>
+
+
+</head>
+<body onLoad="init()">
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Traffic Congestion Indicator</a>
+        </div>
+    </div>
+</nav>
+
+<p><a href="../index.html" th:href="@{/index.html}">Back to home page</a></p>
+<div th:replace="index::logout"></div>
+
+<!--div class ="container"-->
+
+<div class="container">
+    <div id="main">
+        <div class="content" id="content">
+
+            <h1>Traffic Congestion Indicator</h1>
+            <h2>Information about traffic incidents on map</h2>
+
+            <div id="map" style="height: 800px; position: relative; padding: 0px; margin: 0 auto 0 auto;"></div>
+
+        </div> <!-- content -->
+    </div>
+</div>
+
+<div class="container">
+    <footer>
+        <p>
+            AGH.TAI.2016
+        </p>
+    </footer>
+</div>
+
+</body>
+</html>

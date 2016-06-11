@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>TAI- Traffic Accidents Indicator</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="css/loginstyle.css" th:href="@{/css/loginstyle.css}"/>
+    </head>
+    <body>
+        <div th:fragment="logout" class="logout"
+             sec:authorize="isAuthenticated()">
+            Logged user: <span sec:authentication="name">Bob</span> |
+            Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span> |
+            <!--/* When using CSRF this needs to be a POST */-->
+            <form th:action="@{/logout}" method="post" style="display:inline"><input type="submit" value="Logout"/></form>
+        </div>
+        <div class="wrapper">
+            <div class="container">
+                <h1>Zones page</h1>
+                <form action="admin/index.html">
+                    <input type="submit" value="Admin zone">
+                </form>
+                <form action="user/index.html">
+                    <input type="submit" value="User zone">
+                </form>
+            </div>
+
+            <ul class="bg-bubbles">
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </body>
+</html>

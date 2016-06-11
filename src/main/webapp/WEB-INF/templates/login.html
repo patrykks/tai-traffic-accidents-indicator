@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>TAI Login Page</title>
+        <link rel="stylesheet" href="css/loginstyle.css" th:href="@{/css/loginstyle.css}" />
+        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
+    </head>
+`
+    <body>
+    <div class="wrapper">
+        <div class="container">
+            <h1>Login page</h1>
+            <form th:action="@{/login.html}" method="post">
+                <label for="username">Username</label>:
+                <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
+                <label for="password">Password</label>:
+                <input type="password" id="password" name="password" /> <br />
+                <input type="submit" value="Log in" />
+            </form>
+            <form action="./index.html">
+                <input type="submit" value="Back to home page">
+            </form>
+        </div>
+
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+    </body>
+</html>
