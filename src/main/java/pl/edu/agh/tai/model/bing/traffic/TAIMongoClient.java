@@ -6,13 +6,14 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.tai.model.IncidentItem;
+import pl.edu.agh.tai.model.User;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
-import pl.edu.agh.tai.utils.TAIMongoDBProperties;
 
 import java.util.List;
 import java.util.TreeMap;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 public class TAIMongoClient {
 
     @Autowired
-    private TAIMongoDBProperties mongoDBProperties;
+    private Environment env;
 
     @Autowired
     private MongoOperations mongoOperations;
@@ -56,7 +57,7 @@ public class TAIMongoClient {
     }
 
     public TreeMap<Long, DBObject> getAllBingIncidentsAsMap() {
-        DBCollection incidents = mongoOperations.getCollection(mongoDBProperties.getProperty("bingIncidentsCollection"));
+        DBCollection incidents = mongoOperations.getCollection(env.getProperty("bingIncidentsCollection"));
         DBCursor result = incidents.find();
 
         TreeMap<Long, DBObject> map = new TreeMap<>();
@@ -68,7 +69,7 @@ public class TAIMongoClient {
     }
 
     public void vote(String id, int points) {
-        DBCollection incidents = mongoOperations.getCollection(mongoDBProperties.getProperty("ourIncidentsCollection"));
+        DBCollection incidents = mongoOperations.getCollection(env.getProperty("ourIncidentsCollection"));
         DBCursor result = incidents.find(new BasicDBObject("_id", new ObjectId(id)));
         if(result.hasNext()) {
             DBObject incident = result.next();
@@ -79,25 +80,25 @@ public class TAIMongoClient {
     }
 
     public void remove(String id) {
-        DBCollection incidents = mongoOperations.getCollection(mongoDBProperties.getProperty("ourIncidentsCollection"));
+        DBCollection incidents = mongoOperations.getCollection(env.getProperty("ourIncidentsCollection"));
         incidents.remove(new BasicDBObject("_id", new ObjectId(id)));
     }
 
-    public void saveOrUpdate(IncidentItem incidentItem) {
-        mongoOperations.save(incidentItem);
+    public void save(IncidentItem incidentItem) {
+        mongoOperations.save (incidentItem);
     }
 
     public void createIndexes() {
-        DBCollection bingIncidentsCollection = mongoOperations.getCollection(mongoDBProperties.getProperty("bingIncidentsCollection"));
+        DBCollection bingIncidentsCollection = mongoOperations.getCollection(env.getProperty("bingIncidentsCollection"));
         bingIncidentsCollection.createIndex(new BasicDBObject("point", "2dsphere"));
-        DBCollection ourIncidentsCollection = mongoOperations.getCollection(mongoDBProperties.getProperty("ourIncidentsCollection"));
+        DBCollection ourIncidentsCollection = mongoOperations.getCollection(env.getProperty("ourIncidentsCollection"));
         ourIncidentsCollection.createIndex(new BasicDBObject("point", "2dsphere"));
     }
 
     private String fetchFromBothCollections(DBObject query, DBObject projection) {
-        DBCollection bingIncidents = mongoOperations.getCollection(mongoDBProperties.getProperty("bingIncidentsCollection"));
+        DBCollection bingIncidents = mongoOperations.getCollection(env.getProperty("bingIncidentsCollection"));
         String bingResult = cursorToString(bingIncidents.find(query, projection));
-        DBCollection taiIncidents = mongoOperations.getCollection(mongoDBProperties.getProperty("ourIncidentsCollection"));
+        DBCollection taiIncidents = mongoOperations.getCollection(env.getProperty("ourIncidentsCollection"));
         String taiResult = cursorToString(taiIncidents.find(query, projection));
 
         return "{ " + "\"bing\" : " + bingResult + " , " + "\"tai\" : " + taiResult + " }";

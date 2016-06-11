@@ -1,5 +1,6 @@
 package pl.edu.agh.tai.config;
 
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
@@ -9,12 +10,13 @@ import javax.servlet.Filter;
 import pl.edu.agh.tai.config.SpringSecurityConfig;
 import pl.edu.agh.tai.config.SpringWebConfig;
 
+
 public class WebInitializer extends
         AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{SpringWebConfig.class};
+        return new Class[]{};
     }
 
     @Override
@@ -24,7 +26,7 @@ public class WebInitializer extends
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{SpringSecurityConfig.class};
+        return new Class[]{SpringSecurityConfig.class, SpringSocialConfig.class, SpringWebConfig.class, MongoDbConfig.class};
     }
 
     @Override

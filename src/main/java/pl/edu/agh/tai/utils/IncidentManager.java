@@ -8,6 +8,7 @@ import com.squareup.okhttp.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 import pl.edu.agh.tai.model.IncidentItem;
@@ -24,7 +25,8 @@ public class IncidentManager {
     private static Logger logger = LoggerFactory.getLogger(IncidentManager.class);
 
     @Autowired
-    private TAIMongoDBProperties mongoDBProperties;
+    private Environment env;
+
     @Autowired
     private MongoOperations mongoOperations;
 
@@ -55,7 +57,7 @@ public class IncidentManager {
     }
 
     public void removeIncidents(List<Long> ids) {
-        DBCollection bingIncidentsCollection = mongoOperations.getCollection(mongoDBProperties.getProperty("bingIncidentsCollection"));
+        DBCollection bingIncidentsCollection = mongoOperations.getCollection(env.getProperty("bingIncidentsCollection"));
         bingIncidentsCollection.remove(new BasicDBObject("_id", new BasicDBObject("$in", ids)));
 
         List<IncidentItem> incidents = mongoOperations.findAll(IncidentItem.class);
@@ -65,7 +67,7 @@ public class IncidentManager {
     }
 
     public void updateIncidents(Collection<DBObject> incidents) {
-        DBCollection bingIncidentsCollection = mongoOperations.getCollection(mongoDBProperties.getProperty("bingIncidentsCollection"));
+        DBCollection bingIncidentsCollection = mongoOperations.getCollection(env.getProperty("bingIncidentsCollection"));
         incidents.forEach(bingIncidentsCollection::save);
     }
 }
