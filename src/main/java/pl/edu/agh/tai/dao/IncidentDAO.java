@@ -25,5 +25,7 @@ public interface IncidentDAO {
     void vote(String id, int points);
 
     void createIndexes();
+
+    String getUsers();
 }
 

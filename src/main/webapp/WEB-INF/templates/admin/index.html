@@ -1,15 +1,50 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Thymeleafexamples - Spring security</title>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
-    </head>
-    <body>
-        <div th:replace="index::logout"></div>
-        <h1>TAI- Traffic Accidents Indicator</h1>
-        <p>This is the <b>administration</b> zone</p>
-        <p>Only authenticated users with role <b>ADMIN</b> are allowed to see this page.</p>
-        <p><a href="../index.html" th:href="@{/index.html}">Back to home page</a></p>
-    </body>
+<head>
+    <title>Thymeleafexamples - Spring security</title>
+    <meta charset="utf-8" />
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" href="css/admin.css" th:href="@{/css/admin.css}" />
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/admin.js" th:src="@{/scripts/admin.js}"></script>
+
+
+</head>
+<body onload="init()">
+<div th:replace="index::logout"></div>
+<h1>TAI- Traffic Accidents Indicator</h1>
+<p>This is the <b>administration</b> zone</p>
+<p>Only authenticated users with role <b>ADMIN</b> are allowed to see this page.</p>
+
+<div class="tabs">
+    <ul class="tab-links">
+        <li class="active"><a href="#tab1">Users</a></li>
+        <li><a href="#tab2">Events</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="tab1" class="tab active">
+            <div>
+                Ban: <input type="text" id="ban_field"/>
+                <input type="submit" value="Cause his into fire" onclick="ban();"/>
+                <br><br>
+            </div>
+            <div>
+                <table id="usersview" width="100%"></table>
+            </div>
+        </div>
+
+        <div id="tab2" class="tab">
+            EUREKA
+        </div>
+    </div>
+</div>
+
+
+<p><a href="../index.html" th:href="@{/index.html}">Back to home page</a></p>
+</body>
 </html>

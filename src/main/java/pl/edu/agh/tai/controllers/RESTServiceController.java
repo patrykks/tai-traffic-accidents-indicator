@@ -84,4 +84,17 @@ public class RESTServiceController {
         dao.vote(id, -1);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/user/show", method = RequestMethod.GET)
+    public String getUsers() {
+        return dao.getUsers();
+    }
+
+    @RequestMapping(value = "/user/ban", method = RequestMethod.POST)
+    public ResponseEntity banUser(@RequestBody String jsonIncidentItem) {
+        System.out.println("==================");
+        System.out.println(jsonIncidentItem);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

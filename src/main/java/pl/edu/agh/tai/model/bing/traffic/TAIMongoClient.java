@@ -116,4 +116,10 @@ public class TAIMongoClient {
             incidentArray.append("]");
         return incidentArray.toString();
     }
+
+    public String getUsers() {
+        DBCollection users = mongoOperations.getCollection(env.getProperty("mongodb.users"));
+        DBCursor cursor = users.find();
+        return cursorToString(cursor);
+    }
 }
