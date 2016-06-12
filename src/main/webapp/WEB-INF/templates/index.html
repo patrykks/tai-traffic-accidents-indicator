@@ -6,12 +6,14 @@
         <link rel="stylesheet" href="css/loginstyle.css" th:href="@{/css/loginstyle.css}"/>
     </head>
     <body>
-        <div th:fragment="logout" class="logout"
+        <div style="text-align:right" th:fragment="logout" class="logout"
              sec:authorize="isAuthenticated()">
-            Logged user: <span sec:authentication="name">Bob</span> |
-            Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span> |
+            <span style="color:grey"> Logged user: <span sec:authentication="name"></span>
+            <p></p>
+            <span style="color:grey"> Roles: <span sec:authentication="principal.authorities"></span>
+            <p></p>
             <!--/* When using CSRF this needs to be a POST */-->
-            <form th:action="@{/logout}" method="post" style="display:inline"><input type="submit" value="Logout"/></form>
+            <form th:action="@{/logout}"  method="post" style="color:black;display:inline"><input type="submit" value="Logout"/></form>
         </div>
         <div class="wrapper">
             <div class="container">
