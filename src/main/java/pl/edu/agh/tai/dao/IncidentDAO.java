@@ -3,6 +3,7 @@ package pl.edu.agh.tai.dao;
 import com.mongodb.DBObject;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import pl.edu.agh.tai.model.IncidentItem;
+import pl.edu.agh.tai.model.User;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
 
@@ -25,5 +26,11 @@ public interface IncidentDAO {
     void vote(String id, int points);
 
     void createIndexes();
+
+    String getUsers();
+
+    void saveUser(User user);
+
+    User getUserWithId(String id);
 }
 

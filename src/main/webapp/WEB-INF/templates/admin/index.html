@@ -1,15 +1,70 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Thymeleafexamples - Spring security</title>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
-    </head>
-    <body>
+<head>
+    <title>Thymeleafexamples - Spring security</title>
+    <meta charset="utf-8" />
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" href="css/admin.css" th:href="@{/css/admin.css}" />
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="css/leaflet.css" th:href="@{/css/leaflet.css}" />
+    <link rel="stylesheet" href="css/leaflet.markercluster.css" th:href="@{/css/leaflet.markercluster.css}" />
+    <link rel="stylesheet" href="css/leaflet.prunecluster.css" th:href="@{/css/leaflet.prunecluster.css}" />
+
+    <script th:src="@{/scripts/bootstrap.min.js}"></script>
+    <script th:src="@{/scripts/leaflet.js}"></script>
+    <script th:src="@{/scripts/leaflet.markercluster.js}"></script>
+    <script th:src="@{/scripts/leaflet.prunecluster.js}"></script>
+    <script th:src="@{/scripts/jquery.1.10.2.min.js}"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/admin.js" th:src="@{/scripts/admin.js}"></script>
+
+
+</head>
+<body onload="init()">
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">TAI- Traffic Accidents Indicator</a>
+        </div>
         <div th:replace="index::logout"></div>
-        <h1>TAI- Traffic Accidents Indicator</h1>
-        <p>This is the <b>administration</b> zone</p>
-        <p>Only authenticated users with role <b>ADMIN</b> are allowed to see this page.</p>
-        <p><a href="../index.html" th:href="@{/index.html}">Back to home page</a></p>
-    </body>
+    </div>
+</nav>
+
+<div class="tabs">
+    <ul class="tab-links">
+        <li class="active"><a href="#tab1">Events</a></li>
+        <li><a href="#tab2">Users</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="tab1" class="tab active">
+
+            <div class="container">
+                <div id="main">
+                    <div class="content" id="content">
+
+                        <div id="map" style="height: 800px; position: relative; padding: 0px; margin: 0 auto 0 auto;"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab2" class="tab">
+            <div>
+                <table id="usersview" width="100%"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<p><a href="../index.html" th:href="@{/index.html}">Back to home page</a></p>
+</body>
 </html>

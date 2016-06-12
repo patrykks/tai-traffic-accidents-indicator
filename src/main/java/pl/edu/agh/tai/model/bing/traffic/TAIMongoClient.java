@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import org.springframework.data.mongodb.core.query.BasicQuery;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.tai.model.IncidentItem;
 import pl.edu.agh.tai.model.User;
@@ -115,5 +118,21 @@ public class TAIMongoClient {
         else
             incidentArray.append("]");
         return incidentArray.toString();
+    }
+
+    public User getUserWithId(String id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id));
+        return  mongoOperations.findOne(query, User.class);
+    }
+
+    public void saveUser(User user) {
+        mongoOperations.save(user);
+    }
+
+    public String getUsers() {
+        DBCollection users = mongoOperations.getCollection(env.getProperty("mongodb.users"));
+        DBCursor cursor = users.find();
+        return cursorToString(cursor);
     }
 }
