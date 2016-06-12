@@ -25,7 +25,7 @@ function init() {
             var row = table.insertRow(0);
             row.style.backgroundColor = "#52CAA4";
             var headers = ["ID", "Class", "Username", "First Name", "Last Name", "Role",
-                "Non Expired", "Non Locked", "Credentials Non Expired", "Enabled", "Provider"];
+                "Non Expired", "Non Locked", "Credentials Non Expired", "Enabled", "Provider","Lock / Unlock"];
 
             for (var i=0; i < headers.length; i++){
                 var cell = row.insertCell(i);
@@ -63,16 +63,33 @@ function init() {
 
                 cell = newRow.insertCell(cellCounter++)
                 cell.innerHTML = v.accountNonLocked;
-
+                
                 cell = newRow.insertCell(cellCounter++)
                 cell.innerHTML = v.credentialsNonExpired;
 
                 cell = newRow.insertCell(cellCounter++)
                 cell.innerHTML = v.enabled;
 
-                cell = newRow.insertCell(cellCounter)
+                cell = newRow.insertCell(cellCounter++)
                 cell.innerHTML = v.signInProvider;
 
+                btnText = v.accountNonLocked ==true ? 'Lock' : 'Unlock';
+                cell = newRow.insertCell(cellCounter);
+                cell.innerHTML = '<button id=' + rowCounter  + ' class="btn btn-primary btn-xs my-xs-btn" type="button">'
+                    + '<span class="glyphicon glyphicon-pencil"></span> ' + btnText + ' </button>';
+
+                var actualRawCounter = new String(rowCounter);
+                var actualId = v._id;
+                var actualRow = row;
+                document.getElementById(actualRawCounter).addEventListener("click", function (e) {
+                    text = v.accountNonLocked == true ? 'Unlock' : 'Lock';
+                    document.getElementById(actualRawCounter).innerHTML = '<button id=' + rowCounter  + ' class="btn btn-primary btn-xs my-xs-btn" type="button">'
+                        + '<span class="glyphicon glyphicon-pencil"></span> ' + text + ' </button>';
+                    ban(actualId, !v.accountNonLocked == true);
+                    table.rows[actualRawCounter - 1].cells[7].innerHTML = !v.accountNonLocked;
+                    v.accountNonLocked = !v.accountNonLocked;
+                });
+                
 
             })
 
@@ -80,8 +97,7 @@ function init() {
     });
 }
 
-function ban() {
-    var nick = document.getElementById('ban_field').value;
+function ban(id, value) {
     var found = false;
 
     var token = $('#_csrf').attr('content');
@@ -93,13 +109,16 @@ function ban() {
         url: "http://localhost:8080/tai/user/show",
         success: function (data) {
             $.each(data, function (k, v) {
-                if(v.username == nick){
+                if(v._id == id){
 
                     $.ajax({
                         url: 'http://localhost:8080/tai/user/ban',
-                        type: 'POST',
+                        type: 'PUT',
                         contentType: "application/json",
-                        data: v,
+                        data: JSON.stringify({
+                            "user" : v,
+                            "value" : value
+                        }),
                         beforeSend: function(xhr) {
                             xhr.setRequestHeader(header, token);
                         },
@@ -116,7 +135,7 @@ function ban() {
             })
 
             if(!found){
-                alert("No such user!")
+                alert("No such user!" + id)
             }
 
         },
