@@ -9,6 +9,17 @@
     <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
     <link rel="stylesheet" href="css/admin.css" th:href="@{/css/admin.css}" />
 
+    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="css/leaflet.css" th:href="@{/css/leaflet.css}" />
+    <link rel="stylesheet" href="css/leaflet.markercluster.css" th:href="@{/css/leaflet.markercluster.css}" />
+    <link rel="stylesheet" href="css/leaflet.prunecluster.css" th:href="@{/css/leaflet.prunecluster.css}" />
+
+    <script th:src="@{/scripts/bootstrap.min.js}"></script>
+    <script th:src="@{/scripts/leaflet.js}"></script>
+    <script th:src="@{/scripts/leaflet.markercluster.js}"></script>
+    <script th:src="@{/scripts/leaflet.prunecluster.js}"></script>
+    <script th:src="@{/scripts/jquery.1.10.2.min.js}"></script>
+
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script type="text/javascript" src="scripts/admin.js" th:src="@{/scripts/admin.js}"></script>
 
@@ -22,12 +33,25 @@
 
 <div class="tabs">
     <ul class="tab-links">
-        <li class="active"><a href="#tab1">Users</a></li>
-        <li><a href="#tab2">Events</a></li>
+        <li class="active"><a href="#tab1">Events</a></li>
+        <li><a href="#tab2">Users</a></li>
     </ul>
 
     <div class="tab-content">
         <div id="tab1" class="tab active">
+
+            <div class="container">
+                <div id="main">
+                    <div class="content" id="content">
+
+                        <div id="map" style="height: 800px; position: relative; padding: 0px; margin: 0 auto 0 auto;"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab2" class="tab">
             <div>
                 Ban: <input type="text" id="ban_field"/>
                 <input type="submit" value="Cause his into fire" onclick="ban();"/>
@@ -36,10 +60,6 @@
             <div>
                 <table id="usersview" width="100%"></table>
             </div>
-        </div>
-
-        <div id="tab2" class="tab">
-            EUREKA
         </div>
     </div>
 </div>
