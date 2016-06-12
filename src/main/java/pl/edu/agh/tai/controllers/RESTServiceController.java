@@ -1,11 +1,15 @@
 package pl.edu.agh.tai.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.agh.tai.model.User;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
 import pl.edu.agh.tai.model.IncidentItem;
@@ -90,10 +94,14 @@ public class RESTServiceController {
         return dao.getUsers();
     }
 
-    @RequestMapping(value = "/user/ban", method = RequestMethod.POST)
-    public ResponseEntity banUser(@RequestBody String jsonIncidentItem) {
-        System.out.println("==================");
-        System.out.println(jsonIncidentItem);
+    @RequestMapping(value = "/user/ban", method = RequestMethod.PUT)
+    public ResponseEntity banUser(@RequestBody  String content) {
+        JSONObject userBanOperationData = new JSONObject(content);
+        Boolean value = (Boolean) userBanOperationData.getBoolean("value");
+        String userId = userBanOperationData.getJSONObject("user").getString("_id");
+        User user = dao.getUserWithId(userId);
+        user.setAccountNonLocked(value);
+        dao.saveUser(user);
         return new ResponseEntity(HttpStatus.OK);
     }
 

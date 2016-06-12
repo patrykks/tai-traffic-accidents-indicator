@@ -76,6 +76,14 @@ public class IncidentDAOImpl implements IncidentDAO {
         return mongoClient.getUsers();
     }
 
+    @Override
+    public User getUserWithId(String id) { return mongoClient.getUserWithId(id); }
+
+
+    @Override
+    public void saveUser(User user) {
+        mongoClient.saveUser(user);
+    }
 
     @Scheduled(fixedRate = 30000000)
     public void updateDatabaseWithDataFromExternalService() {

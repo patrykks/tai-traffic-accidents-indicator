@@ -85,6 +85,10 @@ public class User implements UserDetails,SocialUserDetails {
         return accountNonLocked;
     }
 
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
+    }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return credentialsNonExpired;
