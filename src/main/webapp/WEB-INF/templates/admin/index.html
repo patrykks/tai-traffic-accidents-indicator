@@ -6,6 +6,7 @@
     <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
     <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 
+    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
     <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
     <link rel="stylesheet" href="css/admin.css" th:href="@{/css/admin.css}" />
 
@@ -26,10 +27,14 @@
 
 </head>
 <body onload="init()">
-<div th:replace="index::logout"></div>
-<h1>TAI- Traffic Accidents Indicator</h1>
-<p>This is the <b>administration</b> zone</p>
-<p>Only authenticated users with role <b>ADMIN</b> are allowed to see this page.</p>
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">TAI- Traffic Accidents Indicator</a>
+        </div>
+        <div th:replace="index::logout"></div>
+    </div>
+</nav>
 
 <div class="tabs">
     <ul class="tab-links">
