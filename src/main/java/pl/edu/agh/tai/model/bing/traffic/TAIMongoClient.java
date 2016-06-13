@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.tai.model.IncidentItem;
 import pl.edu.agh.tai.model.User;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
@@ -43,7 +42,7 @@ public class TAIMongoClient {
     }
 
     public String getAccidentsInRadiusWithSeverityAndType(GeoJsonPoint point, double radius, List<Severity> sevs, List<Type> types) {
-        List invertedCoordinates = point.getCoordinates().subList(0, point.getCoordinates().size());
+        List<Double> invertedCoordinates = point.getCoordinates().subList(0, point.getCoordinates().size());
         DBObject geometry = new BasicDBObject("type", "Point").append("coordinates", invertedCoordinates);
         DBObject nearSphere = new BasicDBObject("$geometry", geometry).append("$maxDistance", radius);
         BasicDBObject query = new BasicDBObject("point", new BasicDBObject("$nearSphere", nearSphere));
@@ -70,16 +69,21 @@ public class TAIMongoClient {
         }
         return map;
     }
-
-    public void vote(String id, int points) {
+    @SuppressWarnings("unchecked")
+    public Boolean vote(String id, int points, String user) {
         DBCollection incidents = mongoOperations.getCollection(env.getProperty("mongodb.ourIncidentsCollection"));
         DBCursor result = incidents.find(new BasicDBObject("_id", new ObjectId(id)));
         if(result.hasNext()) {
             DBObject incident = result.next();
-            System.out.println(incident);
-            incident.put("votes", (Integer) incident.get("votes") + points);
-            incidents.save(incident);
+
+            List<String> voters = (List<String>) incident.get("voters");
+            if(!voters.contains(user)) {
+                incident.put("votes", (Integer) incident.get("votes") + points);
+                voters.add(user);
+                return incidents.save(incident).wasAcknowledged();
+            }
         }
+        return false;
     }
 
     public void remove(String id) {
@@ -87,8 +91,10 @@ public class TAIMongoClient {
         incidents.remove(new BasicDBObject("_id", new ObjectId(id)));
     }
 
-    public void save(IncidentItem incidentItem) {
-        mongoOperations.save (incidentItem);
+    public String save(BasicDBObject incident) {
+        DBCollection ourIncidentsCollection = mongoOperations.getCollection(env.getProperty("mongodb.ourIncidentsCollection"));
+        ourIncidentsCollection.save(incident);
+        return incident.getObjectId("_id").toString();
     }
 
     public void createIndexes() {

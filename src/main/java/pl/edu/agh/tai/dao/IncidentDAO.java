@@ -1,8 +1,8 @@
 package pl.edu.agh.tai.dao;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
-import pl.edu.agh.tai.model.IncidentItem;
 import pl.edu.agh.tai.model.User;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
@@ -19,11 +19,11 @@ public interface IncidentDAO {
 
     String getIncidentsFromAreaWithType(GeoJsonPoint point, double radius, List<Type> types, List<Severity> severities);
 
-    void saveOrUpdate(IncidentItem incidentItem);
+    String saveOrUpdate(BasicDBObject incident);
 
     void remove(String id);
 
-    void vote(String id, int points);
+    Boolean vote(String id, int points, String user);
 
     void createIndexes();
 
