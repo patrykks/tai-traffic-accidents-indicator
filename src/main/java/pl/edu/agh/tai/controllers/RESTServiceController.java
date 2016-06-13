@@ -1,21 +1,19 @@
 package pl.edu.agh.tai.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.DBObject;
+import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.tai.model.User;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
-import pl.edu.agh.tai.model.IncidentItem;
 import pl.edu.agh.tai.dao.IncidentDAO;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,8 +24,6 @@ public class RESTServiceController {
 
     @Autowired
     private IncidentDAO dao;
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @RequestMapping(value = "/map/accidents", method = RequestMethod.GET)
     public String getTrafficIncidents() {
@@ -58,17 +54,15 @@ public class RESTServiceController {
     }
 
     @RequestMapping(value = "/map/accidents/add", method = RequestMethod.POST)
-    public ResponseEntity<IncidentItem> update(@RequestBody String jsonIncidentItem) {
-        IncidentItem incidentItem = null;
-        try {
-            incidentItem = objectMapper.readValue(jsonIncidentItem, IncidentItem.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public String update(@RequestBody String jsonIncidentItem) {
+        BasicDBObject object = (BasicDBObject) JSON.parse(jsonIncidentItem);
+        if (object != null) {
+            if (object.get("_id") == null) {
+                object.put("creator", getCurrentUser());
+            }
+            return dao.saveOrUpdate(object);
         }
-        if (incidentItem != null) {
-            dao.saveOrUpdate(incidentItem);
-        }
-        return new ResponseEntity<>(incidentItem, HttpStatus.OK);
+        return null;
     }
 
     @RequestMapping(value = "/map/accidents/remove", method = RequestMethod.POST)
@@ -77,16 +71,24 @@ public class RESTServiceController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/vote/upvote", method = RequestMethod.POST)
-    public ResponseEntity upvote(@RequestBody String id) {
-        dao.vote(id, 1);
-        return new ResponseEntity(HttpStatus.OK);
+    @RequestMapping(value = "/vote")
+    public Boolean vote(@RequestParam(value = "incident") String incident,
+                        @RequestParam(value = "votes") Integer votes) {
+        return dao.vote(incident, votes, getCurrentUser());
     }
 
-    @RequestMapping(value = "/vote/downvote", method = RequestMethod.POST)
-    public ResponseEntity downvote(@RequestBody String id) {
-        dao.vote(id, -1);
-        return new ResponseEntity(HttpStatus.OK);
+    @RequestMapping(value = "/enums/severity")
+    public List<String> getSeverity() {
+        return Arrays.asList(Severity.values()).stream().map(Enum::name).collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/enums/type")
+    public List<String> getType() {
+        return Arrays.asList(Type.values()).stream().map(Enum::name).collect(Collectors.toList());
+    }
+
+    private String getCurrentUser() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     @RequestMapping(value = "/user/show", method = RequestMethod.GET)
@@ -97,7 +99,7 @@ public class RESTServiceController {
     @RequestMapping(value = "/user/ban", method = RequestMethod.PUT)
     public ResponseEntity banUser(@RequestBody  String content) {
         JSONObject userBanOperationData = new JSONObject(content);
-        Boolean value = (Boolean) userBanOperationData.getBoolean("value");
+        Boolean value = userBanOperationData.getBoolean("value");
         String userId = userBanOperationData.getJSONObject("user").getString("_id");
         User user = dao.getUserWithId(userId);
         user.setAccountNonLocked(value);

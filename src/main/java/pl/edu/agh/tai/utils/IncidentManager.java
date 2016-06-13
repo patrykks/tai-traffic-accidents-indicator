@@ -2,6 +2,7 @@ package pl.edu.agh.tai.utils;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -11,13 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
-import pl.edu.agh.tai.model.IncidentItem;
 import pl.edu.agh.tai.model.bing.traffic.TAIRequest;
 import pl.edu.agh.tai.model.bing.traffic.TAIResponse;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -60,10 +59,8 @@ public class IncidentManager {
         DBCollection bingIncidentsCollection = mongoOperations.getCollection(env.getProperty("mongodb.bingIncidentsCollection"));
         bingIncidentsCollection.remove(new BasicDBObject("_id", new BasicDBObject("$in", ids)));
 
-        List<IncidentItem> incidents = mongoOperations.findAll(IncidentItem.class);
-        incidents.stream().filter(incidentItem -> new Date().after(incidentItem.getEnd()))
-                .forEach(incidentItem -> mongoOperations.remove(incidentItem));
-        incidents.stream().map(incidentItem -> incidentItem.getEnd().toString() + " " + new Date().toString()).forEach(logger::debug);
+        DBCollection ourIncidentsCollection = mongoOperations.getCollection(env.getProperty("mongodb.ourIncidentsCollection"));
+        ourIncidentsCollection.remove(new BasicDBObject("end", new BasicDBObject("$lt", System.currentTimeMillis() + 86400)));
     }
 
     public void updateIncidents(Collection<DBObject> incidents) {

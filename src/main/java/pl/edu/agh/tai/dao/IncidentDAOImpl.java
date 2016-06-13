@@ -1,5 +1,6 @@
 package pl.edu.agh.tai.dao;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import pl.edu.agh.tai.model.bing.traffic.TAIMongoClient;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
-import pl.edu.agh.tai.model.IncidentItem;
 import pl.edu.agh.tai.model.User;
 import pl.edu.agh.tai.model.enums.SignInProvider;
 import pl.edu.agh.tai.utils.MongoDBUpdater;
@@ -52,8 +52,8 @@ public class IncidentDAOImpl implements IncidentDAO {
     }
 
     @Override
-    public void saveOrUpdate(IncidentItem incidentItem) {
-        mongoClient.save(incidentItem);
+    public String saveOrUpdate(BasicDBObject incident) {
+        return mongoClient.save(incident);
     }
 
     @Override
@@ -62,8 +62,8 @@ public class IncidentDAOImpl implements IncidentDAO {
     }
 
     @Override
-    public void vote(String id, int points) {
-        mongoClient.vote(id, points);
+    public Boolean vote(String id, int points, String user) {
+        return mongoClient.vote(id, points, user);
     }
 
     @Override
