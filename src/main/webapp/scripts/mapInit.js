@@ -8,7 +8,7 @@ function init_map(admin) {
 
     var severity;
     $.ajax({
-        url: "http://localhost:8080/tai/enums/severity",
+        url: uiProperties.hostname + "/enums/severity",
         type: "GET",
         success: function (response) {
             severity=response;
@@ -17,7 +17,7 @@ function init_map(admin) {
 
     var type;
     $.ajax({
-        url: "http://localhost:8080/tai/enums/type",
+        url: uiProperties.hostname + "/enums/type",
         type: "GET",
         success: function (response) {
             type=response;
@@ -30,7 +30,7 @@ function init_map(admin) {
     map.on('contextmenu', function(e) {addMarker(clusterGroup, [e.latlng.lat, e.latlng.lng], null, severity, type, admin);});
     var redIcon = new (L.Icon.Default.extend({
         options: {
-            iconUrl: 'http://localhost:8080/tai/scripts/images/marker-icon-2x-red.png'
+            iconUrl: uiProperties.hostname + '/scripts/images/marker-icon-2x-red.png'
         }
     }))();
     //https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png
@@ -38,7 +38,7 @@ function init_map(admin) {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "http://localhost:8080/tai/map/accidents",
+        url: uiProperties.hostname + "/map/accidents",
         success: function (data) {
             $.each(data.bing, function (k, v) {
                 clusterGroup.addLayer(L.marker(v.point.coordinates, {icon: redIcon})

@@ -18,10 +18,11 @@ function init() {
 }
 
 function init_table() {
+    var userShowPath = uiProperties.hostname + "/admin/user/show";
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "http://localhost:8080/tai/user/show",
+        url: userShowPath,
         success: function (data) {
             var table = document.getElementById("usersview");
 
@@ -117,16 +118,19 @@ function ban(id, value) {
     var token = $('#_csrf').attr('content');
     var header = $('#_csrf_header').attr('content');
 
+    var userShowPath = uiProperties.hostname + "/admin/user/show";
+    var userBanPath = uiProperties.hostname + "/admin/user/ban";
+
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "http://localhost:8080/tai/user/show",
+        url: userShowPath,
         success: function (data) {
             $.each(data, function (k, v) {
                 if(v._id == id){
 
                     $.ajax({
-                        url: 'http://localhost:8080/tai/user/ban',
+                        url: userBanPath,
                         type: 'PUT',
                         contentType: "application/json",
                         data: JSON.stringify({

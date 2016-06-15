@@ -91,12 +91,12 @@ public class RESTServiceController {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    @RequestMapping(value = "/user/show", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/user/show", method = RequestMethod.GET)
     public String getUsers() {
         return dao.getUsers();
     }
 
-    @RequestMapping(value = "/user/ban", method = RequestMethod.PUT)
+    @RequestMapping(value = "/admin/user/ban", method = RequestMethod.PUT)
     public ResponseEntity banUser(@RequestBody  String content) {
         JSONObject userBanOperationData = new JSONObject(content);
         Boolean value = userBanOperationData.getBoolean("value");
