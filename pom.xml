@@ -194,12 +194,6 @@
             <version>1.1.2.RELEASE</version>
         </dependency>
 
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
-        </dependency>
-
 
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -213,6 +207,28 @@
     <build>
 
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>copy</goal></goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.github.jsimone</groupId>
+                                    <artifactId>webapp-runner</artifactId>
+                                    <version>8.0.30.2</version>
+                                    <destFileName>webapp-runner.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -230,7 +246,7 @@
                 <configuration>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
                     <webApp>
-                        <contextPath>/tai</contextPath>
+                        <contextPath>/</contextPath>
                     </webApp>
                 </configuration>
             </plugin>
@@ -253,7 +269,7 @@
                     <downloadSources>true</downloadSources>
                     <downloadJavadocs>true</downloadJavadocs>
                     <wtpversion>2.0</wtpversion>
-                    <wtpContextName>tai</wtpContextName>
+                    <wtpContextName></wtpContextName>
                 </configuration>
             </plugin>
 
@@ -276,7 +292,7 @@
                     <port>9990</port>
                     <username>admin</username>
                     <password>admin</password>
-                    <name>tai-traffic-incidents-indicator.war</name>
+                    <name>f-traffic-incidents-indicator.war</name>
                 </configuration>
             </plugin>
 

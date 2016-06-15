@@ -74,7 +74,7 @@ function addMarker(cluster, coordinates, incident, sevs, types, admin) {
         newV.type = parseInt($('.myForm :input[name=type]').val());
         newV.roadClosed = $('.closed').is(':checked');
         $.ajax({
-            url: 'http://localhost:8080/tai/map/accidents/add',
+            url: uiProperties.hostname + '/map/accidents/add',
             type: 'POST',
             contentType: "application/json",
             data: JSON.stringify(newV),
@@ -99,7 +99,7 @@ function addMarker(cluster, coordinates, incident, sevs, types, admin) {
         if(brandNew)
             return;
         $.ajax({
-            url: 'http://localhost:8080/tai/vote',
+            url: uiProperties.hostname + '/vote',
             type: 'GET',
             contentType: "application/json",
             data: $.param({"incident": v._id.$oid, "votes": votes}, true),
@@ -124,7 +124,7 @@ function addMarker(cluster, coordinates, incident, sevs, types, admin) {
             cluster.removeLayer(marker);
 
         $.ajax({
-            url: 'http://localhost:8080/tai/map/accidents/remove',
+            url: uiProperties.hostname + '/map/accidents/remove',
             type: 'POST',
             contentType: "text/plain",
             data: v._id.$oid,
@@ -133,10 +133,10 @@ function addMarker(cluster, coordinates, incident, sevs, types, admin) {
             error: function(xhr, status, error) { alert("An AJAX error occured: " + status + "\nError: " + error); }
         });
     }
-
+    var markerUrl = uiProperties.hostname + "/scripts/images/marker-icon-2x-green.png";
     var greenIcon = new (L.Icon.Default.extend({
         options: {
-            iconUrl: 'http://localhost:8080/tai/scripts/images/marker-icon-2x-green.png'
+            iconUrl: markerUrl
         }
     }))();
     var marker = L.marker(coordinates, {icon: greenIcon});

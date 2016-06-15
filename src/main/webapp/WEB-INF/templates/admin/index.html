@@ -4,18 +4,18 @@
     <meta charset="utf-8" />
     <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
     <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>Thymeleafexamples - Spring security</title>
+    <title>Traffic-Incident-Indicatorh</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
     <link rel="stylesheet" href="css/leaflet.css" th:href="@{/css/leaflet.css}" />
     <link rel="stylesheet" href="css/leaflet.markercluster.css" th:href="@{/css/leaflet.markercluster.css}" />
     <link rel="stylesheet" href="css/admin.css" th:href="@{/css/admin.css}" />
 
+    <script th:src="@{/scripts/config.js}"></script>
     <script th:src="@{/scripts/jquery.1.10.2.min.js}"></script>
     <script th:src="@{/scripts/bootstrap.min.js}"></script>
     <script th:src="@{/scripts/leaflet.js}"></script>
     <script th:src="@{/scripts/leaflet.markercluster.js}"></script>
-    <script th:src="@{/scripts/leaflet.prunecluster.js}"></script>
     <script th:src="@{/scripts/addMarker.js}"></script>
     <script th:src="@{/scripts/mapInit.js}"></script>
     <script th:src="@{/scripts/admin.js}"></script>
