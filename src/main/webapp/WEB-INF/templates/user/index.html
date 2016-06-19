@@ -1,61 +1,61 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <meta charset="UTF-8">
-    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>Traffic-Incident-Indicator</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+        <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+        <title>Traffic-Incident-Indicator</title>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
-    <link rel="stylesheet" href="css/leaflet.css" th:href="@{/css/leaflet.css}" />
-    <link rel="stylesheet" href="css/leaflet.markercluster.css" th:href="@{/css/leaflet.markercluster.css}" />
+        <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+        <link rel="stylesheet" href="css/leaflet.css" th:href="@{/css/leaflet.css}" />
+        <link rel="stylesheet" href="css/leaflet.markercluster.css" th:href="@{/css/leaflet.markercluster.css}" />
+        <link rel="stylesheet" href="css/jquery-ui.min.css" th:href="@{/css/jquery-ui.min.css}" />
+        <link rel="stylesheet" href="css/jquery.multiselect.css" th:href="@{/css/jquery.multiselect.css}" />
 
-    <script th:src="@{/scripts/config.js}"></script>
-    <script th:src="@{/scripts/jquery.1.10.2.min.js}"></script>
-    <script th:src="@{/scripts/bootstrap.min.js}"></script>
-    <script th:src="@{/scripts/leaflet.js}"></script>
-    <script th:src="@{/scripts/leaflet.markercluster.js}"></script>
-    <script th:src="@{/scripts/addMarker.js}"></script>
-    <script th:src="@{/scripts/mapInit.js}"></script>
+        <script th:src="@{/scripts/config.js}"></script>
+        <script th:src="@{/scripts/jquery.1.10.2.min.js}"></script>
+        <script th:src="@{/scripts/jquery-ui.min.js}"></script>
+        <script th:src="@{/scripts/jquery.multiselect.js}"></script>
+        <script th:src="@{/scripts/bootstrap.min.js}"></script>
+        <script th:src="@{/scripts/leaflet.js}"></script>
+        <script th:src="@{/scripts/leaflet.markercluster.js}"></script>
+        <script th:src="@{/scripts/addMarker.js}"></script>
+        <script th:src="@{/scripts/mapInit.js}"></script>
 
 
 
-</head>
-<body onLoad="init_map(false)">
-<nav class="navbar navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Traffic Congestion Indicator</a>
+    </head>
+    <body onLoad="init_map(false)">
+        <nav class="navbar navbar-inverse" style="background: #0a3c10;">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Traffic Congestion Indicator</a>
+                </div>
+                <div th:replace="index::logout"></div>
+            </div>
+        </nav>
+
+        <p><a href="../index.html" th:href="@{/index.html}">Back to home page</a></p>
+
+        <div class="container">
+            <div id="main">
+                <div class="content" id="content">
+                    <div id="filters" style="padding-bottom: 20px;">
+                        <select id="sev_filter" style="display:inline-block;" multiple></select>
+                        <select id="type_filter" style="display:inline-block;" multiple></select>
+                        <button class="filterButton" type="button" style="display:inline-block;">Filter</button>
+                    </div>
+                    <div id="map" style="height: 800px; position: relative; padding: 0px; margin: 0 auto 0 auto;"></div>
+                </div> <!-- content -->
+            </div>
         </div>
-        <div th:replace="index::logout"></div>
-    </div>
-</nav>
 
-
-<p><a href="../index.html" th:href="@{/index.html}">Back to home page</a></p>
-
-<!--div class ="container"-->
-
-<div class="container">
-    <div id="main">
-        <div class="content" id="content">
-
-            <h1>Traffic Congestion Indicator</h1>
-            <h2>Information about traffic incidents on map</h2>
-
-            <div id="map" style="height: 800px; position: relative; padding: 0px; margin: 0 auto 0 auto;"></div>
-
-        </div> <!-- content -->
-    </div>
-</div>
-
-<div class="container">
-    <footer>
-        <p>
-            AGH.TAI.2016
-        </p>
-    </footer>
-</div>
-
-</body>
+        <div class="container">
+            <footer>
+                <p>
+                    AGH.TAI.2016
+                </p>
+            </footer>
+        </div>
+    </body>
 </html>

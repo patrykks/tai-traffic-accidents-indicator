@@ -8,8 +8,6 @@ import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import pl.edu.agh.tai.model.bing.traffic.TAIMongoClient;
-import pl.edu.agh.tai.model.enums.Severity;
-import pl.edu.agh.tai.model.enums.Type;
 import pl.edu.agh.tai.model.User;
 import pl.edu.agh.tai.model.enums.SignInProvider;
 import pl.edu.agh.tai.utils.MongoDBUpdater;
@@ -47,7 +45,7 @@ public class IncidentDAOImpl implements IncidentDAO {
     }
 
     @Override
-    public String getIncidentsFromAreaWithType(GeoJsonPoint point, double radius, List<Type> types, List<Severity> severities) {
+    public String getIncidentsFromAreaWithType(GeoJsonPoint point, double radius, List<Integer> types, List<Integer> severities) {
         return mongoClient.getAccidentsInRadiusWithSeverityAndType(point, radius, severities, types);
     }
 

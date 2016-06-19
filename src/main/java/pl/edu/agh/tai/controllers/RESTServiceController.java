@@ -25,7 +25,7 @@ public class RESTServiceController {
     @Autowired
     private IncidentDAO dao;
 
-    @RequestMapping(value = "/map/accidents", method = RequestMethod.GET)
+    @RequestMapping(value = "/map/accidents/all", method = RequestMethod.GET)
     public String getTrafficIncidents() {
         return dao.getAllIncidents();
     }
@@ -36,7 +36,7 @@ public class RESTServiceController {
         return dao.getIncidentsFromAreaWithType(new GeoJsonPoint(50.607392, 15.83), 10, Arrays.asList(), Arrays.asList());
     }
 
-    @RequestMapping(value = "/map/accidents/geowithparams", method = RequestMethod.GET)
+    @RequestMapping(value = "/map/accidents", method = RequestMethod.GET)
     public String getTrafficIncidentsFromAreaWithParams(
             @RequestParam(value = "lat") Double lat,
             @RequestParam(value = "lon") Double lon,
@@ -44,13 +44,7 @@ public class RESTServiceController {
             @RequestParam(value = "severity", required = false) List<Integer> sevs,
             @RequestParam(value = "type", required = false) List<Integer> types
     ) {
-        List<Severity> sevList = new ArrayList<>();
-        if (sevs != null && !sevs.isEmpty())
-            sevList = sevs.stream().map(Severity::fromValue).collect(Collectors.toList());
-        List<Type> typeList = new ArrayList<>();
-        if (types != null && !types.isEmpty())
-            typeList = types.stream().map(Type::fromValue).collect(Collectors.toList());
-        return dao.getIncidentsFromAreaWithType(new GeoJsonPoint(lat, lon), radius, typeList, sevList);
+        return dao.getIncidentsFromAreaWithType(new GeoJsonPoint(lat, lon), radius, types, sevs);
     }
 
     @RequestMapping(value = "/map/accidents/add", method = RequestMethod.POST)
