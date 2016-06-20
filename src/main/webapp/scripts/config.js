@@ -1,3 +1,3 @@
 uiProperties = {
-    hostname:'http://localhost:8080/tai'
+    hostname:'http://localhost:8080'
 }
