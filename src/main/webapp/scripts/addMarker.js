@@ -195,6 +195,8 @@ function timestampToDate(stamp) {
         timestamp = parseInt(stamp);
         if (isNaN(timestamp))
             timestamp = parseInt(stamp.substring(6, 19));
+    } else {
+        timestamp = stamp
     }
     var date = new Date(timestamp);
     var month = date.getMonth() + 1;
