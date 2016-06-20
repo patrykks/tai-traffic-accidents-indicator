@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Document(collection = "users")
-public class User implements UserDetails,SocialUserDetails {
+public class User implements UserDetails, SocialUserDetails {
 
     private static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -48,8 +48,8 @@ public class User implements UserDetails,SocialUserDetails {
         this.role = role;
     }
 
-    public User(String id, String username,String email, String password, String firstName,
-                String lastName,SignInProvider signInProvider) {
+    public User(String id, String username, String email, String password, String firstName,
+                String lastName, SignInProvider signInProvider) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -120,7 +120,8 @@ public class User implements UserDetails,SocialUserDetails {
     }
 
     public void setPassword(String password) {
-        this.password = passwordEncoder.encode(password);;
+        this.password = passwordEncoder.encode(password);
+        ;
     }
 
     public String getFirstName() {

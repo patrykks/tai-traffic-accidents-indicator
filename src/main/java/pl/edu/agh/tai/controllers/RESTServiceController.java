@@ -90,7 +90,7 @@ public class RESTServiceController {
     }
 
     @RequestMapping(value = "/admin/user/ban", method = RequestMethod.PUT)
-    public ResponseEntity banUser(@RequestBody  String content) {
+    public ResponseEntity banUser(@RequestBody String content) {
         JSONObject userBanOperationData = new JSONObject(content);
         Boolean value = userBanOperationData.getBoolean("value");
         String userId = userBanOperationData.getJSONObject("user").getString("_id");
@@ -99,5 +99,4 @@ public class RESTServiceController {
         dao.saveUser(user);
         return new ResponseEntity(HttpStatus.OK);
     }
-
 }

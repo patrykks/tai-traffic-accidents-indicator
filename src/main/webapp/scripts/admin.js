@@ -1,5 +1,5 @@
-jQuery(document).ready(function() {
-    jQuery('.tabs .tab-links a').on('click', function(e)  {
+jQuery(document).ready(function () {
+    jQuery('.tabs .tab-links a').on('click', function (e) {
         var currentAttrValue = jQuery(this).attr('href');
 
         // Show/Hide Tabs
@@ -26,7 +26,7 @@ function init_table() {
         success: function (data) {
             var table = document.getElementById("usersview");
 
-            while(table.rows.length > 0){
+            while (table.rows.length > 0) {
                 table.deleteRow(0);
             }
 
@@ -34,7 +34,7 @@ function init_table() {
             row.style.backgroundColor = "#52CAA4";
             var headers = ["Username", "First Name", "Last Name", "Role",
                 "Non Expired", "Non Locked", "Credentials Non Expired", "Enabled", "Provider", "Lock / Unlock"];
-            for (var i=0; i < headers.length; i++){
+            for (var i = 0; i < headers.length; i++) {
                 var cell = row.insertCell(i);
                 cell.innerHTML = headers[i];
             }
@@ -74,9 +74,9 @@ function init_table() {
                 cell = newRow.insertCell(cellCounter++)
                 cell.innerHTML = v.signInProvider;
 
-                btnText = v.accountNonLocked ==true ? 'Lock' : 'Unlock';
+                btnText = v.accountNonLocked == true ? 'Lock' : 'Unlock';
                 cell = newRow.insertCell(cellCounter);
-                cell.innerHTML = '<button id=' + rowCounter  + ' class="btn btn-primary btn-xs my-xs-btn" type="button">'
+                cell.innerHTML = '<button id=' + rowCounter + ' class="btn btn-primary btn-xs my-xs-btn" type="button">'
                     + '<span class="glyphicon glyphicon-pencil"></span> ' + btnText + ' </button>';
 
                 var actualRawCounter = new String(rowCounter);
@@ -84,7 +84,7 @@ function init_table() {
                 var actualRow = row;
                 document.getElementById(actualRawCounter).addEventListener("click", function (e) {
                     text = v.accountNonLocked == true ? 'Unlock' : 'Lock';
-                    document.getElementById(actualRawCounter).innerHTML = '<button id=' + rowCounter  + ' class="btn btn-primary btn-xs my-xs-btn" type="button">'
+                    document.getElementById(actualRawCounter).innerHTML = '<button id=' + rowCounter + ' class="btn btn-primary btn-xs my-xs-btn" type="button">'
                         + '<span class="glyphicon glyphicon-pencil"></span> ' + text + ' </button>';
                     ban(actualId, !v.accountNonLocked == true);
                     table.rows[actualRawCounter - 1].cells[5].innerHTML = !v.accountNonLocked;
@@ -102,14 +102,11 @@ jQuery(document).ready(function () {
     $("div.tabs").click(function (event) {
         var core = String(event.target);
         var path = core.charAt(core.length - 1);
-        if(path == "2"){
+        if (path == "2") {
             init_table();
         }
     })
 });
-
-
-
 
 
 function ban(id, value) {
@@ -127,23 +124,23 @@ function ban(id, value) {
         url: userShowPath,
         success: function (data) {
             $.each(data, function (k, v) {
-                if(v._id == id){
+                if (v._id == id) {
 
                     $.ajax({
                         url: userBanPath,
                         type: 'PUT',
                         contentType: "application/json",
                         data: JSON.stringify({
-                            "user" : v,
-                            "value" : value
+                            "user": v,
+                            "value": value
                         }),
-                        beforeSend: function(xhr) {
+                        beforeSend: function (xhr) {
                             xhr.setRequestHeader(header, token);
                         },
-                        success: function() {
+                        success: function () {
 
                         },
-                        error: function(xhr, status, error) {
+                        error: function (xhr, status, error) {
                             alert("An AJAX error occured: " + status + "\nError: " + error);
                         }
                     });
@@ -152,7 +149,7 @@ function ban(id, value) {
                 }
             })
 
-            if(!found){
+            if (!found) {
                 alert("No such user!" + id)
             }
 

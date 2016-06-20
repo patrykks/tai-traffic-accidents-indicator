@@ -1,41 +1,42 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head>
-        <title>TAI- Traffic Accidents Indicator</title>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="css/loginstyle.css" th:href="@{/css/loginstyle.css}"/>
-        <script th:src="@{/scripts/config.js}"></script>
-    </head>
-    <body>
-        <div style="text-align:right" th:fragment="logout" class="logout" sec:authorize="isAuthenticated()">
-            <span style="color:grey"> Logged user: <span sec:authentication="name"></span></span>
-            <br/>
-            <span style="color:grey"> Roles: <span sec:authentication="principal.authorities"></span></span>
-            <br/>
-            <!--/* When using CSRF this needs to be a POST */-->
-            <form th:action="@{/logout}"  method="post" style="color:black;display:inline">
-                <input type="submit" value="Logout"/>
-            </form>
-        </div>
-        <div class="wrapper">
-            <div class="container">
-                <h1>Zones page</h1>
-                <form action="admin/index.html">
-                    <input type="submit" value="Admin SignIn">
-                </form>
-                <form action="user/index.html">
-                    <input type="submit" value="User SignIn">
-                </form>
-                <form action="./register.html">
-                    <input type="submit" value="Register">
-                </form>
-            </div>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>TAI- Traffic Accidents Indicator</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="css/loginstyle.css" th:href="@{/css/loginstyle.css}"/>
+    <script th:src="@{/scripts/config.js}"></script>
+</head>
+<body>
+<div style="text-align:right" th:fragment="logout" class="logout" sec:authorize="isAuthenticated()">
+    <span style="color:grey"> Logged user: <span sec:authentication="name"></span></span>
+    <br/>
+    <span style="color:grey"> Roles: <span sec:authentication="principal.authorities"></span></span>
+    <br/>
+    <!--/* When using CSRF this needs to be a POST */-->
+    <form th:action="@{/logout}" method="post" style="color:black;display:inline">
+        <input type="submit" value="Logout"/>
+    </form>
+</div>
+<div class="wrapper">
+    <div class="container">
+        <h1>Zones page</h1>
+        <form action="admin/index.html">
+            <input type="submit" value="Admin SignIn">
+        </form>
+        <form action="user/index.html">
+            <input type="submit" value="User SignIn">
+        </form>
+        <form action="./register.html">
+            <input type="submit" value="Register">
+        </form>
+    </div>
 
-            <ul class="bg-bubbles">
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </div>
-    </body>
+    <ul class="bg-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+</body>
 </html>

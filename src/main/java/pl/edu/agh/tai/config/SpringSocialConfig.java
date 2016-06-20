@@ -14,12 +14,12 @@ import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
+import pl.edu.agh.tai.social.SimpleConnectionSignUp;
 import pl.edu.agh.tai.social.mongo.MongoConnectionTransformers;
 import pl.edu.agh.tai.social.mongo.MongoUsersConnectionRepository;
-import pl.edu.agh.tai.social.SimpleConnectionSignUp;
 
 @EnableSocial
-public class SpringSocialConfig implements SocialConfigurer{
+public class SpringSocialConfig implements SocialConfigurer {
     @Autowired
     MongoOperations mongo;
 

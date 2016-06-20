@@ -26,7 +26,7 @@ public class UserService implements IUserService {
         user.setUsername(accountDto.getUsername());
         user.setId(accountDto.getUsername());
         user.setFirstName(accountDto.getFirstname());
-        user.setLastName(accountDto.getLastname()   );
+        user.setLastName(accountDto.getLastname());
         user.setPassword(accountDto.getPassword());
         user.setEmail(accountDto.getEmail());
         user.setSignInProvider(accountDto.getSignInProvider());

@@ -16,7 +16,7 @@ function addTAIMarker(cluster, coordinates, incident, sevs, types, admin) {
         "voters": []
     }));
 
-    if(incident != null)
+    if (incident != null)
         v = $.extend(true, {}, incident);
     else {
         brandNew = true;
@@ -65,25 +65,29 @@ function addTAIMarker(cluster, coordinates, incident, sevs, types, admin) {
             type: 'POST',
             contentType: "application/json",
             data: JSON.stringify(newV),
-            beforeSend: function(xhr) { xhr.setRequestHeader(header, token); },
-            success: function(id) {
-                alert('POST completed');
-                if(brandNew && id != null) {
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (id) {
+                alert('Operation successfully completed.');
+                if (brandNew && id != null) {
                     newV._id = JSON.parse('{"$oid" : "' + id + '"}');
                     marker.off('popupclose');
                     brandNew = false;
                 }
-                v=$.extend(true, {}, newV);
+                v = $.extend(true, {}, newV);
                 rebind(container);
                 refresh();
             },
-            error: function(xhr, status, error) { alert("An AJAX error occurred: " + status + "\nError: " + error); }
+            error: function (xhr, status, error) {
+                alert("An AJAX error occurred: " + status + "\nError: " + error);
+            }
         });
         return false;
     }
 
     function vote(votes) {
-        if(brandNew)
+        if (brandNew)
             return;
         $.ajax({
             url: uiProperties.hostname + '/user/vote',
@@ -100,14 +104,14 @@ function addTAIMarker(cluster, coordinates, incident, sevs, types, admin) {
     }
 
     function cancel() {
-        if(brandNew)
+        if (brandNew)
             cluster.removeLayer(marker);
         else
             rebind(container);
     }
 
     function remove() {
-        if(brandNew)
+        if (brandNew)
             cluster.removeLayer(marker);
 
         $.ajax({
@@ -115,11 +119,18 @@ function addTAIMarker(cluster, coordinates, incident, sevs, types, admin) {
             type: 'POST',
             contentType: "text/plain",
             data: v._id.$oid,
-            beforeSend: function(xhr) { xhr.setRequestHeader(header, token); },
-            success: function() { cluster.removeLayer(marker); },
-            error: function(xhr, status, error) { alert("An AJAX error occured: " + status + "\nError: " + error); }
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function () {
+                cluster.removeLayer(marker);
+            },
+            error: function (xhr, status, error) {
+                alert("An AJAX error occured: " + status + "\nError: " + error);
+            }
         });
     }
+
     var markerUrl = uiProperties.hostname + "/scripts/images/marker-icon-2x-green.png";
     var greenIcon = new (L.Icon.Default.extend({
         options: {
@@ -132,10 +143,16 @@ function addTAIMarker(cluster, coordinates, incident, sevs, types, admin) {
     var form = $('<form class="myForm" method="POST" style="display:block; width:250px;"/>');
 
     if (admin)
-        container.append($('<button class="editButton" type="button" style="display:inline-block;">').text("Edit").click(function () {rebind(form);}));
-    container.append($('<button class="upButton" type="button" style="display:inline-block; float: right;">').text("+").click(function () {vote(1);}));
+        container.append($('<button class="editButton" type="button" style="display:inline-block;">').text("Edit").click(function () {
+            rebind(form);
+        }));
+    container.append($('<button class="upButton" type="button" style="display:inline-block; float: right;">').text("+").click(function () {
+        vote(1);
+    }));
     container.append($('<span class="likes" style="display:inline-block; float: right; margin-top:5px;">').text(v.votes));
-    container.append($('<button class="downButton" type="button" style="display:inline-block; float: right;">').text("-").click(function () {vote(-1);}));
+    container.append($('<button class="downButton" type="button" style="display:inline-block; float: right;">').text("-").click(function () {
+        vote(-1);
+    }));
     container.append($('<br/><br/>'));
     container.append($('<span class="description_text" style="display:block; width:150px; white-space: pre-wrap; word-wrap:break-word;">').text(formDescription(v, sevs, types, admin, "\n")));
 
@@ -154,14 +171,20 @@ function addTAIMarker(cluster, coordinates, incident, sevs, types, admin) {
     form.append($('<input class="closed" type="checkbox" name="closed">'));
     form.append($('<br/>'));
     form.append($('<input type="submit" name="save" value="Save" style="width:30%; display:inline-block;">'));
-    form.append($('<button class="cancelButton" type="button" style="display:inline-block; ">').text("Cancel").click(function () {cancel();}));
-    form.append($('<button class="delButton" type="button" style="display:inline-block; float: right;">').text("Delete").click(function () {remove();}));
+    form.append($('<button class="cancelButton" type="button" style="display:inline-block; ">').text("Cancel").click(function () {
+        cancel();
+    }));
+    form.append($('<button class="delButton" type="button" style="display:inline-block; float: right;">').text("Delete").click(function () {
+        remove();
+    }));
     form.bind('submit', submit);
 
-    if(brandNew) {
+    if (brandNew) {
         marker.bindPopup(form[0]);
         marker.openPopup();
-        marker.on('popupclose', function() {cluster.removeLayer(marker);});
+        marker.on('popupclose', function () {
+            cluster.removeLayer(marker);
+        });
     } else
         marker.bindPopup(container[0]);
 }
@@ -175,7 +198,7 @@ function timestampToDate(stamp) {
     }
     var date = new Date(timestamp);
     var month = date.getMonth() + 1;
-    month = month < 10 ?  "0" + month : "" + month;
+    month = month < 10 ? "0" + month : "" + month;
     return date.getDate() + "-" + month + "-" + (1900 + date.getYear());
 }
 
@@ -191,14 +214,14 @@ function addBINGMarker(cluster, coordinates, incident, sevs, types, admin) {
 }
 
 function formDescription(incident, sevs, types, admin, nl) {
-    var description = incident.description + nl + "Type: " + types[incident.type-1] + "\tSevetity: " + sevs[incident.severity-1] +
+    var description = incident.description + nl + "Type: " + types[incident.type - 1] + "\tSevetity: " + sevs[incident.severity - 1] +
         nl + "Expected end date: " + timestampToDate(incident.end);
 
-    if(incident.roadClosed)
+    if (incident.roadClosed)
         description = "ROAD CLOSED!" + nl + description;
 
-    if(admin)
-        description = description + nl + "(Created by: " +  incident.creator + ")";
+    if (admin)
+        description = description + nl + "(Created by: " + incident.creator + ")";
 
     return description;
 

@@ -1,13 +1,13 @@
 package pl.edu.agh.tai.social.mongo;
 
-import java.util.Date;
-
 import com.google.common.base.Function;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionData;
 import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.social.connect.ConnectionFactoryLocator;
+
+import java.util.Date;
 
 public class MongoConnectionTransformers {
 

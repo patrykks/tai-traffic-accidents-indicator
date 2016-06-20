@@ -1,58 +1,58 @@
 /*----- Tabs -----*/
 .tabs {
-    width:100%;
-    display:inline-block;
+    width: 100%;
+    display: inline-block;
 }
 
 /*----- Tab Links -----*/
 /* Clearfix */
 .tab-links:after {
-    display:block;
-    clear:both;
-    content:'';
+    display: block;
+    clear: both;
+    content: '';
 }
 
 .tab-links li {
-    margin:0px 5px;
-    float:left;
-    list-style:none;
+    margin: 0px 5px;
+    float: left;
+    list-style: none;
 }
 
 .tab-links a {
-    padding:9px 15px;
-    display:inline-block;
-    border-radius:3px 3px 0px 0px;
-    background:#52CAA4;
-    font-size:16px;
-    font-weight:600;
-    color:#4c4c4c;
-    transition:all linear 0.15s;
+    padding: 9px 15px;
+    display: inline-block;
+    border-radius: 3px 3px 0px 0px;
+    background: #52CAA4;
+    font-size: 16px;
+    font-weight: 600;
+    color: #4c4c4c;
+    transition: all linear 0.15s;
 }
 
 .tab-links a:hover {
     background: #7ee57f;
-    text-decoration:none;
+    text-decoration: none;
 }
 
 li.active a, li.active a:hover {
-    background:#fff;
-    color:#4c4c4c;
+    background: #fff;
+    color: #4c4c4c;
 }
 
 /*----- Content of Tabs -----*/
 .tab-content {
-    padding:15px;
-    border-radius:3px;
-    box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
-    background:#fff;
+    padding: 15px;
+    border-radius: 3px;
+    box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.15);
+    background: #fff;
 }
 
 .tab {
-    display:none;
+    display: none;
 }
 
 .tab.active {
-    display:block;
+    display: block;
 }
 
 table {
@@ -67,9 +67,13 @@ table td, table th {
     padding: 8px;
 }
 
-table tr:nth-child(even){background-color: #f2f2f2}
+table tr:nth-child(even) {
+    background-color: #f2f2f2
+}
 
-table tr:hover {background-color: #ddd;}
+table tr:hover {
+    background-color: #ddd;
+}
 
 table th {
     padding-top: 12px;

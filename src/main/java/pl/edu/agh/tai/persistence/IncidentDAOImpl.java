@@ -3,12 +3,10 @@ package pl.edu.agh.tai.persistence;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import pl.edu.agh.tai.model.User;
-import pl.edu.agh.tai.model.enums.SignInProvider;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -70,7 +68,9 @@ public class IncidentDAOImpl implements IncidentDAO {
     }
 
     @Override
-    public User getUserWithId(String id) { return mongoClient.getUserWithId(id); }
+    public User getUserWithId(String id) {
+        return mongoClient.getUserWithId(id);
+    }
 
 
     @Override
@@ -80,7 +80,7 @@ public class IncidentDAOImpl implements IncidentDAO {
 
     @Scheduled(fixedRate = 300000)
     public void updateDatabaseWithDataFromExternalService() {
-        System.out.println(new Timestamp(new Date().getTime())  + ": Update database");
+        System.out.println(new Timestamp(new Date().getTime()) + ": Update database");
         mongoDBUpdater.update();
         System.out.println(new Timestamp(new Date().getTime()) + ": End update database");
     }

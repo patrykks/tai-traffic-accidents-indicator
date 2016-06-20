@@ -1,15 +1,5 @@
 package pl.edu.agh.tai.social.mongo;
 
-import static com.google.common.collect.Lists.transform;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
-import static org.springframework.data.mongodb.core.query.Update.update;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.ImmutableList;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Sort;
@@ -17,15 +7,19 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.ConnectionKey;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.connect.DuplicateConnectionException;
-import org.springframework.social.connect.NoSuchConnectionException;
-import org.springframework.social.connect.NotConnectedException;
+import org.springframework.social.connect.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import static com.google.common.collect.Lists.transform;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
+import static org.springframework.data.mongodb.core.query.Update.update;
 
 public class MongoConnectionRepository implements ConnectionRepository {
 

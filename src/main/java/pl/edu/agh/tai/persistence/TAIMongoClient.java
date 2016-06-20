@@ -70,11 +70,11 @@ public class TAIMongoClient {
     public Boolean vote(String id, int points, String user) {
         DBCollection incidents = mongoOperations.getCollection(env.getProperty("mongodb.ourIncidentsCollection"));
         DBCursor result = incidents.find(new BasicDBObject("_id", new ObjectId(id)));
-        if(result.hasNext()) {
+        if (result.hasNext()) {
             DBObject incident = result.next();
 
             List<String> voters = (List<String>) incident.get("voters");
-            if(!voters.contains(user)) {
+            if (!voters.contains(user)) {
                 incident.put("votes", (Integer) incident.get("votes") + points);
                 voters.add(user);
                 return incidents.save(incident).wasAcknowledged();
@@ -106,7 +106,7 @@ public class TAIMongoClient {
         while (result.hasNext()) {
             incidentArray.append(result.next().toString()).append(",");
         }
-        if(incidentArray.length() > 1)
+        if (incidentArray.length() > 1)
             incidentArray.setCharAt(incidentArray.length() - 1, ']');
         else
             incidentArray.append("]");
@@ -125,7 +125,7 @@ public class TAIMongoClient {
     public User getUserWithId(String id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(id));
-        return  mongoOperations.findOne(query, User.class);
+        return mongoOperations.findOne(query, User.class);
     }
 
     public void saveUser(User user) {

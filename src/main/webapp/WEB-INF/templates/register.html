@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>TAI Register Page</title>
-    <link rel="stylesheet" href="css/loginstyle.css" th:href="@{/css/loginstyle.css}" />
-    <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" href="css/loginstyle.css" th:href="@{/css/loginstyle.css}"/>
+    <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}"/>
     <script th:src="@{/scripts/config.js}"></script>
 </head>
-`   <body>
+`
+<body>
 <div class="wrapper">
     <div class="container">
         <h1>SignUp page</h1>
@@ -17,55 +18,55 @@
             <table>
                 <tr>
                     <td><label for="username">Username:</label></td>
-                    <td><input type="text" th:field="*{username}" /></td>
-                    <td  th:if="${#fields.hasErrors('username')}" th:errors="*{username}"> </td>
+                    <td><input type="text" th:field="*{username}"/></td>
+                    <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></td>
                 </tr>
 
                 <tr>
                     <td><label for="firstname">First name:</label></td>
-                    <td><input type="text" th:field="*{firstname}" /></td>
-                    <td th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"> </td>
+                    <td><input type="text" th:field="*{firstname}"/></td>
+                    <td th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"></td>
                 </tr>
 
                 <tr>
                     <td><label for="lastname">Last name:</label></td>
-                    <td><input type="text" th:field="*{lastname}" /></td>
-                    <td th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"> </td>
+                    <td><input type="text" th:field="*{lastname}"/></td>
+                    <td th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></td>
                 </tr>
 
                 <tr>
                     <td><label for="password">Password:</label></td>
-                    <td><input type="password" th:field="*{password}" /></td>
-                    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"> </td>
+                    <td><input type="password" th:field="*{password}"/></td>
+                    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
                 </tr>
 
                 <tr>
                     <td><label for="matchingPassword">Matching Password:</label></td>
-                    <td><input type="password" th:field="*{matchingPassword}" /></td>
+                    <td><input type="password" th:field="*{matchingPassword}"/></td>
                     <td th:if="${passwordNotMatchError}" class="error">Passwords not match</td>
                 </tr>
 
 
                 <tr>
                     <td><label for="email">Email:</label></td>
-                    <td><input type="text" th:field="*{email}" /></td>
-                    <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}"> </td>
+                    <td><input type="text" th:field="*{email}"/></td>
+                    <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
                 </tr>
 
                 <tr align="center">
                     <td></td>
-                    <td><input type="submit" value="Sign Up" /></td>
+                    <td><input type="submit" value="Sign Up"/></td>
                 </tr>
 
             </table>
-            </form>
-            <form action="./index.html">
+        </form>
+        <form action="./index.html">
 
-                    <tr align="center">
-                        <td><input type="submit" value="Back to home page" /></td>
-                    </tr>
+            <tr align="center">
+                <td><input type="submit" value="Back to home page"/></td>
+            </tr>
 
-            </form>
+        </form>
     </div>
 
     <ul class="bg-bubbles">

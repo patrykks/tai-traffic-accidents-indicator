@@ -11,15 +11,15 @@ import javax.validation.constraints.NotNull;
 public class UserDTO {
 
     @NotNull
-    @NotEmpty( message = "Must not be empty" )
+    @NotEmpty(message = "Must not be empty")
     private String username;
 
     @NotNull
-    @NotEmpty( message = "Must not be empty" )
+    @NotEmpty(message = "Must not be empty")
     private String password;
 
     @NotNull
-    @NotEmpty( message = "Must not be empty" )
+    @NotEmpty(message = "Must not be empty")
     private String matchingPassword;
 
     private String firstname;
@@ -28,7 +28,7 @@ public class UserDTO {
 
     @ValidEmail
     @NotNull
-    @NotEmpty( message = "Must not be empty" )
+    @NotEmpty(message = "Must not be empty")
     private String email;
 
     private SignInProvider signInProvider;
