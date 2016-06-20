@@ -17,9 +17,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.unbescape.html.HtmlEscape;
 import pl.edu.agh.tai.model.User;
-import pl.edu.agh.tai.register.UserDTO;
-import pl.edu.agh.tai.utils.exceptions.EmailExistsException;
-import pl.edu.agh.tai.register.IUserService;
+import pl.edu.agh.tai.secuirty.register.UserDTO;
+import pl.edu.agh.tai.secuirty.exceptions.EmailExistsException;
+import pl.edu.agh.tai.secuirty.register.IUserService;
 
 @Controller
 public class MainController {

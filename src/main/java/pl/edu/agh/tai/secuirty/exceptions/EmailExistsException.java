@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.utils.exceptions;
+package pl.edu.agh.tai.secuirty.exceptions;
 
 
 public class EmailExistsException extends Throwable {

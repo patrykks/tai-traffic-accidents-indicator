@@ -1,7 +1,5 @@
 package pl.edu.agh.tai.model.enums;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Type {
     ACCIDENT(1),
@@ -22,19 +20,7 @@ public enum Type {
         this.code = code;
     }
 
-    @JsonValue
     public int value() {
         return code;
     }
-
-    @JsonCreator
-    public static Type fromValue(int typeCode) {
-        for (Type c : Type.values()) {
-            if (c.value() == typeCode) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException("Invalid Type type code: " + typeCode);
-    }
-
 }

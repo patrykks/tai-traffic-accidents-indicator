@@ -59,7 +59,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .alwaysUsePostLoginUrl(true));
     }
 
-
     @Autowired
     public void configAuthBuilder(AuthenticationManagerBuilder builder) throws Exception {
         builder.userDetailsService(userDetailsService)
@@ -75,5 +74,4 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public SocialUserDetailsService socialUserDetailsService() {
         return new SimpleSocialUserDetailsService(userDetailsService);
     }
-
 }

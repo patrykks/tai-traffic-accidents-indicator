@@ -1,6 +1,6 @@
-package pl.edu.agh.tai.register.validators;
+package pl.edu.agh.tai.secuirty.register.validators;
 
-import pl.edu.agh.tai.register.UserDTO;
+import pl.edu.agh.tai.secuirty.register.UserDTO;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

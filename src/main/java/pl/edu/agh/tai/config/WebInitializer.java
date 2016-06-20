@@ -39,6 +39,5 @@ public class WebInitializer extends
         final DelegatingFilterProxy springSecurityFilter = new DelegatingFilterProxy("springSecurityFilterChain");
 
         return new Filter[]{encodingFilter, springSecurityFilter};
-
     }
 }

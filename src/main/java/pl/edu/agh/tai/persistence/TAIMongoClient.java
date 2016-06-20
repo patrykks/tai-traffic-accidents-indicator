@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.model.bing.traffic;
+package pl.edu.agh.tai.persistence;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;

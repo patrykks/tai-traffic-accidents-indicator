@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.register.validators;
+package pl.edu.agh.tai.secuirty.register.validators;
 
 
 import java.util.regex.Matcher;

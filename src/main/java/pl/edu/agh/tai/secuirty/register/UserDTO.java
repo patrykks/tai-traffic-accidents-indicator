@@ -1,10 +1,9 @@
-package pl.edu.agh.tai.register;
+package pl.edu.agh.tai.secuirty.register;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import pl.edu.agh.tai.model.User;
 import pl.edu.agh.tai.model.enums.SignInProvider;
-import pl.edu.agh.tai.register.validators.PasswordMatches;
-import pl.edu.agh.tai.register.validators.ValidEmail;
+import pl.edu.agh.tai.secuirty.register.validators.PasswordMatches;
+import pl.edu.agh.tai.secuirty.register.validators.ValidEmail;
 
 import javax.validation.constraints.NotNull;
 

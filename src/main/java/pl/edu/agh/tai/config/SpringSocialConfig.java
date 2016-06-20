@@ -26,9 +26,6 @@ public class SpringSocialConfig implements SocialConfigurer{
     @Autowired
     MongoTemplate template;
 
-    @Autowired
-    private Environment env;
-
     @Override
     public void addConnectionFactories(ConnectionFactoryConfigurer cfConfig, Environment env) {
         cfConfig.addConnectionFactory(new TwitterConnectionFactory(
