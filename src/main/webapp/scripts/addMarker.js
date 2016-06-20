@@ -137,7 +137,7 @@ function addTAIMarker(cluster, coordinates, incident, sevs, types, admin) {
     container.append($('<span class="likes" style="display:inline-block; float: right; margin-top:5px;">').text(v.votes));
     container.append($('<button class="downButton" type="button" style="display:inline-block; float: right;">').text("-").click(function () {vote(-1);}));
     container.append($('<br/><br/>'));
-    container.append($('<span class="description_text" style="display:block; width:150px; white-space: pre-wrap; word-wrap:break-word;">').text(formDescription(incident, sevs, types, admin, "\n")));
+    container.append($('<span class="description_text" style="display:block; width:150px; white-space: pre-wrap; word-wrap:break-word;">').text(formDescription(v, sevs, types, admin, "\n")));
 
     form.append($('<span class="description_span" style="display:inline-block; width:30%">').text("description: "));
     form.append($('<input class="description"  type="text" name="description" style="width:65%">').val(v.description));
