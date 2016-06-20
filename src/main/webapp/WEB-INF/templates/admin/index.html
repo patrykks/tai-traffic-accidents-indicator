@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
     <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>Traffic-Incident-Indicatorh</title>
+    <title>Traffic-Incident-Indicator</title>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
-    <link rel="stylesheet" href="css/leaflet.css" th:href="@{/css/leaflet.css}" />
-    <link rel="stylesheet" href="css/leaflet.markercluster.css" th:href="@{/css/leaflet.markercluster.css}" />
-    <link rel="stylesheet" href="css/admin.css" th:href="@{/css/admin.css}" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="css/leaflet.css" th:href="@{/css/leaflet.css}"/>
+    <link rel="stylesheet" href="css/leaflet.markercluster.css" th:href="@{/css/leaflet.markercluster.css}"/>
+    <link rel="stylesheet" href="css/jquery-ui.min.css" th:href="@{/css/jquery-ui.min.css}"/>
+    <link rel="stylesheet" href="css/jquery.multiselect.css" th:href="@{/css/jquery.multiselect.css}"/>
+    <link rel="stylesheet" href="css/admin.css" th:href="@{/css/admin.css}"/>
 
     <script th:src="@{/scripts/config.js}"></script>
     <script th:src="@{/scripts/jquery.1.10.2.min.js}"></script>
+    <script th:src="@{/scripts/jquery-ui.min.js}"></script>
+    <script th:src="@{/scripts/jquery.multiselect.js}"></script>
     <script th:src="@{/scripts/bootstrap.min.js}"></script>
     <script th:src="@{/scripts/leaflet.js}"></script>
     <script th:src="@{/scripts/leaflet.markercluster.js}"></script>
@@ -23,10 +27,10 @@
 
 </head>
 <body onload="init()">
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse" style="background: #0a3c10;">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">TAI- Traffic Accidents Indicator</a>
+            <a class="navbar-brand" href="#">Traffic Congestion Indicator</a>
         </div>
         <div th:replace="index::logout"></div>
     </div>
@@ -40,13 +44,16 @@
 
     <div class="tab-content">
         <div id="tab1" class="tab active">
-
             <div class="container">
                 <div id="main">
                     <div class="content" id="content">
-
-                        <div id="map" style="height: 800px; position: relative; padding: 0px; margin: 0 auto 0 auto;"></div>
-
+                        <div id="filters" style="padding-bottom: 20px;">
+                            <select id="sev_filter" style="display:inline-block;" multiple></select>
+                            <select id="type_filter" style="display:inline-block;" multiple></select>
+                            <button class="filterButton" type="button" style="display:inline-block;">Filter</button>
+                        </div>
+                        <div id="map"
+                             style="height: 800px; position: relative; padding: 0px; margin: 0 auto 0 auto;"></div>
                     </div>
                 </div>
             </div>
