@@ -1,14 +1,10 @@
 package pl.edu.agh.tai.config;
 
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
-
-import pl.edu.agh.tai.config.SpringSecurityConfig;
-import pl.edu.agh.tai.config.SpringWebConfig;
 
 
 public class WebInitializer extends
@@ -39,6 +35,5 @@ public class WebInitializer extends
         final DelegatingFilterProxy springSecurityFilter = new DelegatingFilterProxy("springSecurityFilterChain");
 
         return new Filter[]{encodingFilter, springSecurityFilter};
-
     }
 }

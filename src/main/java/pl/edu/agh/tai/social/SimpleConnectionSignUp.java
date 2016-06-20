@@ -4,8 +4,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UserProfile;
-import pl.edu.agh.tai.model.enums.SignInProvider;
 import pl.edu.agh.tai.model.User;
+import pl.edu.agh.tai.model.enums.SignInProvider;
 
 public final class SimpleConnectionSignUp implements ConnectionSignUp {
     private MongoTemplate template;

@@ -24,7 +24,7 @@ import pl.edu.agh.tai.social.SimpleSocialUserDetailsService;
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserDetailsService userDetailsService ;
+    UserDetailsService userDetailsService;
 
     public SpringSecurityConfig() {
         super();
@@ -55,15 +55,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedPage("/403.html")
                 .and()
                 .apply(new SpringSocialConfigurer()
-                .postLoginUrl("/")
-                .alwaysUsePostLoginUrl(true));
+                        .postLoginUrl("/")
+                        .alwaysUsePostLoginUrl(true));
     }
-
 
     @Autowired
     public void configAuthBuilder(AuthenticationManagerBuilder builder) throws Exception {
         builder.userDetailsService(userDetailsService)
-        .passwordEncoder(passwordEncoder());
+                .passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -75,5 +74,4 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public SocialUserDetailsService socialUserDetailsService() {
         return new SimpleSocialUserDetailsService(userDetailsService);
     }
-
 }

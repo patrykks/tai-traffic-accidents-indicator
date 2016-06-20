@@ -1,10 +1,5 @@
 package pl.edu.agh.tai.controllers;
 
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +12,13 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.unbescape.html.HtmlEscape;
 import pl.edu.agh.tai.model.User;
-import pl.edu.agh.tai.register.UserDTO;
-import pl.edu.agh.tai.utils.exceptions.EmailExistsException;
-import pl.edu.agh.tai.register.IUserService;
+import pl.edu.agh.tai.secuirty.exceptions.EmailExistsException;
+import pl.edu.agh.tai.secuirty.register.IUserService;
+import pl.edu.agh.tai.secuirty.register.UserDTO;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.Locale;
 
 @Controller
 public class MainController {
@@ -73,13 +72,12 @@ public class MainController {
 
         if (result.hasErrors()) {
             return new ModelAndView("register", "user", accountDto);
-        }
-        else {
+        } else {
             return new ModelAndView("login");
         }
     }
 
-    private User createUserAccount(UserDTO accountDto, BindingResult result)   {
+    private User createUserAccount(UserDTO accountDto, BindingResult result) {
         User registered = null;
         try {
             registered = userService.registerNewUserAccount(accountDto);
@@ -138,5 +136,4 @@ public class MainController {
     public String forbidden() {
         return "403";
     }
-
 }

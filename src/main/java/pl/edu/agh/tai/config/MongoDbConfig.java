@@ -1,6 +1,5 @@
 package pl.edu.agh.tai.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -8,12 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.data.geo.GeoModule;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
-import org.springframework.data.mongodb.core.geo.GeoJsonModule;
-import pl.edu.agh.tai.utils.GeoModuleExt;
-import pl.edu.agh.tai.utils.MicrosoftDateFromat;
-import pl.edu.agh.tai.utils.MongoDBUpdater;
+import pl.edu.agh.tai.persistence.MongoDBUpdater;
 
 @Configuration
 public class MongoDbConfig extends AbstractMongoConfiguration {
@@ -36,17 +31,6 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     @Bean
     public MongoDBUpdater mongoUpdater() {
         return new MongoDBUpdater();
-    }
-
-
-    @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setDateFormat(new MicrosoftDateFromat());
-        mapper.registerModule(new GeoJsonModule());
-        mapper.registerModule(new GeoModule());
-        mapper.registerModule(new GeoModuleExt());
-        return mapper;
     }
 
     public String createMongoURI() {

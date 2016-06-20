@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.dao;
+package pl.edu.agh.tai.persistence;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;

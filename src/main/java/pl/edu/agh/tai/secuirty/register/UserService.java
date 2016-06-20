@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.register;
+package pl.edu.agh.tai.secuirty.register;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -8,9 +8,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.agh.tai.model.User;
-import pl.edu.agh.tai.register.IUserService;
-import pl.edu.agh.tai.register.UserDTO;
-import pl.edu.agh.tai.utils.exceptions.EmailExistsException;
+import pl.edu.agh.tai.secuirty.exceptions.EmailExistsException;
 
 @Service
 public class UserService implements IUserService {
@@ -28,7 +26,7 @@ public class UserService implements IUserService {
         user.setUsername(accountDto.getUsername());
         user.setId(accountDto.getUsername());
         user.setFirstName(accountDto.getFirstname());
-        user.setLastName(accountDto.getLastname()   );
+        user.setLastName(accountDto.getLastname());
         user.setPassword(accountDto.getPassword());
         user.setEmail(accountDto.getEmail());
         user.setSignInProvider(accountDto.getSignInProvider());

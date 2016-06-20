@@ -6,15 +6,19 @@ function init_map(admin) {
         attribution: "&copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> and contributors, under an <a href='http://www.openstreetmap.org/copyright' title='ODbL'>open license</a>. Tiles Courtesy of <a href='http://www.mapquest.com/'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>"
     }).addTo(map);
 
-    var clusterGroup = new L.markerClusterGroup({ disableClusteringAtZoom: 11 });
-    clusterGroup._getExpandedVisibleBounds = function () {return map.getBounds();};
+    var clusterGroup = new L.markerClusterGroup({disableClusteringAtZoom: 11});
+    clusterGroup._getExpandedVisibleBounds = function () {
+        return map.getBounds();
+    };
     map.addLayer(clusterGroup);
-    map.on('contextmenu', function(e) {
-        if(map.getZoom() > 10)
+    map.on('contextmenu', function (e) {
+        if (map.getZoom() > 10)
             addTAIMarker(clusterGroup, [e.latlng.lat, e.latlng.lng], null, severity, type, admin);
     });
 
-    $('.filterButton').click(function () { updateMarkers($("#sev_filter").val(), $("#type_filter").val()); });
+    $('.filterButton').click(function () {
+        updateMarkers($("#sev_filter").val(), $("#type_filter").val());
+    });
 
     function createFilter(id, list, text) {
         var combo = $('#' + id);
@@ -57,7 +61,8 @@ function init_map(admin) {
                     "lon": 20.0,
                     "radius": 0.0,
                     "severity": sevs,
-                    "type": types},
+                    "type": types
+                },
                 true),
             success: function (data) {
                 clusterGroup.clearLayers();

@@ -1,10 +1,9 @@
-package pl.edu.agh.tai.register;
+package pl.edu.agh.tai.secuirty.register;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import pl.edu.agh.tai.model.User;
 import pl.edu.agh.tai.model.enums.SignInProvider;
-import pl.edu.agh.tai.register.validators.PasswordMatches;
-import pl.edu.agh.tai.register.validators.ValidEmail;
+import pl.edu.agh.tai.secuirty.register.validators.PasswordMatches;
+import pl.edu.agh.tai.secuirty.register.validators.ValidEmail;
 
 import javax.validation.constraints.NotNull;
 
@@ -12,15 +11,15 @@ import javax.validation.constraints.NotNull;
 public class UserDTO {
 
     @NotNull
-    @NotEmpty( message = "Must not be empty" )
+    @NotEmpty(message = "Must not be empty")
     private String username;
 
     @NotNull
-    @NotEmpty( message = "Must not be empty" )
+    @NotEmpty(message = "Must not be empty")
     private String password;
 
     @NotNull
-    @NotEmpty( message = "Must not be empty" )
+    @NotEmpty(message = "Must not be empty")
     private String matchingPassword;
 
     private String firstname;
@@ -29,7 +28,7 @@ public class UserDTO {
 
     @ValidEmail
     @NotNull
-    @NotEmpty( message = "Must not be empty" )
+    @NotEmpty(message = "Must not be empty")
     private String email;
 
     private SignInProvider signInProvider;

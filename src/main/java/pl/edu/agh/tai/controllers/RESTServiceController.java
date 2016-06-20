@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.tai.model.User;
 import pl.edu.agh.tai.model.enums.Severity;
 import pl.edu.agh.tai.model.enums.Type;
-import pl.edu.agh.tai.dao.IncidentDAO;
+import pl.edu.agh.tai.persistence.IncidentDAO;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -91,7 +90,7 @@ public class RESTServiceController {
     }
 
     @RequestMapping(value = "/admin/user/ban", method = RequestMethod.PUT)
-    public ResponseEntity banUser(@RequestBody  String content) {
+    public ResponseEntity banUser(@RequestBody String content) {
         JSONObject userBanOperationData = new JSONObject(content);
         Boolean value = userBanOperationData.getBoolean("value");
         String userId = userBanOperationData.getJSONObject("user").getString("_id");
@@ -100,5 +99,4 @@ public class RESTServiceController {
         dao.saveUser(user);
         return new ResponseEntity(HttpStatus.OK);
     }
-
 }

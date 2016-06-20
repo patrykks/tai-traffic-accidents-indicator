@@ -1,8 +1,7 @@
-package pl.edu.agh.tai.register;
+package pl.edu.agh.tai.secuirty.register;
 
 import pl.edu.agh.tai.model.User;
-import pl.edu.agh.tai.register.UserDTO;
-import pl.edu.agh.tai.utils.exceptions.EmailExistsException;
+import pl.edu.agh.tai.secuirty.exceptions.EmailExistsException;
 
 public interface IUserService {
     User registerNewUserAccount(UserDTO accountDto)
