@@ -29,7 +29,7 @@ function init_map(admin) {
 
     var severity;
     $.ajax({
-        url: uiProperties.hostname + "/enums/severity",
+        url: uiProperties.hostname + "/user/enums/severity",
         type: "GET",
         success: function (response) {
             severity = response;
@@ -39,7 +39,7 @@ function init_map(admin) {
 
     var type;
     $.ajax({
-        url: uiProperties.hostname + "/enums/type",
+        url: uiProperties.hostname + "/user/enums/type",
         type: "GET",
         success: function (response) {
             type = response;
@@ -51,7 +51,7 @@ function init_map(admin) {
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: uiProperties.hostname + "/map/accidents",
+            url: uiProperties.hostname + "/user/map/accidents",
             data: $.param({
                     "lat": 50.0,
                     "lon": 20.0,

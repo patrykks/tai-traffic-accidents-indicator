@@ -61,7 +61,7 @@ function addTAIMarker(cluster, coordinates, incident, sevs, types, admin) {
         newV.type = parseInt($('.myForm :input[name=type]').val());
         newV.roadClosed = $('.closed').is(':checked');
         $.ajax({
-            url: uiProperties.hostname + '/map/accidents/add',
+            url: uiProperties.hostname + '/user/map/accidents/add',
             type: 'POST',
             contentType: "application/json",
             data: JSON.stringify(newV),
@@ -86,7 +86,7 @@ function addTAIMarker(cluster, coordinates, incident, sevs, types, admin) {
         if(brandNew)
             return;
         $.ajax({
-            url: uiProperties.hostname + '/vote',
+            url: uiProperties.hostname + '/user/vote',
             type: 'GET',
             contentType: "application/json",
             data: $.param({"incident": v._id.$oid, "votes": votes}, true),
@@ -111,7 +111,7 @@ function addTAIMarker(cluster, coordinates, incident, sevs, types, admin) {
             cluster.removeLayer(marker);
 
         $.ajax({
-            url: uiProperties.hostname + '/map/accidents/remove',
+            url: uiProperties.hostname + '/admin/map/accidents/remove',
             type: 'POST',
             contentType: "text/plain",
             data: v._id.$oid,

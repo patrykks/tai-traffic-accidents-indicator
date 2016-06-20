@@ -25,7 +25,7 @@ public class RESTServiceController {
     @Autowired
     private IncidentDAO dao;
 
-    @RequestMapping(value = "/map/accidents/all", method = RequestMethod.GET)
+    @RequestMapping(value = "user/map/accidents/all", method = RequestMethod.GET)
     public String getTrafficIncidents() {
         return dao.getAllIncidents();
     }
@@ -36,7 +36,7 @@ public class RESTServiceController {
         return dao.getIncidentsFromAreaWithType(new GeoJsonPoint(50.607392, 15.83), 10, Arrays.asList(), Arrays.asList());
     }
 
-    @RequestMapping(value = "/map/accidents", method = RequestMethod.GET)
+    @RequestMapping(value = "user/map/accidents", method = RequestMethod.GET)
     public String getTrafficIncidentsFromAreaWithParams(
             @RequestParam(value = "lat") Double lat,
             @RequestParam(value = "lon") Double lon,
@@ -47,7 +47,7 @@ public class RESTServiceController {
         return dao.getIncidentsFromAreaWithType(new GeoJsonPoint(lat, lon), radius, types, sevs);
     }
 
-    @RequestMapping(value = "/map/accidents/add", method = RequestMethod.POST)
+    @RequestMapping(value = "user/map/accidents/add", method = RequestMethod.POST)
     public String update(@RequestBody String jsonIncidentItem) {
         BasicDBObject object = (BasicDBObject) JSON.parse(jsonIncidentItem);
         if (object != null) {
@@ -59,24 +59,24 @@ public class RESTServiceController {
         return null;
     }
 
-    @RequestMapping(value = "/map/accidents/remove", method = RequestMethod.POST)
+    @RequestMapping(value = "admin/map/accidents/remove", method = RequestMethod.POST)
     public ResponseEntity remove(@RequestBody String id) {
         dao.remove(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/vote")
+    @RequestMapping(value = "user/vote")
     public Boolean vote(@RequestParam(value = "incident") String incident,
                         @RequestParam(value = "votes") Integer votes) {
         return dao.vote(incident, votes, getCurrentUser());
     }
 
-    @RequestMapping(value = "/enums/severity")
+    @RequestMapping(value = "user/enums/severity")
     public List<String> getSeverity() {
         return Arrays.asList(Severity.values()).stream().map(Enum::name).collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/enums/type")
+    @RequestMapping(value = "user/enums/type")
     public List<String> getType() {
         return Arrays.asList(Type.values()).stream().map(Enum::name).collect(Collectors.toList());
     }
