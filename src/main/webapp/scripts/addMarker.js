@@ -1,4 +1,4 @@
-function addMarker(cluster, coordinates, incident, sevs, types, admin) {
+function addTAIMarker(cluster, coordinates, incident, sevs, types, admin) {
     var token = $('#_csrf').attr('content');
     var header = $('#_csrf_header').attr('content');
     var brandNew = false;
@@ -45,19 +45,6 @@ function addMarker(cluster, coordinates, incident, sevs, types, admin) {
         marker.openPopup();
     }
 
-    function timestampToDate(timestamp) {
-        if ($.type(timestamp) === "string")
-            timestamp = parseInt(timestamp);
-        var date = new Date(timestamp);
-        var month = date.getMonth() + 1;
-        month = month < 10 ?  "0" + month : "" + month;
-        return date.getDate() + "-" + month + "-" + (1900 + date.getYear());
-    }
-
-    function dateToTimestamp(date) {
-        return new Date(date.split("-").reverse().join("-")).getTime();
-    }
-
     function refresh() {
         $('.likes').text(v.votes);
         $('.description_text').text(v.description);
@@ -74,7 +61,7 @@ function addMarker(cluster, coordinates, incident, sevs, types, admin) {
         newV.type = parseInt($('.myForm :input[name=type]').val());
         newV.roadClosed = $('.closed').is(':checked');
         $.ajax({
-            url: 'http://localhost:8080/tai/map/accidents/add',
+            url: uiProperties.hostname + '/user/map/accidents/add',
             type: 'POST',
             contentType: "application/json",
             data: JSON.stringify(newV),
@@ -99,7 +86,7 @@ function addMarker(cluster, coordinates, incident, sevs, types, admin) {
         if(brandNew)
             return;
         $.ajax({
-            url: 'http://localhost:8080/tai/vote',
+            url: uiProperties.hostname + '/user/vote',
             type: 'GET',
             contentType: "application/json",
             data: $.param({"incident": v._id.$oid, "votes": votes}, true),
@@ -124,7 +111,7 @@ function addMarker(cluster, coordinates, incident, sevs, types, admin) {
             cluster.removeLayer(marker);
 
         $.ajax({
-            url: 'http://localhost:8080/tai/map/accidents/remove',
+            url: uiProperties.hostname + '/admin/map/accidents/remove',
             type: 'POST',
             contentType: "text/plain",
             data: v._id.$oid,
@@ -133,10 +120,10 @@ function addMarker(cluster, coordinates, incident, sevs, types, admin) {
             error: function(xhr, status, error) { alert("An AJAX error occured: " + status + "\nError: " + error); }
         });
     }
-
+    var markerUrl = uiProperties.hostname + "/scripts/images/marker-icon-2x-green.png";
     var greenIcon = new (L.Icon.Default.extend({
         options: {
-            iconUrl: 'http://localhost:8080/tai/scripts/images/marker-icon-2x-green.png'
+            iconUrl: markerUrl
         }
     }))();
     var marker = L.marker(coordinates, {icon: greenIcon});
@@ -150,7 +137,7 @@ function addMarker(cluster, coordinates, incident, sevs, types, admin) {
     container.append($('<span class="likes" style="display:inline-block; float: right; margin-top:5px;">').text(v.votes));
     container.append($('<button class="downButton" type="button" style="display:inline-block; float: right;">').text("-").click(function () {vote(-1);}));
     container.append($('<br/><br/>'));
-    container.append($('<span class="description_text" style="display:block; width:150px; word-wrap:break-word;">').text(v.description));
+    container.append($('<span class="description_text" style="display:block; width:150px; white-space: pre-wrap; word-wrap:break-word;">').text(formDescription(v, sevs, types, admin, "\n")));
 
     form.append($('<span class="description_span" style="display:inline-block; width:30%">').text("description: "));
     form.append($('<input class="description"  type="text" name="description" style="width:65%">').val(v.description));
@@ -177,4 +164,42 @@ function addMarker(cluster, coordinates, incident, sevs, types, admin) {
         marker.on('popupclose', function() {cluster.removeLayer(marker);});
     } else
         marker.bindPopup(container[0]);
+}
+
+function timestampToDate(stamp) {
+    var timestamp = 0;
+    if ($.type(stamp) === "string") {
+        timestamp = parseInt(stamp);
+        if (isNaN(timestamp))
+            timestamp = parseInt(stamp.substring(6, 19));
+    }
+    var date = new Date(timestamp);
+    var month = date.getMonth() + 1;
+    month = month < 10 ?  "0" + month : "" + month;
+    return date.getDate() + "-" + month + "-" + (1900 + date.getYear());
+}
+
+function dateToTimestamp(date) {
+    return new Date(date.split("-").reverse().join("-")).getTime();
+}
+
+var redIcon = new (L.Icon.Default.extend({options: {iconUrl: uiProperties.hostname + '/scripts/images/marker-icon-2x-red.png'}}))();
+
+function addBINGMarker(cluster, coordinates, incident, sevs, types, admin) {
+    cluster.addLayer(L.marker(coordinates, {icon: redIcon})
+        .bindPopup(L.popup().setContent(formDescription(incident, sevs, types, admin, "<br/>"))));
+}
+
+function formDescription(incident, sevs, types, admin, nl) {
+    var description = incident.description + nl + "Type: " + types[incident.type-1] + "\tSevetity: " + sevs[incident.severity-1] +
+        nl + "Expected end date: " + timestampToDate(incident.end);
+
+    if(incident.roadClosed)
+        description = "ROAD CLOSED!" + nl + description;
+
+    if(admin)
+        description = description + nl + "(Created by: " +  incident.creator + ")";
+
+    return description;
+
 }

@@ -10,14 +10,14 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-theme.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"/>
-
+    <script th:src="@{/scripts/config.js}"></script>
 </head>
 `
 <body>
 <a th:href="@{/auth/twitter}" class="ml btn btn-block btn-social btn-sm btn-twitter"><i class="fa fa-twitter"></i>Twitter</a>
 <a th:href="@{/auth/facebook}" class="ml btn btn-block btn-social btn-sm btn-facebook"><i class="fa fa-facebook"></i>Facebook</a>
 <div class="wrapper">
-    <div class="container">
+        <div class="container">
         <h1>Login page</h1>
         <form th:action="@{/login.html}" method="post">
             <label for="username">Username</label>:

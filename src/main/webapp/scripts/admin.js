@@ -18,10 +18,11 @@ function init() {
 }
 
 function init_table() {
+    var userShowPath = uiProperties.hostname + "/admin/user/show";
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "http://localhost:8080/tai/user/show",
+        url: userShowPath,
         success: function (data) {
             var table = document.getElementById("usersview");
 
@@ -63,7 +64,7 @@ function init_table() {
 
                 cell = newRow.insertCell(cellCounter++)
                 cell.innerHTML = v.accountNonLocked;
-                
+
                 cell = newRow.insertCell(cellCounter++)
                 cell.innerHTML = v.credentialsNonExpired;
 
@@ -89,7 +90,7 @@ function init_table() {
                     table.rows[actualRawCounter - 1].cells[5].innerHTML = !v.accountNonLocked;
                     v.accountNonLocked = !v.accountNonLocked;
                 });
-                
+
 
             })
 
@@ -101,9 +102,7 @@ jQuery(document).ready(function () {
     $("div.tabs").click(function (event) {
         var core = String(event.target);
         var path = core.charAt(core.length - 1);
-        if(path == "1"){
-            //init_map(true);
-        }else if(path == "2"){
+        if(path == "2"){
             init_table();
         }
     })
@@ -119,16 +118,19 @@ function ban(id, value) {
     var token = $('#_csrf').attr('content');
     var header = $('#_csrf_header').attr('content');
 
+    var userShowPath = uiProperties.hostname + "/admin/user/show";
+    var userBanPath = uiProperties.hostname + "/admin/user/ban";
+
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "http://localhost:8080/tai/user/show",
+        url: userShowPath,
         success: function (data) {
             $.each(data, function (k, v) {
                 if(v._id == id){
 
                     $.ajax({
-                        url: 'http://localhost:8080/tai/user/ban',
+                        url: userBanPath,
                         type: 'PUT',
                         contentType: "application/json",
                         data: JSON.stringify({
@@ -139,7 +141,7 @@ function ban(id, value) {
                             xhr.setRequestHeader(header, token);
                         },
                         success: function() {
-                            
+
                         },
                         error: function(xhr, status, error) {
                             alert("An AJAX error occured: " + status + "\nError: " + error);

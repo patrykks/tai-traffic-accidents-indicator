@@ -9,17 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
-import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.tai.model.User;
-import pl.edu.agh.tai.model.enums.Severity;
-import pl.edu.agh.tai.model.enums.Type;
 
 import java.util.List;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 @Component
 public class TAIMongoClient {
@@ -41,20 +37,20 @@ public class TAIMongoClient {
         return getAccidentsInRadiusWithSeverityAndType(point, radius, null, null);
     }
 
-    public String getAccidentsInRadiusWithSeverityAndType(GeoJsonPoint point, double radius, List<Severity> sevs, List<Type> types) {
-        List<Double> invertedCoordinates = point.getCoordinates().subList(0, point.getCoordinates().size());
-        DBObject geometry = new BasicDBObject("type", "Point").append("coordinates", invertedCoordinates);
-        DBObject nearSphere = new BasicDBObject("$geometry", geometry).append("$maxDistance", radius);
-        BasicDBObject query = new BasicDBObject("point", new BasicDBObject("$nearSphere", nearSphere));
+    public String getAccidentsInRadiusWithSeverityAndType(GeoJsonPoint point, double radius, List<Integer> sevs, List<Integer> types) {
+        BasicDBObject query = new BasicDBObject();
+        if (radius > 0.0) {
+            List<Double> invertedCoordinates = point.getCoordinates().subList(0, point.getCoordinates().size());
+            DBObject geometry = new BasicDBObject("type", "Point").append("coordinates", invertedCoordinates);
+            DBObject nearSphere = new BasicDBObject("$geometry", geometry).append("$maxDistance", radius);
+            query.append("point", new BasicDBObject("$nearSphere", nearSphere));
+        }
         if (sevs != null && !sevs.isEmpty())
-            query.append("severity", new BasicDBObject("$in", sevs.stream().map(Severity::toString).collect(Collectors.toList())));
+            query.append("severity", new BasicDBObject("$in", sevs));
         if (types != null && !types.isEmpty())
-            query.append("severity", new BasicDBObject("$in", types.stream().map(Type::toString).collect(Collectors.toList())));
+            query.append("type", new BasicDBObject("$in", types));
 
         DBObject projection = new BasicDBObject();
-        projection.put("point", 1);
-        projection.put("description", 1);
-
         return fetchFromBothCollections(query, projection);
     }
 
@@ -69,6 +65,7 @@ public class TAIMongoClient {
         }
         return map;
     }
+
     @SuppressWarnings("unchecked")
     public Boolean vote(String id, int points, String user) {
         DBCollection incidents = mongoOperations.getCollection(env.getProperty("mongodb.ourIncidentsCollection"));
@@ -104,16 +101,6 @@ public class TAIMongoClient {
         ourIncidentsCollection.createIndex(new BasicDBObject("point", "2dsphere"));
     }
 
-    private String fetchFromBothCollections(DBObject query, DBObject projection) {
-        DBCollection bingIncidents = mongoOperations.getCollection(env.getProperty("mongodb.bingIncidentsCollection"));
-        String bingResult = cursorToString(bingIncidents.find(query, projection));
-        DBCollection taiIncidents = mongoOperations.getCollection(env.getProperty("mongodb.ourIncidentsCollection"));
-        String taiResult = cursorToString(taiIncidents.find(query, projection));
-
-        return "{ " + "\"bing\" : " + bingResult + " , " + "\"tai\" : " + taiResult + " }";
-
-    }
-
     private String cursorToString(DBCursor result) {
         StringBuilder incidentArray = new StringBuilder("[");
         while (result.hasNext()) {
@@ -125,6 +112,15 @@ public class TAIMongoClient {
             incidentArray.append("]");
         return incidentArray.toString();
     }
+
+    private String fetchFromBothCollections(DBObject query, DBObject projection) {
+        DBCollection bingIncidents = mongoOperations.getCollection(env.getProperty("mongodb.bingIncidentsCollection"));
+        String bingResult = cursorToString(bingIncidents.find(query, projection));
+        DBCollection taiIncidents = mongoOperations.getCollection(env.getProperty("mongodb.ourIncidentsCollection"));
+        String taiResult = cursorToString(taiIncidents.find(query, projection));
+        return "{ " + "\"bing\" : " + bingResult + " , " + "\"tai\" : " + taiResult + " }";
+    }
+
 
     public User getUserWithId(String id) {
         Query query = new Query();
